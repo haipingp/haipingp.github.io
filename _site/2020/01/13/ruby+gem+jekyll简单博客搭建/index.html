@@ -1,0 +1,881 @@
+
+<!doctype html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next muse use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/assets/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/assets/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/assets/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="NexT" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="ruby+gem+jekyll简单博客搭建">
+<meta name="keywords" content="Jekyll, NexT">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ruby+gem+jekyll简单博客搭建">
+<meta property="og:url" content="http://0.0.0.0:4000/2020/01/13/ruby+gem+jekyll%E7%AE%80%E5%8D%95%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/">
+<meta property="og:site_name" content="NexT">
+<meta property="og:description" content="ruby+gem+jekyll简单博客搭建">
+<meta property="og:locale" content="en">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Ruby+gem+jekyll简单博客搭建">
+<meta name="twitter:description" content="ruby+gem+jekyll简单博客搭建">
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://0.0.0.0:4000/"/>
+
+
+
+
+
+  <title>Ruby+gem+jekyll简单博客搭建 | NexT</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> <div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">NexT</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+<div id="posts" class="posts-expand">
+  
+  
+
+  
+
+  
+  
+  
+
+  <article class="post post-type- " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://0.0.0.0:4000/2020/01/13/ruby+gem+jekyll%E7%AE%80%E5%8D%95%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="assets/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="NexT">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+          
+          
+            Ruby+gem+jekyll简单博客搭建
+          
+        </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-01-13T00:00:00+00:00">
+                2020-01-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+            
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <h1 id="rubygemjekyll简单博客搭建">ruby+gem+jekyll简单博客搭建</h1>
+
+<hr />
+
+<h2 id="一服务器环境">一、服务器环境</h2>
+<ul>
+  <li>我使用的服务器环境是：Ubuntu 18.04 Server版</li>
+</ul>
+
+<h2 id="二搭建步骤">二、搭建步骤</h2>
+<h3 id="21-安装ruby">2.1. 安装ruby</h3>
+<ul>
+  <li>由于之前有一次安装的ruby版本比较低，可能影响了后面的rubygems的安装，所以这一次我采用的目前最新的稳定版ruby 2.7.0</li>
+  <li>之前有一次因为ruby版本低，卸载重新安装的痛苦经历，卸载之后有一些其他软件不能用了（具体忘记是啥软件了）。这一次安装ruby，看了网上很多安装教程推荐使用Rbenv这个轻量级的ruby版本管理器来安装，找到了一个靠谱的安装教程和一个参考链接很重要：
+https://linuxize.com/post/how-to-install-ruby-on-ubuntu-18-04/。
+https://gorails.com/setup/ubuntu/18.04
+有了它，后面只需要解决一些边边角角的问题了</li>
+  <li>由于默认Rbenv是没有版本控制功能的，需要安装<code class="language-plaintext highlighter-rouge">ruby-build</code>来完成，以下是按照上面链接中的安装步骤:</li>
+</ul>
+
+<ol>
+  <li>首先需要安装ruby-build用来安装ruby的准备工具，从源码安装：
+    <div class="language-bash highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code><span class="nb">sudo </span>apt update
+<span class="nb">sudo </span>apt <span class="nb">install </span>git curl libssl-dev libreadline-dev zlib1g-dev autoconf bison build-essential libyaml-dev libreadline-dev libncurses5-dev libffi-dev libgdbm-dev
+</code></pre></td></tr></tbody></table></div>    </div>
+  </li>
+  <li>运行curl命令安装rbenv和ruby-build ：
+    <div class="language-bash highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>curl <span class="nt">-sL</span> https://github.com/rbenv/rbenv-installer/raw/master/bin/rbenv-installer | bash -
+</code></pre></td></tr></tbody></table></div>    </div>
+    <p><code class="language-plaintext highlighter-rouge">curl -s</code>表示使用静默模式跳转链接，<code class="language-plaintext highlighter-rouge">curl -L</code>表示允许重定向到一个新的地址，不像简单的get一个链接
+后面的<code class="language-plaintext highlighter-rouge">bash -</code>命令通过前面的管道标识符<code class="language-plaintext highlighter-rouge">|</code>执行前面下载的脚本
+上述脚本会从将rbenv和ruby-build仓库从GitHub拷贝到<code class="language-plaintext highlighter-rouge">~/.rbenv</code>目录下。同时，这个安装脚本会验证此次安装，输出如下：</p>
+  </li>
+  <li>将<code class="language-plaintext highlighter-rouge">$HOME/.rbenv/bin</code>添加到环境变量中：
+    <div class="language-bash highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3</pre></td><td class="code"><pre class="highlight"><code><span class="nb">echo</span> <span class="s1">'export PATH="$HOME/.rbenv/bin:$PATH"'</span> <span class="o">&gt;&gt;</span> ~/.bashrc
+<span class="nb">echo</span> <span class="s1">'eval "$(rbenv init -)"'</span> <span class="o">&gt;&gt;</span> ~/.bashrc
+<span class="nb">source</span> ~/.bashrc
+</code></pre></td></tr></tbody></table></div>    </div>
+  </li>
+  <li>通过rbenv安装ruby:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>rbenv <span class="nb">install </span>2.7.0
+</code></pre></td></tr></tbody></table></div>    </div>
+    <p>该命令在线安装超级慢：会一直卡在一个下载链接的进度上，于是我复制了下载链接中的包名，并到ruby官网的镜像地址中下载了该包，并放在<code class="language-plaintext highlighter-rouge">.rbenv/cache</code>目录下；
+再执行<code class="language-plaintext highlighter-rouge">rbenv install 2.7.0</code>命令，显示进度为“安装ruby 2.7.0”而不是下载包的进度了</p>
+  </li>
+  <li>为了防止安装了多个ruby版本，通过下面的命令指定默认使用的ruby版本:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>rbenv global 2.7.0
+</code></pre></td></tr></tbody></table></div>    </div>
+  </li>
+  <li>下载RubyGems(rubygems-3.1.2.zip)，并在目录下执行<code class="language-plaintext highlighter-rouge">ruby setup.rb</code>:</li>
+</ol>
+
+<h3 id="22-安装jekyll">2.2 安装jekyll</h3>
+<div class="language-bash highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>gem <span class="nb">install </span>jekyll
+</code></pre></td></tr></tbody></table></div></div>
+
+<h3 id="23-使用jekyll">2.3 使用jekyll</h3>
+<ul>
+  <li>需要按照jekyll的格式建立一定格式的文件夹</li>
+  <li>其中<code class="language-plaintext highlighter-rouge">_posts</code>文件夹下放的就是博客文章</li>
+  <li>
+    <p>一些博客模板：
+https://github.com/poole/poole
+http://jekyllthemes.org/</p>
+  </li>
+  <li>使用<code class="language-plaintext highlighter-rouge">jekyll serve</code>报错时，尝试使用<code class="language-plaintext highlighter-rouge">bundle exec jekyll serve</code>启动，起来了之后发现无法在本地通过ip地址访问的话，采用<code class="language-plaintext highlighter-rouge">bundle exec jekyll serve --host 0.0.0.0</code>启动，通过<code class="language-plaintext highlighter-rouge">http://192.168.56.101:8008/</code>，端口可以在<code class="language-plaintext highlighter-rouge">_config.yml</code>中配置</li>
+</ul>
+
+<h2 id="三遇到的问题">三、遇到的问题</h2>
+<ul>
+  <li>一个依赖未找到：</li>
+</ul>
+
+<p><code class="language-plaintext highlighter-rouge">in 'block in materialize': Could not find public_suffix-3.0.0 in any of the sources (Bundler::GemNotFound)</code></p>
+
+<p>解决方法：按照提示通过gem安装：<code class="language-plaintext highlighter-rouge">gem install public_suffix --version 3.0.0</code></p>
+
+<ul>
+  <li>还有东西没找到：</li>
+</ul>
+
+<p><code class="language-plaintext highlighter-rouge">spec_set.rb:87:in 'block in materialize': Could not find addressable-2.5.2 in any of the sources (Bundler::GemNotFound)</code></p>
+
+<p>解决方法：<code class="language-plaintext highlighter-rouge">bundle update</code>或<code class="language-plaintext highlighter-rouge">bundle install</code>，这个过程可能有点慢</p>
+
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+      
+      
+
+      
+      
+        <div class="post-nav" id="post-nav-id">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/tutorial/2017/07/20/next-tutorial/" rel="prev" title="Next Theme Tutorial">
+                Next Theme Tutorial <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+      
+
+      
+    </footer>
+  </article>
+
+  <div class="post-spread">
+    
+  </div>
+</div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        
+        
+        
+
+
+
+
+
+
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/assets/images/avatar.gif"
+               alt="John Doe" />
+          <p class="site-author-name" itemprop="name">John Doe</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+        
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+
+
+
+
+
+
+
+            
+              <div class="post-toc-content">
+    <ol class=nav>
+      <li class="nav-item nav-level-1"> <a class="nav-link" href="#rubygemjekyll简单博客搭建"> <span class="nav-number">1</span> <span class="nav-text">ruby+gem+jekyll简单博客搭建</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-2"> <a class="nav-link" href="#一服务器环境"> <span class="nav-number">1.1</span> <span class="nav-text">一、服务器环境</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#二搭建步骤"> <span class="nav-number">1.2</span> <span class="nav-text">二、搭建步骤</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#21-安装ruby"> <span class="nav-number">1.2.1</span> <span class="nav-text">2.1. 安装ruby</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#22-安装jekyll"> <span class="nav-number">1.2.2</span> <span class="nav-text">2.2 安装jekyll</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#23-使用jekyll"> <span class="nav-number">1.2.3</span> <span class="nav-text">2.3 使用jekyll</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#三遇到的问题"> <span class="nav-number">1.3</span> <span class="nav-text">三、遇到的问题</span> </a> </li> </ol> </li>
+    </ol>
+  </div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://jekyllrb.com">Jekyll</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/simpleyyt/jekyll-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+   
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/assets/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/assets/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  <script type="text/javascript" src="/assets/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/assets/js/src/post-details.js?v=5.1.1"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/assets/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+    
+
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
+
