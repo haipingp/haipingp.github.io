@@ -2,10 +2,31 @@
 <search>
   
     <entry>
-      <title><![CDATA[Ruby+gem+jekyll简单博客搭建]]></title>
-      <url>/2020/01/13/ruby+gem+jekyll%E7%AE%80%E5%8D%95%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/</url>
-      <content type="text"><![CDATA[ruby+gem+jekyll简单博客搭建一、服务器环境  我使用的服务器环境是：Ubuntu 18.04 Server版二、搭建步骤2.1. 安装ruby  由于之前有一次安装的ruby版本比较低，可能影响了后面的rubygems的安装，所以这一次我采用的目前最新的稳定版ruby 2.7.0  之前有一次因为ruby版本低，卸载重新安装的痛苦经历，卸载之后有一些其他软件不能用了（具体忘记是啥软件了）。这一次安装ruby，看了网上很多安装教程推荐使用Rbenv这个轻量级的ruby版本管理器来安装，找到了一个靠谱的安装教程和一个参考链接很重要：https://linuxize.com/post/how-to-install-ruby-on-ubuntu-18-04/。https://gorails.com/setup/ubuntu/18.04有了它，后面只需要解决一些边边角角的问题了  由于默认Rbenv是没有版本控制功能的，需要安装ruby-build来完成，以下是按照上面链接中的安装步骤:  首先需要安装ruby-build用来安装ruby的准备工具，从源码安装：    sudo apt updatesudo apt install git curl libssl-dev libreadline-dev zlib1g-dev autoconf bison build-essential libyaml-dev libreadline-dev libncurses5-dev libffi-dev libgdbm-dev        运行curl命令安装rbenv和ruby-build ：    curl -sL https://github.com/rbenv/rbenv-installer/raw/master/bin/rbenv-installer | bash -        curl -s表示使用静默模式跳转链接，curl -L表示允许重定向到一个新的地址，不像简单的get一个链接后面的bash -命令通过前面的管道标识符|执行前面下载的脚本上述脚本会从将rbenv和ruby-build仓库从GitHub拷贝到~/.rbenv目录下。同时，这个安装脚本会验证此次安装，输出如下：    将$HOME/.rbenv/bin添加到环境变量中：    echo 'export PATH="$HOME/.rbenv/bin:$PATH"' &gt;&gt; ~/.bashrcecho 'eval "$(rbenv init -)"' &gt;&gt; ~/.bashrcsource ~/.bashrc        通过rbenv安装ruby:    rbenv install 2.7.0        该命令在线安装超级慢：会一直卡在一个下载链接的进度上，于是我复制了下载链接中的包名，并到ruby官网的镜像地址中下载了该包，并放在.rbenv/cache目录下；再执行rbenv install 2.7.0命令，显示进度为“安装ruby 2.7.0”而不是下载包的进度了    为了防止安装了多个ruby版本，通过下面的命令指定默认使用的ruby版本:    rbenv global 2.7.0        下载RubyGems(rubygems-3.1.2.zip)，并在目录下执行ruby setup.rb:2.2 安装jekyllgem install jekyll2.3 使用jekyll  需要按照jekyll的格式建立一定格式的文件夹  其中_posts文件夹下放的就是博客文章      一些博客模板：https://github.com/poole/poolehttp://jekyllthemes.org/    使用jekyll serve报错时，尝试使用bundle exec jekyll serve启动，起来了之后发现无法在本地通过ip地址访问的话，采用bundle exec jekyll serve --host 0.0.0.0启动，通过http://192.168.56.101:8008/，端口可以在_config.yml中配置三、遇到的问题  一个依赖未找到：in 'block in materialize': Could not find public_suffix-3.0.0 in any of the sources (Bundler::GemNotFound)解决方法：按照提示通过gem安装：gem install public_suffix --version 3.0.0  还有东西没找到：spec_set.rb:87:in 'block in materialize': Could not find addressable-2.5.2 in any of the sources (Bundler::GemNotFound)解决方法：bundle update或bundle install，这个过程可能有点慢]]></content>
+      <title><![CDATA[VirtualBox-NAT网络加Host-Only配置]]></title>
+      <url>/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/%E8%99%9A%E6%8B%9F%E6%9C%BA/2020/01/26/VirtualBox-NAT%E7%BD%91%E7%BB%9C%E5%8A%A0Host-Only%E9%85%8D%E7%BD%AE/</url>
+      <content type="text"><![CDATA[步骤  在VirtualBox中安装好Ubuntu 18.04 Server  全局工具中的配置：]]></content>
       <categories>
+        
+          <category> 环境配置 </category>
+        
+          <category> 虚拟机 </category>
+        
+      </categories>
+      <tags>
+        
+      </tags>
+      <tags></tags>
+    </entry>
+  
+    <entry>
+      <title><![CDATA[ruby-gem-jekyll简单博客搭建]]></title>
+      <url>/%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/%E5%8D%9A%E5%AE%A2/2020/01/13/ruby-gem-jekyll%E7%AE%80%E5%8D%95%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/</url>
+      <content type="text"><![CDATA[一、服务器环境  我使用的服务器环境是：Ubuntu 18.04 Server版二、搭建步骤2.1. 安装ruby  由于之前有一次安装的ruby版本比较低，可能影响了后面的rubygems的安装，所以这一次我采用的目前最新的稳定版ruby 2.7.0  之前有一次因为ruby版本低，卸载重新安装的痛苦经历，卸载之后有一些其他软件不能用了（具体忘记是啥软件了）。这一次安装ruby，看了网上很多安装教程推荐使用Rbenv这个轻量级的ruby版本管理器来安装，找到了一个靠谱的安装教程和一个参考链接很重要：https://linuxize.com/post/how-to-install-ruby-on-ubuntu-18-04/。https://gorails.com/setup/ubuntu/18.04有了它，后面只需要解决一些边边角角的问题了  由于默认Rbenv是没有版本控制功能的，需要安装ruby-build来完成，以下是按照上面链接中的安装步骤:  首先需要安装ruby-build用来安装ruby的准备工具，从源码安装：    sudo apt updatesudo apt install git curl libssl-dev libreadline-dev zlib1g-dev autoconf bison build-essential libyaml-dev libreadline-dev libncurses5-dev libffi-dev libgdbm-dev        运行curl命令安装rbenv和ruby-build ：    curl -sL https://github.com/rbenv/rbenv-installer/raw/master/bin/rbenv-installer | bash -        curl -s表示使用静默模式跳转链接，curl -L表示允许重定向到一个新的地址，不像简单的get一个链接后面的bash -命令通过前面的管道标识符|执行前面下载的脚本上述脚本会从将rbenv和ruby-build仓库从GitHub拷贝到~/.rbenv目录下。同时，这个安装脚本会验证此次安装，输出如下：    将$HOME/.rbenv/bin添加到环境变量中：    echo 'export PATH="$HOME/.rbenv/bin:$PATH"' &gt;&gt; ~/.bashrcecho 'eval "$(rbenv init -)"' &gt;&gt; ~/.bashrcsource ~/.bashrc        通过rbenv安装ruby:    rbenv install 2.7.0        该命令在线安装超级慢：会一直卡在一个下载链接的进度上，于是我复制了下载链接中的包名，并到ruby官网的镜像地址中下载了该包，并放在.rbenv/cache目录下；再执行rbenv install 2.7.0命令，显示进度为“安装ruby 2.7.0”而不是下载包的进度了    为了防止安装了多个ruby版本，通过下面的命令指定默认使用的ruby版本:    rbenv global 2.7.0        下载RubyGems(rubygems-3.1.2.zip)，并在目录下执行ruby setup.rb:2.2 安装jekyllgem install jekyll2.3 使用jekyll  需要按照jekyll的格式建立一定格式的文件夹  其中_posts文件夹下放的就是博客文章      一些博客模板：https://github.com/poole/poolehttp://jekyllthemes.org/    使用jekyll serve报错时，尝试使用bundle exec jekyll serve启动，起来了之后发现无法在本地通过ip地址访问的话，采用bundle exec jekyll serve --host 0.0.0.0启动，通过http://192.168.56.101:8008/，端口可以在_config.yml中配置三、遇到的问题  一个依赖未找到：in 'block in materialize': Could not find public_suffix-3.0.0 in any of the sources (Bundler::GemNotFound)解决方法：按照提示通过gem安装：gem install public_suffix --version 3.0.0  还有东西没找到：spec_set.rb:87:in 'block in materialize': Could not find addressable-2.5.2 in any of the sources (Bundler::GemNotFound)解决方法：bundle update或bundle install，这个过程可能有点慢]]></content>
+      <categories>
+        
+          <category> 环境搭建 </category>
+        
+          <category> 博客 </category>
         
       </categories>
       <tags>

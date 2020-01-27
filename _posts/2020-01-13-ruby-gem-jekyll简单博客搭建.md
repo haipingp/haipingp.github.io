@@ -1,7 +1,11 @@
-﻿# ruby+gem+jekyll简单博客搭建 
-
-
+﻿---
+title: ruby-gem-jekyll简单博客搭建
+date: 2020-01-13 23:30:09
+categories:
+- 环境搭建
+- 博客
 ---
+
 
 ## 一、服务器环境
 * 我使用的服务器环境是：Ubuntu 18.04 Server版 
@@ -77,11 +81,7 @@ http://jekyllthemes.org/
 
 解决方法：`bundle update`或`bundle install`，这个过程可能有点慢
 
-* 重新在coding.net上新建了一个项目后，将主题nexT的代码拷贝进去后，在新的git项目目录下无法运行，报错：
-`No repo name found`
 
-需要在`_config.yml`文件中添加: `repository: 用户名/项目名`
-即: `repository: HaipingPang/HaipingPang.blog`
 
 
 

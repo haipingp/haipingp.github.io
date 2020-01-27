@@ -1,8 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://0.0.0.0:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0:4000/" rel="alternate" type="text/html" /><updated>2020-01-26T08:48:48+00:00</updated><id>http://0.0.0.0:4000/atom.xml</id><title type="html">NexT</title><author><name>John Doe</name></author><entry><title type="html">Ruby+gem+jekyll简单博客搭建</title><link href="http://0.0.0.0:4000/2020/01/13/ruby+gem+jekyll%E7%AE%80%E5%8D%95%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/" rel="alternate" type="text/html" title="Ruby+gem+jekyll简单博客搭建" /><published>2020-01-13T00:00:00+00:00</published><updated>2020-01-13T00:00:00+00:00</updated><id>http://0.0.0.0:4000/2020/01/13/ruby+gem+jekyll%E7%AE%80%E5%8D%95%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA</id><content type="html" xml:base="http://0.0.0.0:4000/2020/01/13/ruby+gem+jekyll%E7%AE%80%E5%8D%95%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/">&lt;h1 id=&quot;rubygemjekyll简单博客搭建&quot;&gt;ruby+gem+jekyll简单博客搭建&lt;/h1&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://0.0.0.0:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0:4000/" rel="alternate" type="text/html" /><updated>2020-01-27T08:50:48+00:00</updated><id>http://0.0.0.0:4000/atom.xml</id><title type="html">NexT</title><author><name>John Doe</name></author><entry><title type="html">VirtualBox-NAT网络加Host-Only配置</title><link href="http://0.0.0.0:4000/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/%E8%99%9A%E6%8B%9F%E6%9C%BA/2020/01/26/VirtualBox-NAT%E7%BD%91%E7%BB%9C%E5%8A%A0Host-Only%E9%85%8D%E7%BD%AE/" rel="alternate" type="text/html" title="VirtualBox-NAT网络加Host-Only配置" /><published>2020-01-26T23:30:09+00:00</published><updated>2020-01-26T23:30:09+00:00</updated><id>http://0.0.0.0:4000/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/%E8%99%9A%E6%8B%9F%E6%9C%BA/2020/01/26/VirtualBox-NAT%E7%BD%91%E7%BB%9C%E5%8A%A0Host-Only%E9%85%8D%E7%BD%AE</id><content type="html" xml:base="http://0.0.0.0:4000/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/%E8%99%9A%E6%8B%9F%E6%9C%BA/2020/01/26/VirtualBox-NAT%E7%BD%91%E7%BB%9C%E5%8A%A0Host-Only%E9%85%8D%E7%BD%AE/">&lt;h2 id=&quot;步骤&quot;&gt;步骤&lt;/h2&gt;
 
-&lt;hr /&gt;
+&lt;ol&gt;
+  &lt;li&gt;在VirtualBox中安装好Ubuntu 18.04 Server&lt;/li&gt;
+  &lt;li&gt;全局工具中的配置：&lt;/li&gt;
+&lt;/ol&gt;
 
-&lt;h2 id=&quot;一服务器环境&quot;&gt;一、服务器环境&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&quot;http://192.168.56.101:4000/myPics/2020-01-26-1.png&quot; alt=&quot;2020-01-26-1.png&quot; /&gt;&lt;/p&gt;</content><author><name>John Doe</name></author><summary type="html">步骤 在VirtualBox中安装好Ubuntu 18.04 Server 全局工具中的配置：</summary></entry><entry><title type="html">ruby-gem-jekyll简单博客搭建</title><link href="http://0.0.0.0:4000/%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/%E5%8D%9A%E5%AE%A2/2020/01/13/ruby-gem-jekyll%E7%AE%80%E5%8D%95%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/" rel="alternate" type="text/html" title="ruby-gem-jekyll简单博客搭建" /><published>2020-01-13T23:30:09+00:00</published><updated>2020-01-13T23:30:09+00:00</updated><id>http://0.0.0.0:4000/%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/%E5%8D%9A%E5%AE%A2/2020/01/13/ruby-gem-jekyll%E7%AE%80%E5%8D%95%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA</id><content type="html" xml:base="http://0.0.0.0:4000/%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/%E5%8D%9A%E5%AE%A2/2020/01/13/ruby-gem-jekyll%E7%AE%80%E5%8D%95%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/">&lt;h2 id=&quot;一服务器环境&quot;&gt;一、服务器环境&lt;/h2&gt;
 &lt;ul&gt;
   &lt;li&gt;我使用的服务器环境是：Ubuntu 18.04 Server版&lt;/li&gt;
 &lt;/ul&gt;
@@ -81,7 +84,7 @@ http://jekyllthemes.org/&lt;/p&gt;
 
 &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;spec_set.rb:87:in 'block in materialize': Could not find addressable-2.5.2 in any of the sources (Bundler::GemNotFound)&lt;/code&gt;&lt;/p&gt;
 
-&lt;p&gt;解决方法：&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;bundle update&lt;/code&gt;或&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;bundle install&lt;/code&gt;，这个过程可能有点慢&lt;/p&gt;</content><author><name>John Doe</name></author><summary type="html">ruby+gem+jekyll简单博客搭建</summary></entry><entry><title type="html">Next Theme Tutorial</title><link href="http://0.0.0.0:4000/tutorial/2017/07/20/next-tutorial/" rel="alternate" type="text/html" title="Next Theme Tutorial" /><published>2017-07-20T00:00:00+00:00</published><updated>2017-07-20T00:00:00+00:00</updated><id>http://0.0.0.0:4000/tutorial/2017/07/20/next-tutorial</id><content type="html" xml:base="http://0.0.0.0:4000/tutorial/2017/07/20/next-tutorial/">&lt;blockquote&gt;
+&lt;p&gt;解决方法：&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;bundle update&lt;/code&gt;或&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;bundle install&lt;/code&gt;，这个过程可能有点慢&lt;/p&gt;</content><author><name>John Doe</name></author><summary type="html">一、服务器环境 我使用的服务器环境是：Ubuntu 18.04 Server版</summary></entry><entry><title type="html">Next Theme Tutorial</title><link href="http://0.0.0.0:4000/tutorial/2017/07/20/next-tutorial/" rel="alternate" type="text/html" title="Next Theme Tutorial" /><published>2017-07-20T00:00:00+00:00</published><updated>2017-07-20T00:00:00+00:00</updated><id>http://0.0.0.0:4000/tutorial/2017/07/20/next-tutorial</id><content type="html" xml:base="http://0.0.0.0:4000/tutorial/2017/07/20/next-tutorial/">&lt;blockquote&gt;
   &lt;p&gt;NexT is a high quality elegant &lt;a href=&quot;https://jekyllrb.com&quot;&gt;Jekyll&lt;/a&gt; theme ported from &lt;a href=&quot;https://github.com/iissnan/hexo-theme-next&quot;&gt;Hexo Next&lt;/a&gt;. It is crafted from scratch, with love.&lt;/p&gt;
 &lt;/blockquote&gt;
 
@@ -459,20 +462,4 @@ underscores with a backslash like so &lt;code class=&quot;language-plaintext hig
 
 &lt;h3 id=&quot;gist&quot;&gt;Gist&lt;/h3&gt;
 
-&lt;script src=&quot;https://gist.github.com/996818.js&quot;&gt; &lt;/script&gt;</content><author><name>John Doe</name></author><summary type="html">This post is used for testing tag plugins. See docs for more info.</summary></entry><entry><title type="html">日本語テスト</title><link href="http://0.0.0.0:4000/2013/12/24/%E6%97%A5%E6%9C%AC%E8%AA%9E%E3%83%86%E3%82%B9%E3%83%88/" rel="alternate" type="text/html" title="日本語テスト" /><published>2013-12-24T23:33:26+00:00</published><updated>2013-12-24T23:33:26+00:00</updated><id>http://0.0.0.0:4000/2013/12/24/%E6%97%A5%E6%9C%AC%E8%AA%9E%E3%83%86%E3%82%B9%E3%83%88</id><content type="html" xml:base="http://0.0.0.0:4000/2013/12/24/%E6%97%A5%E6%9C%AC%E8%AA%9E%E3%83%86%E3%82%B9%E3%83%88/">&lt;p&gt;This is a Japanese test post.&lt;/p&gt;
-
-&lt;p&gt;私は昨日ついにその助力家というのの上よりするたなけれ。&lt;/p&gt;
-
-&lt;p&gt;最も今をお話団はちょうどこの前後なかろでくらいに困りがいるたをは帰着考えたなかって、そうにもするでうたらない。&lt;/p&gt;
-
-&lt;p&gt;がたを知っないはずも同時に九月をいよいよたありた。&lt;/p&gt;
-
-&lt;p&gt;もっと槙さんにぼんやり金少し説明にえた自分大した人私か影響にというお関係たうませないが、この次第も私か兄具合に使うて、槙さんののに当人のあなたにさぞご意味と行くて私個人が小尊敬を聴いように同時に同反抗に集っだうて、いよいよまず相当へあっうからいだ事をしでなけれ。&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;それでそれでもご時日をしはずはたったいやと突き抜けるますて、その元がは行ったてという獄を尽すていけですた。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;この中道具の日その学校はあなたごろがすまなりかとネルソンさんの考えるですん、辺の事実ないというご盲従ありたですと、爺さんのためが薬缶が結果までの箸の当時してならて、多少の十月にためからそういう上からとにかくしましないと触れべきものたで、ないうですと多少お人達したのでたた。&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;From &lt;a href=&quot;http://lipsum.sugutsukaeru.jp/index.cgi&quot;&gt;すぐ使えるダミーテキスト - 日本語 Lorem ipsum&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;</content><author><name>John Doe</name></author><summary type="html">This is a Japanese test post.</summary></entry></feed>
+&lt;script src=&quot;https://gist.github.com/996818.js&quot;&gt; &lt;/script&gt;</content><author><name>John Doe</name></author><summary type="html">This post is used for testing tag plugins. See docs for more info.</summary></entry></feed>

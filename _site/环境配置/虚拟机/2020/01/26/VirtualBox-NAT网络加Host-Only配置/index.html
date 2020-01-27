@@ -111,17 +111,19 @@
 
 
 
-<meta name="description" content="ruby+gem+jekyll简单博客搭建">
+<meta name="description" content="步骤 在VirtualBox中安装好Ubuntu 18.04 Server 全局工具中的配置：">
 <meta name="keywords" content="Jekyll, NexT">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Ruby+gem+jekyll简单博客搭建">
-<meta property="og:url" content="http://0.0.0.0:4000/2020/01/13/ruby+gem+jekyll%E7%AE%80%E5%8D%95%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/">
+<meta property="og:title" content="VirtualBox-NAT网络加Host-Only配置">
+<meta property="og:url" content="http://0.0.0.0:4000/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/%E8%99%9A%E6%8B%9F%E6%9C%BA/2020/01/26/VirtualBox-NAT%E7%BD%91%E7%BB%9C%E5%8A%A0Host-Only%E9%85%8D%E7%BD%AE/">
 <meta property="og:site_name" content="NexT">
-<meta property="og:description" content="ruby+gem+jekyll简单博客搭建">
+<meta property="og:description" content="步骤 在VirtualBox中安装好Ubuntu 18.04 Server 全局工具中的配置：">
 <meta property="og:locale" content="en">
+<meta property="og:image" content="http://192.168.56.101:4000/myPics/2020-01-26-1.png">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Ruby+gem+jekyll简单博客搭建">
-<meta name="twitter:description" content="ruby+gem+jekyll简单博客搭建">
+<meta name="twitter:title" content="VirtualBox-NAT网络加Host-Only配置">
+<meta name="twitter:description" content="步骤 在VirtualBox中安装好Ubuntu 18.04 Server 全局工具中的配置：">
+<meta name="twitter:image" content="http://192.168.56.101:4000/myPics/2020-01-26-1.png">
 
 
 <script type="text/javascript" id="hexo.configurations">
@@ -154,7 +156,7 @@
 
 
 
-  <title>Ruby+gem+jekyll简单博客搭建 | NexT</title>
+  <title>VirtualBox-NAT网络加Host-Only配置 | NexT</title>
   
 
 
@@ -280,7 +282,7 @@
   
 
   <article class="post post-type- " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://0.0.0.0:4000/2020/01/13/ruby+gem+jekyll%E7%AE%80%E5%8D%95%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/">
+    <link itemprop="mainEntityOfPage" href="http://0.0.0.0:4000/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/%E8%99%9A%E6%8B%9F%E6%9C%BA/2020/01/26/VirtualBox-NAT%E7%BD%91%E7%BB%9C%E5%8A%A0Host-Only%E9%85%8D%E7%BD%AE/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="John Doe">
@@ -300,7 +302,7 @@
           <h1 class="post-title" itemprop="name headline">
           
           
-            Ruby+gem+jekyll简单博客搭建
+            VirtualBox-NAT网络加Host-Only配置
           
         </h1>
         
@@ -314,8 +316,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-01-13T00:00:00+00:00">
-                2020-01-13
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-01-26T23:30:09+00:00">
+                2020-01-26
               </time>
             
 
@@ -324,6 +326,41 @@
             
           </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/category/#/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE" itemprop="url" rel="index">
+                    <span itemprop="name">环境配置</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+              
+                
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/category/#/%E8%99%9A%E6%8B%9F%E6%9C%BA" itemprop="url" rel="index">
+                    <span itemprop="name">虚拟机</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -366,90 +403,14 @@
 
 
 
-  <h1 id="rubygemjekyll简单博客搭建">ruby+gem+jekyll简单博客搭建</h1>
-
-<hr />
-
-<h2 id="一服务器环境">一、服务器环境</h2>
-<ul>
-  <li>我使用的服务器环境是：Ubuntu 18.04 Server版</li>
-</ul>
-
-<h2 id="二搭建步骤">二、搭建步骤</h2>
-<h3 id="21-安装ruby">2.1. 安装ruby</h3>
-<ul>
-  <li>由于之前有一次安装的ruby版本比较低，可能影响了后面的rubygems的安装，所以这一次我采用的目前最新的稳定版ruby 2.7.0</li>
-  <li>之前有一次因为ruby版本低，卸载重新安装的痛苦经历，卸载之后有一些其他软件不能用了（具体忘记是啥软件了）。这一次安装ruby，看了网上很多安装教程推荐使用Rbenv这个轻量级的ruby版本管理器来安装，找到了一个靠谱的安装教程和一个参考链接很重要：
-https://linuxize.com/post/how-to-install-ruby-on-ubuntu-18-04/。
-https://gorails.com/setup/ubuntu/18.04
-有了它，后面只需要解决一些边边角角的问题了</li>
-  <li>由于默认Rbenv是没有版本控制功能的，需要安装<code class="language-plaintext highlighter-rouge">ruby-build</code>来完成，以下是按照上面链接中的安装步骤:</li>
-</ul>
+  <h2 id="步骤">步骤</h2>
 
 <ol>
-  <li>首先需要安装ruby-build用来安装ruby的准备工具，从源码安装：
-    <div class="language-bash highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code><span class="nb">sudo </span>apt update
-<span class="nb">sudo </span>apt <span class="nb">install </span>git curl libssl-dev libreadline-dev zlib1g-dev autoconf bison build-essential libyaml-dev libreadline-dev libncurses5-dev libffi-dev libgdbm-dev
-</code></pre></td></tr></tbody></table></div>    </div>
-  </li>
-  <li>运行curl命令安装rbenv和ruby-build ：
-    <div class="language-bash highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>curl <span class="nt">-sL</span> https://github.com/rbenv/rbenv-installer/raw/master/bin/rbenv-installer | bash -
-</code></pre></td></tr></tbody></table></div>    </div>
-    <p><code class="language-plaintext highlighter-rouge">curl -s</code>表示使用静默模式跳转链接，<code class="language-plaintext highlighter-rouge">curl -L</code>表示允许重定向到一个新的地址，不像简单的get一个链接
-后面的<code class="language-plaintext highlighter-rouge">bash -</code>命令通过前面的管道标识符<code class="language-plaintext highlighter-rouge">|</code>执行前面下载的脚本
-上述脚本会从将rbenv和ruby-build仓库从GitHub拷贝到<code class="language-plaintext highlighter-rouge">~/.rbenv</code>目录下。同时，这个安装脚本会验证此次安装，输出如下：</p>
-  </li>
-  <li>将<code class="language-plaintext highlighter-rouge">$HOME/.rbenv/bin</code>添加到环境变量中：
-    <div class="language-bash highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3</pre></td><td class="code"><pre class="highlight"><code><span class="nb">echo</span> <span class="s1">'export PATH="$HOME/.rbenv/bin:$PATH"'</span> <span class="o">&gt;&gt;</span> ~/.bashrc
-<span class="nb">echo</span> <span class="s1">'eval "$(rbenv init -)"'</span> <span class="o">&gt;&gt;</span> ~/.bashrc
-<span class="nb">source</span> ~/.bashrc
-</code></pre></td></tr></tbody></table></div>    </div>
-  </li>
-  <li>通过rbenv安装ruby:
-    <div class="language-bash highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>rbenv <span class="nb">install </span>2.7.0
-</code></pre></td></tr></tbody></table></div>    </div>
-    <p>该命令在线安装超级慢：会一直卡在一个下载链接的进度上，于是我复制了下载链接中的包名，并到ruby官网的镜像地址中下载了该包，并放在<code class="language-plaintext highlighter-rouge">.rbenv/cache</code>目录下；
-再执行<code class="language-plaintext highlighter-rouge">rbenv install 2.7.0</code>命令，显示进度为“安装ruby 2.7.0”而不是下载包的进度了</p>
-  </li>
-  <li>为了防止安装了多个ruby版本，通过下面的命令指定默认使用的ruby版本:
-    <div class="language-bash highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>rbenv global 2.7.0
-</code></pre></td></tr></tbody></table></div>    </div>
-  </li>
-  <li>下载RubyGems(rubygems-3.1.2.zip)，并在目录下执行<code class="language-plaintext highlighter-rouge">ruby setup.rb</code>:</li>
+  <li>在VirtualBox中安装好Ubuntu 18.04 Server</li>
+  <li>全局工具中的配置：</li>
 </ol>
 
-<h3 id="22-安装jekyll">2.2 安装jekyll</h3>
-<div class="language-bash highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>gem <span class="nb">install </span>jekyll
-</code></pre></td></tr></tbody></table></div></div>
-
-<h3 id="23-使用jekyll">2.3 使用jekyll</h3>
-<ul>
-  <li>需要按照jekyll的格式建立一定格式的文件夹</li>
-  <li>其中<code class="language-plaintext highlighter-rouge">_posts</code>文件夹下放的就是博客文章</li>
-  <li>
-    <p>一些博客模板：
-https://github.com/poole/poole
-http://jekyllthemes.org/</p>
-  </li>
-  <li>使用<code class="language-plaintext highlighter-rouge">jekyll serve</code>报错时，尝试使用<code class="language-plaintext highlighter-rouge">bundle exec jekyll serve</code>启动，起来了之后发现无法在本地通过ip地址访问的话，采用<code class="language-plaintext highlighter-rouge">bundle exec jekyll serve --host 0.0.0.0</code>启动，通过<code class="language-plaintext highlighter-rouge">http://192.168.56.101:8008/</code>，端口可以在<code class="language-plaintext highlighter-rouge">_config.yml</code>中配置</li>
-</ul>
-
-<h2 id="三遇到的问题">三、遇到的问题</h2>
-<ul>
-  <li>一个依赖未找到：</li>
-</ul>
-
-<p><code class="language-plaintext highlighter-rouge">in 'block in materialize': Could not find public_suffix-3.0.0 in any of the sources (Bundler::GemNotFound)</code></p>
-
-<p>解决方法：按照提示通过gem安装：<code class="language-plaintext highlighter-rouge">gem install public_suffix --version 3.0.0</code></p>
-
-<ul>
-  <li>还有东西没找到：</li>
-</ul>
-
-<p><code class="language-plaintext highlighter-rouge">spec_set.rb:87:in 'block in materialize': Could not find addressable-2.5.2 in any of the sources (Bundler::GemNotFound)</code></p>
-
-<p>解决方法：<code class="language-plaintext highlighter-rouge">bundle update</code>或<code class="language-plaintext highlighter-rouge">bundle install</code>，这个过程可能有点慢</p>
+<p><img src="http://192.168.56.101:4000/myPics/2020-01-26-1.png" alt="2020-01-26-1.png" /></p>
 
 
 
@@ -497,8 +458,8 @@ http://jekyllthemes.org/</p>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/tutorial/2017/07/20/next-tutorial/" rel="prev" title="Next Theme Tutorial">
-                Next Theme Tutorial <i class="fa fa-chevron-right"></i>
+              <a href="/%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/%E5%8D%9A%E5%AE%A2/2020/01/13/ruby-gem-jekyll%E7%AE%80%E5%8D%95%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/" rel="prev" title="ruby-gem-jekyll简单博客搭建">
+                ruby-gem-jekyll简单博客搭建 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -580,7 +541,7 @@ http://jekyllthemes.org/</p>
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-count">17</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>
@@ -591,7 +552,7 @@ http://jekyllthemes.org/</p>
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/">
-                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-count">12</span>
                 <span class="site-state-item-name">categories</span>
               </a>
             </div>
@@ -656,7 +617,7 @@ http://jekyllthemes.org/</p>
             
               <div class="post-toc-content">
     <ol class=nav>
-      <li class="nav-item nav-level-1"> <a class="nav-link" href="#rubygemjekyll简单博客搭建"> <span class="nav-number">1</span> <span class="nav-text">ruby+gem+jekyll简单博客搭建</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-2"> <a class="nav-link" href="#一服务器环境"> <span class="nav-number">1.1</span> <span class="nav-text">一、服务器环境</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#二搭建步骤"> <span class="nav-number">1.2</span> <span class="nav-text">二、搭建步骤</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#21-安装ruby"> <span class="nav-number">1.2.1</span> <span class="nav-text">2.1. 安装ruby</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#22-安装jekyll"> <span class="nav-number">1.2.2</span> <span class="nav-text">2.2 安装jekyll</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#23-使用jekyll"> <span class="nav-number">1.2.3</span> <span class="nav-text">2.3 使用jekyll</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#三遇到的问题"> <span class="nav-number">1.3</span> <span class="nav-text">三、遇到的问题</span> </a> </li> </ol> </li>
+      <li class="nav-item nav-level-2"> <a class="nav-link" href="#步骤"> <span class="nav-number">1</span> <span class="nav-text">步骤</span> </a> </li>
     </ol>
   </div>
             
