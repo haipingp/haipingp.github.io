@@ -9,8 +9,36 @@ categories:
 
 ## 步骤
 
-1. 在VirtualBox中安装好Ubuntu 18.04 Server
-2. 全局工具中的配置：
+1. 在VirtualBox中新建虚拟机
+2. 全局工具中关于host-only的配置（一般安装好VirtualBox之后，在网络中会多出一个HostOnly的网络）：
 
 ![2020-01-26-1.png](https://haipingp.github.io/myPics/2020-01-26-1.png)
+
+3. 全局设定中关于NAT网络的设置：
+
+![2020-01-28-2044.png](https://haipingp.github.io/myPics/2020-01-28-2044.png)
+
+4. 右键新建的虚拟机，点击设置，点击网络，网卡1和网卡2的设置如下：
+![](https://haipingp.github.io/myPics/2020-01-28-2319.png)
+![](https://haipingp.github.io/myPics/2020-01-28_23-19-41.png)
+
+5. 安装Ubuntu 18.04 Server
+6. ifconfig -a查看网络信息，其中`enp0s3`是NAT网络，`enp0s8`是Host-Only网络，需要在文件`/etc/netplan/50-cloud-init.yaml`作如下配置：
+```
+network:
+    ethernets:
+        enp0s3:
+            dhcp4: true
+        enp0s8:
+            dhcp4: false
+            dhcp6: false
+            addresses: [192.168.56.101/24]
+    version: 2
+```
+
+7. 输入以下命令使配置生效，并通过ifconfig查看是否ip为配置的ip:
+```
+netplan apply
+```
+8. 可以通过xshell访问`192.168.56.101:22`
 
