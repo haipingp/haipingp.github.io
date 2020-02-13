@@ -1,0 +1,1150 @@
+
+<!doctype html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next muse use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/assets/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/assets/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/assets/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="NexT" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Array class简介 array类是一个固定长度的容器：它线性存放着一定数量的元素。">
+<meta name="keywords" content="Jekyll, NexT">
+<meta property="og:type" content="article">
+<meta property="og:title" content="std-array简介翻译">
+<meta property="og:url" content="http://0.0.0.0:4000/c++/std/2020/02/12/std-array%E7%AE%80%E4%BB%8B%E7%BF%BB%E8%AF%91/">
+<meta property="og:site_name" content="NexT">
+<meta property="og:description" content="Array class简介 array类是一个固定长度的容器：它线性存放着一定数量的元素。">
+<meta property="og:locale" content="en">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="std-array简介翻译">
+<meta name="twitter:description" content="Array class简介 array类是一个固定长度的容器：它线性存放着一定数量的元素。">
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://0.0.0.0:4000/"/>
+
+
+
+
+
+  <title>std-array简介翻译 | NexT</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> <div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">NexT</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+<div id="posts" class="posts-expand">
+  
+  
+
+  
+
+  
+  
+  
+
+  <article class="post post-type- " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://0.0.0.0:4000/c++/std/2020/02/12/std-array%E7%AE%80%E4%BB%8B%E7%BF%BB%E8%AF%91/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="assets/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="NexT">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+          
+          
+            std-array简介翻译
+          
+        </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-02-12T11:13:09+00:00">
+                2020-02-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/category/#/C%2B%2B" itemprop="url" rel="index">
+                    <span itemprop="name">C++</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+              
+                
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/category/#/std" itemprop="url" rel="index">
+                    <span itemprop="name">std</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+            
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 id="array-class简介">Array class简介</h2>
+<p>array类是一个固定长度的容器：它线性存放着一定数量的元素。</p>
+
+<p>由该类内部来说，一个array对象除了存储元素，不需要存储其他数据（甚至不用存储数组大小，因为数组大小已经作为模板参数，在编译阶段是不变的）。从存储大小来说，array类与普通数组（以中括号[]声明的数组）一样高效。该类仅仅在原来普通数组的基础上增加了一层，该层存储了数字和全局函数，因此array可以用作标准容器。</p>
+
+<p>不像其他标准容器，array有固定大小，不能通过内存分配器进行元素的内存分配：它是一种封装了固定元素数组的一种聚合类型。因此，该类型的对象不能动态的扩展或缩减（如果想使用一个类似数组的、可以扩展的容器，可以使用vector来代替）。</p>
+
+<p>大小为0的array是可以使用的，但是不能被解引用（例如成员函数front，back，data）。</p>
+
+<p>不像其他的STL中的容器，交换两个array容器是一个线性操作，该操作将逐个交换容器中的元素，因此该操作是一个低效的操作。另一方面，这允许两个容器中的迭代器保持原有的容器关联。（On the other side, this allows the iterators to elements in both containers to keep their original container association.）</p>
+
+<p>另一个array容器独有的特征是，它可以被当做tuple对象：<array>头文件重载了`get`函数，从而可以获取数组中的元素，这种特征好比它是一个tuple，也可以通过`tuple_size`和`tuple_element`来确定。</array></p>
+
+<h2 id="容器特性">容器特性</h2>
+<h3 id="顺序的">顺序的：</h3>
+<p>顺序容器中的元素按照严格的线性顺序排列。 单个元素通过它在序列中的位置来访问。</p>
+
+<h3 id="连续存储的">连续存储的：</h3>
+<p>元素存储于连续的内存位置中，允许以固定时间随机访问元素。指向一个元素的指针可以通过偏移（位置）访问其他元素。</p>
+
+<h3 id="固定大小的聚合">固定大小的聚合</h3>
+<p>容器通过隐式的构造函数和析构函数静态分配需要的内存空间。容器大小在编译阶段是固定的。没有内存或时间上的天花板（No memory or time overhead.）</p>
+
+<h2 id="模板参数">模板参数</h2>
+<p><code class="language-plaintext highlighter-rouge">T</code>：</p>
+
+<p>包含元素的类型。<code class="language-plaintext highlighter-rouge">array::value_type</code>的别名。</p>
+
+<p><code class="language-plaintext highlighter-rouge">N</code>：</p>
+
+<p>array的大小，表示元素的数量。</p>
+
+<p>array的成员函数中，与上述名称相同的引用即模板参数。</p>
+
+<h2 id="成员类型">成员类型</h2>
+<p>以下是array成员类型的别名。这些类型常被作为参数或者成员函数的返回类型：</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>member type</th>
+      <th>definition</th>
+      <th>notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>value_type</td>
+      <td>The first template parameter (T)</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td>reference</td>
+      <td>value_type&amp;</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td>const_reference</td>
+      <td>const value_type&amp;</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td>pointer</td>
+      <td>value_type*</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td>const_pointer</td>
+      <td>const value_type*</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td>iterator</td>
+      <td>a random access iterator to value_type</td>
+      <td>convertible to const_iterator</td>
+    </tr>
+    <tr>
+      <td>const_iterator</td>
+      <td>a random access iterator to const value_type</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td>reverse_iterator</td>
+      <td>reverse_iterator&lt;iterator&gt;</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td>const_reverse_iterator</td>
+      <td>reverse_iterator&lt;const_iterator&gt;</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td>size_type</td>
+      <td>size_t</td>
+      <td>unsigned integral type</td>
+    </tr>
+    <tr>
+      <td>difference_type</td>
+      <td>ptrdiff_t</td>
+      <td>signed integral type</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="成员函数">成员函数</h2>
+<h3 id="stdarraybegin"><code class="language-plaintext highlighter-rouge">std::array::begin</code></h3>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code><span class="n">iterator</span> <span class="n">begin</span><span class="p">()</span> <span class="k">noexcept</span><span class="p">;</span>
+<span class="n">const_iterator</span> <span class="n">begin</span><span class="p">()</span> <span class="k">const</span> <span class="k">noexcept</span><span class="p">;</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<p>返回第一个元素的迭代器
+返回指向array容器的第一个元素的迭代器。</p>
+
+<p>注意，不像<code class="language-plaintext highlighter-rouge">array::front</code>，<code class="language-plaintext highlighter-rouge">array::front</code>返回的是第一个元素的引用，而这个函数返回的是指向第一个元素的随机访问迭代器。</p>
+
+<p>对于大小为0的array，这个函数的返回值与<code class="language-plaintext highlighter-rouge">array::end</code>相同，但是返回的这个迭代器不能被解引用。</p>
+
+<h4 id="返回类型">返回类型</h4>
+<p>一个指向序列开头的迭代器。</p>
+
+<p>如果当前的array对象是const的，该函数返回<code class="language-plaintext highlighter-rouge">const_iterator</code>，否则，返回<code class="language-plaintext highlighter-rouge">iterator</code>。</p>
+
+<p><code class="language-plaintext highlighter-rouge">iterator</code>和<code class="language-plaintext highlighter-rouge">const_iterator</code>这两种成员类型是随机访问迭代器类型（分别指向一个元素和一个const元素）。</p>
+
+<h4 id="示例">示例</h4>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15</pre></td><td class="code"><pre class="highlight"><code><span class="c1">// array::begin example</span>
+<span class="cp">#include &lt;iostream&gt;
+#include &lt;array&gt;
+</span>
+<span class="kt">int</span> <span class="nf">main</span> <span class="p">()</span>
+<span class="p">{</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span><span class="mi">5</span><span class="o">&gt;</span> <span class="n">myarray</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">77</span><span class="p">,</span> <span class="mi">34</span><span class="p">,</span> <span class="mi">50</span> <span class="p">};</span>
+
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"myarray contains:"</span><span class="p">;</span>
+  <span class="k">for</span> <span class="p">(</span> <span class="k">auto</span> <span class="n">it</span> <span class="o">=</span> <span class="n">myarray</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span> <span class="n">it</span> <span class="o">!=</span> <span class="n">myarray</span><span class="p">.</span><span class="n">end</span><span class="p">();</span> <span class="o">++</span><span class="n">it</span> <span class="p">)</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="sc">' '</span> <span class="o">&lt;&lt;</span> <span class="o">*</span><span class="n">it</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="sc">'\n'</span><span class="p">;</span>
+
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<h4 id="复杂度">复杂度</h4>
+<p>常量复杂度</p>
+
+<h4 id="数据竞争">数据竞争</h4>
+<p>该函数的调用不会访问容器中的元素，但是返回的迭代器可用于访问和修改元素。并发地访问和修改容器中不同的元素时安全的。</p>
+
+<h4 id="异常安全">异常安全</h4>
+<p>不会抛出异常：该成员函数不会抛出异常。返回的迭代器的拷贝构造函数和赋值都不会抛出异常。</p>
+
+<h3 id="stdarrayend"><code class="language-plaintext highlighter-rouge">std::array::end</code></h3>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code><span class="n">iterator</span> <span class="n">end</span><span class="p">()</span> <span class="k">noexcept</span><span class="p">;</span>
+<span class="n">const_iterator</span> <span class="n">end</span><span class="p">()</span> <span class="k">const</span> <span class="k">noexcept</span><span class="p">;</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<p><strong>返回最后一个的迭代器</strong>
+返回array容器中指向<code class="language-plaintext highlighter-rouge">past-the-end</code>元素的迭代器。</p>
+
+<p><code class="language-plaintext highlighter-rouge">past-the-end</code>元素是跟在array中最后一个元素之后的理论元素。它不指向任何元素，因此不能被解引用。</p>
+
+<p>STL库中的函数指向的范围不包括结尾的迭代器，该函数常用于配合<code class="language-plaintext highlighter-rouge">array::begin</code>来指定包含容器中所有元素的范围。</p>
+
+<p>在大小为0的array中，该函数的返回与<code class="language-plaintext highlighter-rouge">array::begin</code>相同。</p>
+
+<h4 id="返回值">返回值</h4>
+<p>指向序列最后一个元素后面一个理论元素。</p>
+
+<p>如果当前的array对象是const的，该函数返回<code class="language-plaintext highlighter-rouge">const_iterator</code>，否则，返回<code class="language-plaintext highlighter-rouge">iterator</code>。</p>
+
+<p><code class="language-plaintext highlighter-rouge">iterator</code>和<code class="language-plaintext highlighter-rouge">const_iterator</code>这两种成员类型是随机访问迭代器类型（分别指向一个元素和一个const元素）。</p>
+
+<h4 id="示例-1">示例</h4>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16</pre></td><td class="code"><pre class="highlight"><code><span class="c1">// array::end example</span>
+<span class="cp">#include &lt;iostream&gt;
+#include &lt;array&gt;
+</span>
+<span class="kt">int</span> <span class="nf">main</span> <span class="p">()</span>
+<span class="p">{</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span><span class="mi">5</span><span class="o">&gt;</span> <span class="n">myarray</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="mi">77</span><span class="p">,</span> <span class="mi">34</span><span class="p">,</span> <span class="mi">99</span> <span class="p">};</span>
+
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"myarray contains:"</span><span class="p">;</span>
+  <span class="k">for</span> <span class="p">(</span> <span class="k">auto</span> <span class="n">it</span> <span class="o">=</span> <span class="n">myarray</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span> <span class="n">it</span> <span class="o">!=</span> <span class="n">myarray</span><span class="p">.</span><span class="n">end</span><span class="p">();</span> <span class="o">++</span><span class="n">it</span> <span class="p">)</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="sc">' '</span> <span class="o">&lt;&lt;</span> <span class="o">*</span><span class="n">it</span><span class="p">;</span>
+
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="sc">'\n'</span><span class="p">;</span>
+
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<h4 id="复杂度-1">复杂度</h4>
+<p>常量复杂度</p>
+
+<h4 id="数据竞争-1">数据竞争</h4>
+<p>同begin()</p>
+
+<h4 id="异常安全-1">异常安全</h4>
+<p>同begin()</p>
+
+<h3 id="stdarrayrbegin"><code class="language-plaintext highlighter-rouge">std::array::rbegin</code></h3>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code><span class="n">reverse_iterator</span> <span class="n">rbegin</span><span class="p">()</span> <span class="k">noexcept</span><span class="p">;</span>
+<span class="n">const_reverse_iterator</span> <span class="n">rbegin</span><span class="p">()</span> <span class="k">const</span> <span class="k">noexcept</span><span class="p">;</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<p><strong>返回指向最后一个元素的</strong>
+返回array容器中指向最后一个元素的反向迭代器。</p>
+
+<p><code class="language-plaintext highlighter-rouge">rbegin</code>指向<code class="language-plaintext highlighter-rouge">end</code>指向元素的前一个元素。</p>
+
+<p>注意，不像<code class="language-plaintext highlighter-rouge">array::back</code>，它返回的是最后一个元素的引用，<code class="language-plaintext highlighter-rouge">rbegin</code>返回的是最后一个元素的反向随机访问迭代器。</p>
+
+<h4 id="返回值-1">返回值</h4>
+<p>序列中最后一个元素的反向迭代器。</p>
+
+<p>如果当前的array对象是const的，该函数返回<code class="language-plaintext highlighter-rouge">const_iterator</code>，否则，返回<code class="language-plaintext highlighter-rouge">iterator</code>。</p>
+
+<p><code class="language-plaintext highlighter-rouge">reverse_iterator</code>和<code class="language-plaintext highlighter-rouge">const_reverse_iterator</code>这两种成员类型是反向随机访问迭代器类型（分别指向一个元素和一个const元素）。</p>
+
+<h4 id="示例-2">示例</h4>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16</pre></td><td class="code"><pre class="highlight"><code><span class="c1">// array::rbegin/rend</span>
+<span class="cp">#include &lt;iostream&gt;
+#include &lt;array&gt;
+</span>
+<span class="kt">int</span> <span class="nf">main</span> <span class="p">()</span>
+<span class="p">{</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span><span class="mi">4</span><span class="o">&gt;</span> <span class="n">myarray</span> <span class="o">=</span> <span class="p">{</span><span class="mi">4</span><span class="p">,</span> <span class="mi">26</span><span class="p">,</span> <span class="mi">80</span><span class="p">,</span> <span class="mi">14</span><span class="p">}</span> <span class="p">;</span>
+
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"myarray contains:"</span><span class="p">;</span>
+  <span class="k">for</span> <span class="p">(</span> <span class="k">auto</span> <span class="n">rit</span><span class="o">=</span><span class="n">myarray</span><span class="p">.</span><span class="n">rbegin</span><span class="p">()</span> <span class="p">;</span> <span class="n">rit</span> <span class="o">&lt;</span> <span class="n">myarray</span><span class="p">.</span><span class="n">rend</span><span class="p">();</span> <span class="o">++</span><span class="n">rit</span> <span class="p">)</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="sc">' '</span> <span class="o">&lt;&lt;</span> <span class="o">*</span><span class="n">rit</span><span class="p">;</span>
+
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="sc">'\n'</span><span class="p">;</span>
+
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<h4 id="复杂度-2">复杂度</h4>
+<p>常量复杂度</p>
+
+<h4 id="数据竞争-2">数据竞争</h4>
+<p>该函数的调用不会访问容器中的元素，但是返回的迭代器可用于访问和修改元素。并发地访问和修改容器中不同的元素时安全的。</p>
+
+<h4 id="异常安全-2">异常安全</h4>
+<p>不会抛出异常：该成员函数不会抛出异常。返回的迭代器的拷贝构造函数和赋值都不会抛出异常。</p>
+
+<h3 id="stdarrayrend"><code class="language-plaintext highlighter-rouge">std::array::rend</code></h3>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code><span class="n">reverse_iterator</span> <span class="n">rend</span><span class="p">()</span> <span class="k">noexcept</span><span class="p">;</span>
+<span class="n">const_reverse_iterator</span> <span class="n">rend</span><span class="p">()</span> <span class="k">const</span> <span class="k">noexcept</span><span class="p">;</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<p>返回array中指向第一个元素之前的理论元素（该元素被称为<code class="language-plaintext highlighter-rouge">reverse end</code>）的反向迭代器。</p>
+
+<h3 id="stdarraycbegin"><code class="language-plaintext highlighter-rouge">std::array::cbegin</code></h3>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code><span class="n">const_iterator</span> <span class="n">cbegin</span><span class="p">()</span> <span class="k">const</span> <span class="k">noexcept</span><span class="p">;</span>
+</code></pre></td></tr></tbody></table></div></div>
+<p><strong>返回指向第一个元素的常量迭代器</strong></p>
+
+<p>返回指向array容器中第一个元素的<code class="language-plaintext highlighter-rouge">const_iterator</code>。</p>
+
+<p>一个<code class="language-plaintext highlighter-rouge">const_iterator</code>是一个指向内容为const类型的迭代器。这个迭代器可以通过自增自减来偏移（除非这个迭代器本身是const修饰的），除了不能修改指向的内容，其他功能和<code class="language-plaintext highlighter-rouge">array::begin</code>相同。</p>
+
+<h3 id="stdarraycend"><code class="language-plaintext highlighter-rouge">std::array::cend</code></h3>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code><span class="n">const_iterator</span> <span class="n">cend</span><span class="p">()</span> <span class="k">const</span> <span class="k">noexcept</span><span class="p">;</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<p>指向array容器中的<code class="language-plaintext highlighter-rouge">past-the-end</code>元素的<code class="language-plaintext highlighter-rouge">const_iterator</code>。</p>
+
+<p><code class="language-plaintext highlighter-rouge">const_iterator</code>指向的内容是const的。这个迭代器可以自增和自减（除非迭代器本身是const的），除了不能修改指向的元素内容，其他效果和<code class="language-plaintext highlighter-rouge">array::end</code>相同。</p>
+
+<h3 id="stdarraycrbegin"><code class="language-plaintext highlighter-rouge">std::array::crbegin</code></h3>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code><span class="n">const_reverse_iterator</span> <span class="n">crbegin</span><span class="p">()</span> <span class="k">const</span> <span class="k">noexcept</span><span class="p">;</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<p>返回指向array中最后一个元素的<code class="language-plaintext highlighter-rouge">const_reverse_iterator</code>。</p>
+
+<p><code class="language-plaintext highlighter-rouge">const_reverse_iterator</code>是一个执行const内容的迭代器，并且进行反向迭代。这个迭代器可以自增和自减（除非迭代器本身是const的），除了不能修改指向的元素内容，其他效果和<code class="language-plaintext highlighter-rouge">array::rbegin</code>相同。</p>
+
+<h3 id="stdarraycrend"><code class="language-plaintext highlighter-rouge">std::array::crend</code></h3>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code><span class="n">const_reverse_iterator</span> <span class="n">crend</span><span class="p">()</span> <span class="k">const</span> <span class="k">noexcept</span><span class="p">;</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<p>返回array中指向第一个元素之前的理论元素（被称为reverse end）的<code class="language-plaintext highlighter-rouge">const_reverse_iterator</code>。</p>
+
+<p><code class="language-plaintext highlighter-rouge">const_reverse_iterator</code>是一个执行const内容的迭代器，并且进行反向迭代。这个迭代器可以自增和自减（除非迭代器本身是const的），除了不能修改指向的元素内容，其他效果和<code class="language-plaintext highlighter-rouge">array::rend</code>相同。</p>
+
+<h3 id="stdarraysize"><code class="language-plaintext highlighter-rouge">std::array::size</code></h3>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code><span class="k">constexpr</span> <span class="n">size_type</span> <span class="n">size</span><span class="p">()</span> <span class="k">noexcept</span><span class="p">;</span> 
+</code></pre></td></tr></tbody></table></div></div>
+
+<p>返回array容器中的元素数量。</p>
+
+<p>array对象的大小和第二个模板参数相同。</p>
+
+<p>与<code class="language-plaintext highlighter-rouge">sizeof</code>不同，<code class="language-plaintext highlighter-rouge">sizeof</code>是用来返回多少字节的，该函数用来返回array中的元素个数。</p>
+
+<h3 id="stdarraymax_size"><code class="language-plaintext highlighter-rouge">std::array::max_size</code></h3>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code><span class="k">constexpr</span> <span class="n">size_type</span> <span class="n">max_size</span><span class="p">()</span> <span class="k">noexcept</span><span class="p">;</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<p>返回array容器能容纳的最多的元素个数。</p>
+
+<p><code class="language-plaintext highlighter-rouge">max_size</code>总是和<code class="language-plaintext highlighter-rouge">size</code>相同，是第二个模板参数初始化的值。</p>
+
+<h3 id="stdarrayempty"><code class="language-plaintext highlighter-rouge">std::array::empty</code></h3>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code><span class="k">constexpr</span> <span class="kt">bool</span> <span class="n">empty</span><span class="p">()</span> <span class="k">noexcept</span><span class="p">;</span>
+</code></pre></td></tr></tbody></table></div></div>
+<p>返回array容器是否为空，即<code class="language-plaintext highlighter-rouge">size</code>是否为0。</p>
+
+<h3 id="stdarrayoperator"><code class="language-plaintext highlighter-rouge">std::array::operator[]</code></h3>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code><span class="n">reference</span> <span class="k">operator</span><span class="p">[]</span> <span class="p">(</span><span class="n">size_type</span> <span class="n">n</span><span class="p">);</span>
+<span class="n">const_reference</span> <span class="k">operator</span><span class="p">[]</span> <span class="p">(</span><span class="n">size_type</span> <span class="n">n</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+      
+      
+
+      
+      
+        <div class="post-nav" id="post-nav-id">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/c++/std/2020/02/13/%E4%B8%BA%E4%BB%80%E4%B9%88%E5%86%99std%E7%9B%B8%E5%85%B3%E7%9A%84%E5%8D%9A%E5%AE%A2/" rel="next" title="为什么写std相关的博客">
+                <i class="fa fa-chevron-left"></i> 为什么写std相关的博客
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/%E8%99%9A%E6%8B%9F%E6%9C%BA/2020/01/26/VirtualBox-NAT%E7%BD%91%E7%BB%9C%E5%8A%A0Host-Only%E9%85%8D%E7%BD%AE/" rel="prev" title="VirtualBox-NAT网络加Host-Only配置">
+                VirtualBox-NAT网络加Host-Only配置 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+      
+
+      
+    </footer>
+  </article>
+
+  <div class="post-spread">
+    
+  </div>
+</div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        
+        
+        
+
+
+
+
+
+
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/assets/images/avatar.gif"
+               alt="John Doe" />
+          <p class="site-author-name" itemprop="name">John Doe</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+        
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+
+
+
+
+
+
+
+            
+              <div class="post-toc-content">
+    <ol class=nav>
+      <li class="nav-item nav-level-2"> <a class="nav-link" href="#array-class简介"> <span class="nav-number">1</span> <span class="nav-text">Array class简介</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#容器特性"> <span class="nav-number">2</span> <span class="nav-text">容器特性</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#顺序的"> <span class="nav-number">2.1</span> <span class="nav-text">顺序的：</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#连续存储的"> <span class="nav-number">2.2</span> <span class="nav-text">连续存储的：</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#固定大小的聚合"> <span class="nav-number">2.3</span> <span class="nav-text">固定大小的聚合</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#模板参数"> <span class="nav-number">3</span> <span class="nav-text">模板参数</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#成员类型"> <span class="nav-number">4</span> <span class="nav-text">成员类型</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#成员函数"> <span class="nav-number">5</span> <span class="nav-text">成员函数</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#stdarraybegin"> <span class="nav-number">5.1</span> <span class="nav-text">std::array::begin</code</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#返回类型"> <span class="nav-number">5.1.1</span> <span class="nav-text">返回类型</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#示例"> <span class="nav-number">5.1.2</span> <span class="nav-text">示例</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#复杂度"> <span class="nav-number">5.1.3</span> <span class="nav-text">复杂度</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#数据竞争"> <span class="nav-number">5.1.4</span> <span class="nav-text">数据竞争</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#异常安全"> <span class="nav-number">5.1.5</span> <span class="nav-text">异常安全</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#stdarrayend"> <span class="nav-number">5.2</span> <span class="nav-text">std::array::end</code</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#返回值"> <span class="nav-number">5.2.1</span> <span class="nav-text">返回值</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#示例-1"> <span class="nav-number">5.2.2</span> <span class="nav-text">示例</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#复杂度-1"> <span class="nav-number">5.2.3</span> <span class="nav-text">复杂度</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#数据竞争-1"> <span class="nav-number">5.2.4</span> <span class="nav-text">数据竞争</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#异常安全-1"> <span class="nav-number">5.2.5</span> <span class="nav-text">异常安全</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#stdarrayrbegin"> <span class="nav-number">5.3</span> <span class="nav-text">std::array::rbegin</code</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#返回值-1"> <span class="nav-number">5.3.1</span> <span class="nav-text">返回值</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#示例-2"> <span class="nav-number">5.3.2</span> <span class="nav-text">示例</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#复杂度-2"> <span class="nav-number">5.3.3</span> <span class="nav-text">复杂度</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#数据竞争-2"> <span class="nav-number">5.3.4</span> <span class="nav-text">数据竞争</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#异常安全-2"> <span class="nav-number">5.3.5</span> <span class="nav-text">异常安全</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#stdarrayrend"> <span class="nav-number">5.4</span> <span class="nav-text">std::array::rend</code</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#stdarraycbegin"> <span class="nav-number">5.5</span> <span class="nav-text">std::array::cbegin</code</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#stdarraycend"> <span class="nav-number">5.6</span> <span class="nav-text">std::array::cend</code</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#stdarraycrbegin"> <span class="nav-number">5.7</span> <span class="nav-text">std::array::crbegin</code</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#stdarraycrend"> <span class="nav-number">5.8</span> <span class="nav-text">std::array::crend</code</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#stdarraysize"> <span class="nav-number">5.9</span> <span class="nav-text">std::array::size</code</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#stdarraymax_size"> <span class="nav-number">5.10</span> <span class="nav-text">std::array::max_size</code</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#stdarrayempty"> <span class="nav-number">5.11</span> <span class="nav-text">std::array::empty</code</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#stdarrayoperator"> <span class="nav-number">5.12</span> <span class="nav-text">std::array::operator[]</code</span> </a> </li> </ol> </li>
+    </ol>
+  </div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://jekyllrb.com">Jekyll</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/simpleyyt/jekyll-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+   
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/assets/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/assets/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  <script type="text/javascript" src="/assets/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/assets/js/src/post-details.js?v=5.1.1"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/assets/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+    
+
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
+

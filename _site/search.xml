@@ -2,6 +2,40 @@
 <search>
   
     <entry>
+      <title><![CDATA[为什么写std相关的博客]]></title>
+      <url>/c++/std/2020/02/13/%E4%B8%BA%E4%BB%80%E4%B9%88%E5%86%99std%E7%9B%B8%E5%85%B3%E7%9A%84%E5%8D%9A%E5%AE%A2/</url>
+      <content type="text"><![CDATA[引  对cplusplus页面进行翻译的目的：因为英文不是很6，怕后面对一些英文解释不太理解，先记录一下，便于后面理解。  stl中有一些算法或设计可能比较难理解，先记录一下当前的思路，便于后面回顾理解。]]></content>
+      <categories>
+        
+          <category> C++ </category>
+        
+          <category> std </category>
+        
+      </categories>
+      <tags>
+        
+      </tags>
+      <tags></tags>
+    </entry>
+  
+    <entry>
+      <title><![CDATA[std-array简介翻译]]></title>
+      <url>/c++/std/2020/02/12/std-array%E7%AE%80%E4%BB%8B%E7%BF%BB%E8%AF%91/</url>
+      <content type="text"><![CDATA[Array class简介array类是一个固定长度的容器：它线性存放着一定数量的元素。由该类内部来说，一个array对象除了存储元素，不需要存储其他数据（甚至不用存储数组大小，因为数组大小已经作为模板参数，在编译阶段是不变的）。从存储大小来说，array类与普通数组（以中括号[]声明的数组）一样高效。该类仅仅在原来普通数组的基础上增加了一层，该层存储了数字和全局函数，因此array可以用作标准容器。不像其他标准容器，array有固定大小，不能通过内存分配器进行元素的内存分配：它是一种封装了固定元素数组的一种聚合类型。因此，该类型的对象不能动态的扩展或缩减（如果想使用一个类似数组的、可以扩展的容器，可以使用vector来代替）。大小为0的array是可以使用的，但是不能被解引用（例如成员函数front，back，data）。不像其他的STL中的容器，交换两个array容器是一个线性操作，该操作将逐个交换容器中的元素，因此该操作是一个低效的操作。另一方面，这允许两个容器中的迭代器保持原有的容器关联。（On the other side, this allows the iterators to elements in both containers to keep their original container association.）另一个array容器独有的特征是，它可以被当做tuple对象：头文件重载了`get`函数，从而可以获取数组中的元素，这种特征好比它是一个tuple，也可以通过`tuple_size`和`tuple_element`来确定。容器特性顺序的：顺序容器中的元素按照严格的线性顺序排列。 单个元素通过它在序列中的位置来访问。连续存储的：元素存储于连续的内存位置中，允许以固定时间随机访问元素。指向一个元素的指针可以通过偏移（位置）访问其他元素。固定大小的聚合容器通过隐式的构造函数和析构函数静态分配需要的内存空间。容器大小在编译阶段是固定的。没有内存或时间上的天花板（No memory or time overhead.）模板参数T：包含元素的类型。array::value_type的别名。N：array的大小，表示元素的数量。array的成员函数中，与上述名称相同的引用即模板参数。成员类型以下是array成员类型的别名。这些类型常被作为参数或者成员函数的返回类型：            member type      definition      notes                  value_type      The first template parameter (T)                     reference      value_type&amp;                     const_reference      const value_type&amp;                     pointer      value_type*                     const_pointer      const value_type*                     iterator      a random access iterator to value_type      convertible to const_iterator              const_iterator      a random access iterator to const value_type                     reverse_iterator      reverse_iterator&lt;iterator&gt;                     const_reverse_iterator      reverse_iterator&lt;const_iterator&gt;                     size_type      size_t      unsigned integral type              difference_type      ptrdiff_t      signed integral type      成员函数std::array::beginiterator begin() noexcept;const_iterator begin() const noexcept;返回第一个元素的迭代器返回指向array容器的第一个元素的迭代器。注意，不像array::front，array::front返回的是第一个元素的引用，而这个函数返回的是指向第一个元素的随机访问迭代器。对于大小为0的array，这个函数的返回值与array::end相同，但是返回的这个迭代器不能被解引用。返回类型一个指向序列开头的迭代器。如果当前的array对象是const的，该函数返回const_iterator，否则，返回iterator。iterator和const_iterator这两种成员类型是随机访问迭代器类型（分别指向一个元素和一个const元素）。示例// array::begin example#include &lt;iostream&gt;#include &lt;array&gt;int main (){  std::array&lt;int,5&gt; myarray = { 2, 16, 77, 34, 50 };  std::cout &lt;&lt; "myarray contains:";  for ( auto it = myarray.begin(); it != myarray.end(); ++it )    std::cout &lt;&lt; ' ' &lt;&lt; *it;  std::cout &lt;&lt; '\n';  return 0;}复杂度常量复杂度数据竞争该函数的调用不会访问容器中的元素，但是返回的迭代器可用于访问和修改元素。并发地访问和修改容器中不同的元素时安全的。异常安全不会抛出异常：该成员函数不会抛出异常。返回的迭代器的拷贝构造函数和赋值都不会抛出异常。std::array::enditerator end() noexcept;const_iterator end() const noexcept;返回最后一个的迭代器返回array容器中指向past-the-end元素的迭代器。past-the-end元素是跟在array中最后一个元素之后的理论元素。它不指向任何元素，因此不能被解引用。STL库中的函数指向的范围不包括结尾的迭代器，该函数常用于配合array::begin来指定包含容器中所有元素的范围。在大小为0的array中，该函数的返回与array::begin相同。返回值指向序列最后一个元素后面一个理论元素。如果当前的array对象是const的，该函数返回const_iterator，否则，返回iterator。iterator和const_iterator这两种成员类型是随机访问迭代器类型（分别指向一个元素和一个const元素）。示例// array::end example#include &lt;iostream&gt;#include &lt;array&gt;int main (){  std::array&lt;int,5&gt; myarray = { 5, 19, 77, 34, 99 };  std::cout &lt;&lt; "myarray contains:";  for ( auto it = myarray.begin(); it != myarray.end(); ++it )    std::cout &lt;&lt; ' ' &lt;&lt; *it;  std::cout &lt;&lt; '\n';  return 0;}复杂度常量复杂度数据竞争同begin()异常安全同begin()std::array::rbeginreverse_iterator rbegin() noexcept;const_reverse_iterator rbegin() const noexcept;返回指向最后一个元素的返回array容器中指向最后一个元素的反向迭代器。rbegin指向end指向元素的前一个元素。注意，不像array::back，它返回的是最后一个元素的引用，rbegin返回的是最后一个元素的反向随机访问迭代器。返回值序列中最后一个元素的反向迭代器。如果当前的array对象是const的，该函数返回const_iterator，否则，返回iterator。reverse_iterator和const_reverse_iterator这两种成员类型是反向随机访问迭代器类型（分别指向一个元素和一个const元素）。示例// array::rbegin/rend#include &lt;iostream&gt;#include &lt;array&gt;int main (){  std::array&lt;int,4&gt; myarray = {4, 26, 80, 14} ;  std::cout &lt;&lt; "myarray contains:";  for ( auto rit=myarray.rbegin() ; rit &lt; myarray.rend(); ++rit )    std::cout &lt;&lt; ' ' &lt;&lt; *rit;  std::cout &lt;&lt; '\n';  return 0;}复杂度常量复杂度数据竞争该函数的调用不会访问容器中的元素，但是返回的迭代器可用于访问和修改元素。并发地访问和修改容器中不同的元素时安全的。异常安全不会抛出异常：该成员函数不会抛出异常。返回的迭代器的拷贝构造函数和赋值都不会抛出异常。std::array::rendreverse_iterator rend() noexcept;const_reverse_iterator rend() const noexcept;返回array中指向第一个元素之前的理论元素（该元素被称为reverse end）的反向迭代器。std::array::cbeginconst_iterator cbegin() const noexcept;返回指向第一个元素的常量迭代器返回指向array容器中第一个元素的const_iterator。一个const_iterator是一个指向内容为const类型的迭代器。这个迭代器可以通过自增自减来偏移（除非这个迭代器本身是const修饰的），除了不能修改指向的内容，其他功能和array::begin相同。std::array::cendconst_iterator cend() const noexcept;指向array容器中的past-the-end元素的const_iterator。const_iterator指向的内容是const的。这个迭代器可以自增和自减（除非迭代器本身是const的），除了不能修改指向的元素内容，其他效果和array::end相同。std::array::crbeginconst_reverse_iterator crbegin() const noexcept;返回指向array中最后一个元素的const_reverse_iterator。const_reverse_iterator是一个执行const内容的迭代器，并且进行反向迭代。这个迭代器可以自增和自减（除非迭代器本身是const的），除了不能修改指向的元素内容，其他效果和array::rbegin相同。std::array::crendconst_reverse_iterator crend() const noexcept;返回array中指向第一个元素之前的理论元素（被称为reverse end）的const_reverse_iterator。const_reverse_iterator是一个执行const内容的迭代器，并且进行反向迭代。这个迭代器可以自增和自减（除非迭代器本身是const的），除了不能修改指向的元素内容，其他效果和array::rend相同。std::array::sizeconstexpr size_type size() noexcept; 返回array容器中的元素数量。array对象的大小和第二个模板参数相同。与sizeof不同，sizeof是用来返回多少字节的，该函数用来返回array中的元素个数。std::array::max_sizeconstexpr size_type max_size() noexcept;返回array容器能容纳的最多的元素个数。max_size总是和size相同，是第二个模板参数初始化的值。std::array::emptyconstexpr bool empty() noexcept;返回array容器是否为空，即size是否为0。std::array::operator[]reference operator[] (size_type n);const_reference operator[] (size_type n) const;]]></content>
+      <categories>
+        
+          <category> C++ </category>
+        
+          <category> std </category>
+        
+      </categories>
+      <tags>
+        
+      </tags>
+      <tags></tags>
+    </entry>
+  
+    <entry>
       <title><![CDATA[VirtualBox-NAT网络加Host-Only配置]]></title>
       <url>/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/%E8%99%9A%E6%8B%9F%E6%9C%BA/2020/01/26/VirtualBox-NAT%E7%BD%91%E7%BB%9C%E5%8A%A0Host-Only%E9%85%8D%E7%BD%AE/</url>
       <content type="text"><![CDATA[步骤      在VirtualBox中新建虚拟机        全局工具中关于host-only的配置（一般安装好VirtualBox之后，在网络中会多出一个HostOnly的网络）：    全局设定中关于NAT网络的设置：  右键新建的虚拟机，点击设置，点击网络，网卡1和网卡2的设置如下：      安装Ubuntu 18.04 Server        ifconfig -a查看网络信息，其中enp0s3是NAT网络，enp0s8是Host-Only网络，需要在文件/etc/netplan/50-cloud-init.yaml作如下配置：  network:    ethernets:        enp0s3:            dhcp4: true        enp0s8:            dhcp4: false            dhcp6: false            addresses: [192.168.56.101/24]    version: 2  输入以下命令使配置生效，并通过ifconfig查看是否ip为配置的ip:netplan apply  可以通过xshell访问192.168.56.101:22]]></content>
