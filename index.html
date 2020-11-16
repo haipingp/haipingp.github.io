@@ -140,11 +140,15 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="一、malloc"><a href="#一、malloc" class="headerlink" title="一、malloc"></a>一、malloc</h2><ul>
-<li>redis内存管理中实现了对多种接口的封装，tcmalloc(google)，jemalloc(facebook)，其他（mac系统等）;</li>
-<li>redis3.0中linux使用的是jemalloc。其中Makefile中读取到系统类型<code>uname_S</code>是<code>Linux</code>，设置<code>MALLOC=jemalloc</code>。后面判断MALLOC为jemalloc时，定义环境变量<code>USE_JEMALLOC</code></li>
+        <h2 id="一、zmalloc-size-t-size"><a href="#一、zmalloc-size-t-size" class="headerlink" title="一、zmalloc(size_t size)"></a>一、<code>zmalloc(size_t size)</code></h2><ul>
+<li><code>void *ptr = malloc(size+PREFIX_SIZE);</code>中调用了malloc函数，并且该函数分配内存时，增加了<code>PREFIX_SIZE</code>的大小；</li>
+<li>下面是<code>PREFIX_SIZE</code>的定义，定义了<code>HAVE_MALLOC_SIZE</code>时，<code>PREFIX_SIZE</code>为0，否则根据下面的条件有两种大小：<code>sizeof(long long)</code>和<code>sizeof(size_t)</code></li>
 </ul>
-
+        
+          <p class="article-more-link">
+            <a href="/2020/10/14/2020-10-14-Redis%E4%BB%A3%E7%A0%81%E4%B8%AD%E7%9A%84%E5%86%85%E5%AD%98%E5%88%86%E9%85%8Dzmalloc/#more">Read More</a>
+          </p>
+        
       
     </div>
     <footer class="article-footer">
