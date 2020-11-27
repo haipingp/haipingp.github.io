@@ -15,7 +15,7 @@
 <meta property="og:description" content="一、zmalloc(size_t size)">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-10-14T15:19:15.000Z">
-<meta property="article:modified_time" content="2020-11-17T15:29:20.976Z">
+<meta property="article:modified_time" content="2020-11-27T15:39:47.082Z">
 <meta property="article:author" content="haipingpang">
 <meta name="twitter:card" content="summary">
   
@@ -106,16 +106,27 @@
 <li>因此，根据上面可知，根据不同的系统来决定，是否需要定义<code>PREFIX_SIZE</code>来表示内存的大小。</li>
 </ul>
 <h3 id="1-3-update-zmalloc-stat-alloc-zmalloc-size-ptr"><a href="#1-3-update-zmalloc-stat-alloc-zmalloc-size-ptr" class="headerlink" title="1.3 update_zmalloc_stat_alloc(zmalloc_size(ptr));"></a>1.3 <code>update_zmalloc_stat_alloc(zmalloc_size(ptr));</code></h3><ul>
-<li>函数<code>update_zmalloc_stat_alloc</code>用于更新已分配的内存大小</li>
-<li>从下面代码可知，没有定义<code>HAVE_MALLOC_SIZE</code>、有<code>PREFIX_SIZE</code>时，采用下面定义的函数<code>zmalloc_size</code>。这里ptr指向的是分配的内存开始位置，在存放内存大小的内存之后，因此<code>realptr</code>用于指向存放内存大小的头部。<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> HAVE_MALLOC_SIZE</span></span><br><span class="line"><span class="function"><span class="keyword">size_t</span> <span class="title">zmalloc_size</span><span class="params">(<span class="keyword">void</span> *ptr)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">void</span> *realptr = (<span class="keyword">char</span>*)ptr-PREFIX_SIZE;</span><br><span class="line">    <span class="keyword">size_t</span> size = *((<span class="keyword">size_t</span>*)realptr);</span><br><span class="line">    <span class="comment">/* Assume at least that all the allocations are padded at sizeof(long) by</span></span><br><span class="line"><span class="comment">     * the underlying allocator. */</span></span><br><span class="line">    <span class="keyword">if</span> (size&amp;(<span class="keyword">sizeof</span>(<span class="keyword">long</span>)<span class="number">-1</span>)) size += <span class="keyword">sizeof</span>(<span class="keyword">long</span>)-(size&amp;(<span class="keyword">sizeof</span>(<span class="keyword">long</span>)<span class="number">-1</span>));</span><br><span class="line">    <span class="keyword">return</span> size+PREFIX_SIZE;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
-
+<li><p>函数<code>update_zmalloc_stat_alloc</code>用于更新已分配的内存大小</p>
+</li>
+<li><p>从下面代码可知，没有定义<code>HAVE_MALLOC_SIZE</code>、有<code>PREFIX_SIZE</code>时，采用下面定义的函数<code>zmalloc_size</code>。这里ptr指向的是分配的内存开始位置，在存放内存大小的内存之后，因此<code>realptr</code>用于指向存放内存大小的头部。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> HAVE_MALLOC_SIZE</span></span><br><span class="line"><span class="function"><span class="keyword">size_t</span> <span class="title">zmalloc_size</span><span class="params">(<span class="keyword">void</span> *ptr)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">void</span> *realptr = (<span class="keyword">char</span>*)ptr-PREFIX_SIZE;</span><br><span class="line">    <span class="keyword">size_t</span> size = *((<span class="keyword">size_t</span>*)realptr);</span><br><span class="line">    <span class="comment">/* Assume at least that all the allocations are padded at sizeof(long) by</span></span><br><span class="line"><span class="comment">     * the underlying allocator. */</span></span><br><span class="line">    <span class="keyword">if</span> (size&amp;(<span class="keyword">sizeof</span>(<span class="keyword">long</span>)<span class="number">-1</span>)) size += <span class="keyword">sizeof</span>(<span class="keyword">long</span>)-(size&amp;(<span class="keyword">sizeof</span>(<span class="keyword">long</span>)<span class="number">-1</span>));</span><br><span class="line">    <span class="keyword">return</span> size+PREFIX_SIZE;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>update_zmalloc_stat_alloc</code>函数：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> update_zmalloc_stat_alloc(__n) do &#123; \</span></span><br><span class="line">    <span class="keyword">size_t</span> _n = (__n); \</span><br><span class="line">    <span class="keyword">if</span> (_n&amp;(<span class="keyword">sizeof</span>(<span class="keyword">long</span>)<span class="number">-1</span>)) _n += <span class="keyword">sizeof</span>(<span class="keyword">long</span>)-(_n&amp;(<span class="keyword">sizeof</span>(<span class="keyword">long</span>)<span class="number">-1</span>)); \  </span><br><span class="line">    <span class="keyword">if</span> (zmalloc_thread_safe) &#123; \</span><br><span class="line">        update_zmalloc_stat_add(_n); \</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123; \</span><br><span class="line">        used_memory += _n; \</span><br><span class="line">    &#125; \</span><br><span class="line">&#125; <span class="keyword">while</span>(<span class="number">0</span>)</span><br></pre></td></tr></table></figure></li>
+<li><p><code>update_zmalloc_stat_alloc</code>函数的第三行等价于<code>if(_n&amp;7) _n += 8 - (_n&amp;7);</code>，用于判断<code>_n</code>是否为8的倍数，如果不是8的倍数，加上相应的偏移量，使之为8的倍数。这里不用<code>_%8</code>是因为位操作效率更高。</p>
+</li>
+<li><p>之前malloc分配内存时，需要补齐为8的倍数的。因此，这里通过这样补齐<code>_n</code>才能正确计算占用的内存字节数。</p>
+</li>
+<li><p>这里如果是线程安全的话，需要采用系统的原子增加n接口<code>__sync_add_and_fetch</code>，或者线程锁;如果不需要线程安全的话，直接给<code>used_memory</code>加n就行。</p>
+</li>
+<li><p>在<code>zcalloc</code>函数中，如果未定义<code>HAVE_MALLOC_SIZE</code>，需要通过分配的额外<code>PREFIX_SIZE</code>空间来自行存储分配的内存大小。</p>
 </li>
 </ul>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/10/14/2020-10-14-Redis%E4%BB%A3%E7%A0%81%E4%B8%AD%E7%9A%84%E5%86%85%E5%AD%98%E5%88%86%E9%85%8Dzmalloc/" data-id="ckhm4j40i000fewpvdsc86mr3" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/10/14/2020-10-14-Redis%E4%BB%A3%E7%A0%81%E4%B8%AD%E7%9A%84%E5%86%85%E5%AD%98%E5%88%86%E9%85%8Dzmalloc/" data-id="cki0fsths000fikpv5tx3dnw7" class="article-share-link">Share</a>
       
       
     </footer>
