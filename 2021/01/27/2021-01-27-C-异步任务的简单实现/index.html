@@ -17,7 +17,7 @@
 <meta property="og:image" content="http://yoursite.com/2021/01/27/2021-01-27-C-%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1%E7%9A%84%E7%AE%80%E5%8D%95%E5%AE%9E%E7%8E%B0/async.png">
 <meta property="og:image" content="http://yoursite.com/2021/01/27/2021-01-27-C-%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1%E7%9A%84%E7%AE%80%E5%8D%95%E5%AE%9E%E7%8E%B0/launch_policy.png">
 <meta property="article:published_time" content="2021-01-27T14:52:48.000Z">
-<meta property="article:modified_time" content="2021-01-27T16:21:15.389Z">
+<meta property="article:modified_time" content="2021-01-31T08:11:39.729Z">
 <meta property="article:author" content="haipingpang">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://yoursite.com/2021/01/27/2021-01-27-C-%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1%E7%9A%84%E7%AE%80%E5%8D%95%E5%AE%9E%E7%8E%B0/async.png">
@@ -96,7 +96,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h2 id="一、std-async基础使用"><a href="#一、std-async基础使用" class="headerlink" title="一、std::async基础使用"></a>一、<code>std::async</code>基础使用</h2><ul>
-<li>下面是该函数的参数模板：<br><img src="/2021/01/27/2021-01-27-C-%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1%E7%9A%84%E7%AE%80%E5%8D%95%E5%AE%9E%E7%8E%B0/async.png" alt="async的函数模板"></li>
+<li>下面是该函数的参数模板：<br><img src="/2021/01/27/2021-01-27-C-%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1%E7%9A%84%E7%AE%80%E5%8D%95%E5%AE%9E%E7%8E%B0/async.png" alt="async的函数签名"></li>
 </ul>
 <a id="more"></a>
 
@@ -105,7 +105,7 @@
 </li>
 <li><p>通过<code>async</code>返回的<code>future</code>对象得到<code>fn</code>函数的执行结果（通过future的成员函数<code>future::get</code>获得）</p>
 </li>
-<li><p>第二种函数模板中，可以通过第一个参数<code>launch policy</code>来指定创建线程的方式:<br><img src="/2021/01/27/2021-01-27-C-%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1%E7%9A%84%E7%AE%80%E5%8D%95%E5%AE%9E%E7%8E%B0/launch_policy.png" alt="launch policy"></p>
+<li><p>第二种函数签名，可以通过第一个参数<code>launch policy</code>来指定创建线程的方式:<br><img src="/2021/01/27/2021-01-27-C-%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1%E7%9A%84%E7%AE%80%E5%8D%95%E5%AE%9E%E7%8E%B0/launch_policy.png" alt="launch policy"></p>
 <ol>
 <li><code>launch::async</code>: 在调用async的同时，异步创建线程执行<code>fn</code>函数，并通过<code>get</code>获得共享状态(shared state)</li>
 <li><code>launch::deferred</code>: 直到调用<code>get</code>函数再创建线程</li>
@@ -125,7 +125,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/01/27/2021-01-27-C-%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1%E7%9A%84%E7%AE%80%E5%8D%95%E5%AE%9E%E7%8E%B0/" data-id="ckkfn3wzo000ugcpvbvjo6g6j" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2021/01/27/2021-01-27-C-%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1%E7%9A%84%E7%AE%80%E5%8D%95%E5%AE%9E%E7%8E%B0/" data-id="ckkkvb4ga000ut6pv6axwdw40" class="article-share-link">Share</a>
       
       
     </footer>
