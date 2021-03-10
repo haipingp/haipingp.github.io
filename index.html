@@ -64,6 +64,168 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-2021-03-10-备忘-git基础" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/03/10/2021-03-10-%E5%A4%87%E5%BF%98-git%E5%9F%BA%E7%A1%80/" class="article-date">
+  <time datetime="2021-03-10T03:28:25.000Z" itemprop="datePublished">2021-03-10</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/C/">C++</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/03/10/2021-03-10-%E5%A4%87%E5%BF%98-git%E5%9F%BA%E7%A1%80/">备忘-git基础</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="一、简介"><a href="#一、简介" class="headerlink" title="一、简介"></a>一、简介</h2><ul>
+<li><p>主要摘述和整理了这个博客的内容: <a target="_blank" rel="noopener" href="http://www.linuxidc.com/Linux/2014-05/101829.htm">http://www.linuxidc.com/Linux/2014-05/101829.htm</a></p>
+</li>
+<li><p>Linus开发Linux内核，需要版本控制，于是开发了git</p>
+</li>
+<li><p>集中式管理和分布式管理区别:</p>
+<ol>
+<li>集中式管理：从中央服务器取得最新版本，放在自己电脑，开始修改，修改好后提交到中央服务器；网速不好的话，可能无法提交大文件，影响工作。</li>
+<li>分布式管理: 没有中央服务器，每个电脑都有完整的版本库，如果两台电脑在同一个局域网的话，甚至可以互相推送修改。即使服务器数据丢失，也可以用别的已经同步过版本号的电脑，获得版本信息。<br><img src="/2021/03/10/2021-03-10-%E5%A4%87%E5%BF%98-git%E5%9F%BA%E7%A1%80/central_server.png" alt="集中式管理"><br><img src="/2021/03/10/2021-03-10-%E5%A4%87%E5%BF%98-git%E5%9F%BA%E7%A1%80/distrubuted_server.png" alt="分布式管理"></li>
+</ol>
+</li>
+<li><p>git特点</p>
+<ol>
+<li>分布式</li>
+<li>存储快照而非差异</li>
+<li>本地有完整的版本库，几乎所有操作都在本地</li>
+<li>有内在一致性，SHA1</li>
+<li>分支管理</li>
+<li>支持各种协同模式</li>
+<li>开源，一些第三方软件可整合使用</li>
+</ol>
+</li>
+</ul>
+<h2 id="二、原理"><a href="#二、原理" class="headerlink" title="二、原理"></a>二、原理</h2><ul>
+<li>BLOB:每个blob代表一个（版本的）文件，blob只包含文件的数据，而忽略文件的其他元数据，如名字、路径、格式等</li>
+<li>TREE:每个tree代表了一个目录的信息，包含了此目录下的blobs，子目录（对应于子trees），文件名、路径等元数据。因此，对于有子目录的目录，git相当于存储了嵌套的trees</li>
+<li>COMMIT:每个commit记录了提交一个更新的所有元数据，如指向的tree，父commit，作者、提交者、提交日期、提交日志等。每次提交都指向一个tree对象，记录了当次提交时的目录信息。一个commit可以有多个（至少一个）父commits</li>
+<li>TAG:</li>
+</ul>
+<p><img src="/2021/03/10/2021-03-10-%E5%A4%87%E5%BF%98-git%E5%9F%BA%E7%A1%80/git_tree.png" alt="git基本类型"><br><img src="/2021/03/10/2021-03-10-%E5%A4%87%E5%BF%98-git%E5%9F%BA%E7%A1%80/workflow.png" alt="git工作流程"></p>
+<ul>
+<li>主要分为工作区(Working Dir)，提交区/暂存区(stage/index)，版本库</li>
+</ul>
+<h2 id="三、git配置"><a href="#三、git配置" class="headerlink" title="三、git配置"></a>三、git配置</h2><ul>
+<li> <code>git config</code>后加<code>--global</code>表示所有仓库都使用该配置:<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name &quot;Your Name&quot;</span><br><span class="line">git config --global user.email &quot;email@example.com&quot;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="四、git基本操作"><a href="#四、git基本操作" class="headerlink" title="四、git基本操作"></a>四、git基本操作</h2><ul>
+<li>新建空仓库: <code>git init</code></li>
+<li>在当前目录下新建一个<code>readme.txt</code>文件后，再使用<code>git status</code>查看，发现该文件是<code>untracked files</code>:<br><img src="/2021/03/10/2021-03-10-%E5%A4%87%E5%BF%98-git%E5%9F%BA%E7%A1%80/newfile.png" alt="新建文件"></li>
+<li><code>git add</code>命令告诉git，需要把哪些文件提交到仓库，即将文件加入到暂存区(index)，执行<code>git add readme.txt</code>之后，再使用<code>git status</code>查看状态:<br><img src="/2021/03/10/2021-03-10-%E5%A4%87%E5%BF%98-git%E5%9F%BA%E7%A1%80/addfile.png" alt="添加文件"></li>
+<li><code>git commit</code>命令将文件提交到版本库，提交结果如图所示，<code>1 file changed, 0 insertions(+), 0 deletions(-)</code>,增加了1个文件，没有对原有文件进行删除或增加。<br><img src="/2021/03/10/2021-03-10-%E5%A4%87%E5%BF%98-git%E5%9F%BA%E7%A1%80/commit_result.png" alt="提交文件"></li>
+<li>再使用<code>git status</code>查看状态，说明已经没有改动可以提交:<br><img src="/2021/03/10/2021-03-10-%E5%A4%87%E5%BF%98-git%E5%9F%BA%E7%A1%80/commit_status.png" alt="提交后状态"></li>
+</ul>
+<h2 id="五、修改与回滚"><a href="#五、修改与回滚" class="headerlink" title="五、修改与回滚"></a>五、修改与回滚</h2><ul>
+<li>在readme.txt中增加了一行，再使用<code>git status</code>查看:<br><img src="/2021/03/10/2021-03-10-%E5%A4%87%E5%BF%98-git%E5%9F%BA%E7%A1%80/modify_status.png" alt="修改文件后的状态"></li>
+<li>再使用<code>git diff</code>查看改动的地方，发现是增加了一行:<br><img src="/2021/03/10/2021-03-10-%E5%A4%87%E5%BF%98-git%E5%9F%BA%E7%A1%80/gitdiff.png" alt="git diff查看改动"></li>
+<li>对于以上改动，还是使用相同的方式，先<code>git add</code>，后<code>git commit</code>进行提交</li>
+<li>多次提交后的log，可以通过<code>git log</code>或者<code>git log --pretty=oneline</code>进行查看:<br><img src="/2021/03/10/2021-03-10-%E5%A4%87%E5%BF%98-git%E5%9F%BA%E7%A1%80/gitlog.png" alt="git log"><br><img src="/2021/03/10/2021-03-10-%E5%A4%87%E5%BF%98-git%E5%9F%BA%E7%A1%80/gitlog_oneline.png" alt="git log one line"></li>
+<li><code>HEAD</code>表示最新版本，往<code>HEAD</code>后加<code>^</code>表示向前推一个版本，几个<code>^</code>表示前推几个版本，同时，也可以使用log中的版本号标记一个版本。通过<code>git reset</code>命令回滚到某个版本:<br><img src="/2021/03/10/2021-03-10-%E5%A4%87%E5%BF%98-git%E5%9F%BA%E7%A1%80/git_reset.png" alt="git reset"></li>
+<li>回滚后，结果如图:<br><img src="/2021/03/10/2021-03-10-%E5%A4%87%E5%BF%98-git%E5%9F%BA%E7%A1%80/git_reset_result.png" alt="回滚后log"></li>
+<li>如果回滚后，又后悔了，可以找到原来最新的版本号，同样使用<code>git reset</code>回到原来最新的版本号。</li>
+<li>如果已经关了窗口，找不到原来的版本号了，可以使用<code>git reflog</code>查找到执行过的命令，从中找到需要的版本号，再进行<code>git reset</code></li>
+</ul>
+<h2 id="六、工作区、提交区-暂存区-index-和版本区"><a href="#六、工作区、提交区-暂存区-index-和版本区" class="headerlink" title="六、工作区、提交区/暂存区(index)和版本区"></a>六、工作区、提交区/暂存区(index)和版本区</h2><p><img src="/2021/03/10/2021-03-10-%E5%A4%87%E5%BF%98-git%E5%9F%BA%E7%A1%80/architecture.png" alt="不同区的结构"></p>
+<ul>
+<li>工作区指的是跟<code>.git</code>文件夹平级的其他文件或目录</li>
+<li>版本区在<code>.git</code>文件夹中</li>
+<li>暂存区在<code>.git</code>文件夹的<code>index</code>文件夹中</li>
+<li>左侧为工作区，右侧为版本库，版本库中<code>index</code>部分是暂存区，此时<code>HEAD</code>是指向master分支的一个指针</li>
+<li>图中objects, 对象库，即<code>.git/objects</code>目录</li>
+<li>执行<code>git add</code>之后，暂存区的目录树更新，同时工作区新增/修改的文件被写入到对象库的一个新的对象中，对象id在暂存区索引中</li>
+<li>执行<code>git commit</code>之后，暂存区的目录树写到版本库的对象库中，master分支做相应更新。即master指向的目录树就是提交暂存区的目录树</li>
+<li><code>git reset HEAD</code>, 暂存区的目录树被重写，被master指向的目录树替换, 工作区好像也受影响吧，这里说不受影响。</li>
+<li><code>git rm --cached &lt;file&gt;</code>会从暂存区删除文件，工作区不作出改变</li>
+<li><code>git checkout .</code>,<code>git checkout -- &lt;file&gt;</code>会用暂存区全部或指定文件替换工作区的文件，这个操作危险, 会清除工作区中未添加到暂存区的改动</li>
+<li><code>git checkout HEAD .</code>, <code>git checkout HEAD -- &lt;file&gt;</code>会用HEAD指向的全部或部分文件替换暂存区及工作区文件。操作危险。</li>
+</ul>
+<h2 id="七、不同情况下的撤销修改"><a href="#七、不同情况下的撤销修改" class="headerlink" title="七、不同情况下的撤销修改"></a>七、不同情况下的撤销修改</h2><ul>
+<li>当改错工作区某个文件内容，想直接丢弃工作区的修改时，<code>git checkout -- &lt;file&gt;</code></li>
+<li>当改错工作区某个文件内容、并添加到暂存区时，想丢弃修改，分为两步，第一步，<code>git reset HEAD &lt;file&gt;</code>，回到第一步，第二步按第1步操作，执行<code>git checkout -- &lt;file&gt;</code></li>
+<li>当错误修改已提交到版本库，通过回滚方式回退版本，不过前提是没有推送到远程库</li>
+<li>总结: 将简单的事情弄复杂也是人才啊！原来git并不是用restore的，工作区的用checkout 放弃修改，添加后的用reset head 。这样做指令风险太大。reset的模式就很多。加入restore 就改变了很多，但离完美还差的远。 restore 是对指定区域撤销一步。 工作区域 撤销 git restore 文件名， 执行后 指针指向 Stage Head[0] || Repository Head[0] 短路或的作用，如果暂存区有新版本就直接用暂存区的版本，没有最新就用 仓库最新版本。实际上暂存区的 Head[0] 在没有新加文件都是指向仓库区的。 git restore –staged <file_name> 这个只是针对暂存区撤销一步，指针指向 Repository Head[0]，所以你无论添加多少次操作都是恢复到仓库最后一次提交的指针。</file_name></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2021/03/10/2021-03-10-%E5%A4%87%E5%BF%98-git%E5%9F%BA%E7%A1%80/" data-id="ckm3k6r3400016zpv5shpel0a" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-2021-03-06-备忘-Makefile基础" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/03/06/2021-03-06-%E5%A4%87%E5%BF%98-Makefile%E5%9F%BA%E7%A1%80/" class="article-date">
+  <time datetime="2021-03-06T13:17:25.000Z" itemprop="datePublished">2021-03-06</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/C/">C++</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/03/06/2021-03-06-%E5%A4%87%E5%BF%98-Makefile%E5%9F%BA%E7%A1%80/">备忘-Makefile基础</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="一、Makefile基础"><a href="#一、Makefile基础" class="headerlink" title="一、Makefile基础"></a>一、Makefile基础</h2><ul>
+<li><p>Makefile中的规则语法一般这样:</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">target ... : prerequisites ...</span><br><span class="line">    command</span><br><span class="line">    ...</span><br><span class="line">    ...</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>$^</code>和<code>$@</code>分别表示依赖部分、目标部分</p>
+</li>
+</ul>
+<h2 id="二、Makefile中的-d文件"><a href="#二、Makefile中的-d文件" class="headerlink" title="二、Makefile中的.d文件"></a>二、Makefile中的.d文件</h2>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2021/03/06/2021-03-06-%E5%A4%87%E5%BF%98-Makefile%E5%9F%BA%E7%A1%80/" data-id="ckm3k6r3200006zpvec8v1l5y" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-2021-02-21-protobuf-序列化相关" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2021/02/21/2021-02-21-protobuf-%E5%BA%8F%E5%88%97%E5%8C%96%E7%9B%B8%E5%85%B3/" class="article-date">
@@ -438,106 +600,11 @@
 
 
   
-    <article id="post-2020-11-13-备忘-Privoxy加ss" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/11/13/2020-11-13-%E5%A4%87%E5%BF%98-Privoxy%E5%8A%A0ss/" class="article-date">
-  <time datetime="2020-11-13T14:39:37.000Z" itemprop="datePublished">2020-11-13</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/">科学上网</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/11/13/2020-11-13-%E5%A4%87%E5%BF%98-Privoxy%E5%8A%A0ss/">备忘-Privoxy加ss</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="一、安装shadowsocks"><a href="#一、安装shadowsocks" class="headerlink" title="一、安装shadowsocks"></a>一、安装shadowsocks</h2><ul>
-<li><p>通过网址下载源码，并编译安装:<br><code>https://github.com/shadowsocksr-backup/shadowsocksr-libev.git</code></p>
-</li>
-<li><p>通过如下命令运行ss客户端，其中路径为服务器配置的路径：<br><code>ss-local -c /home/php/socketpro/client/servers/PRU1.json</code></p>
-</li>
-<li><p>通过以下命令测试，是否运行成功了:<br><code>curl -I -x socks5://127.0.0.1:1080 https://www.google.com</code><br>成功了的话，显示如下:</p></li></ul>
-        
-          <p class="article-more-link">
-            <a href="/2020/11/13/2020-11-13-%E5%A4%87%E5%BF%98-Privoxy%E5%8A%A0ss/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/11/13/2020-11-13-%E5%A4%87%E5%BF%98-Privoxy%E5%8A%A0ss/" data-id="cklfcspsd000g3gpvdaura4a3" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-2020-10-14-Redis代码中的内存分配zmalloc" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/10/14/2020-10-14-Redis%E4%BB%A3%E7%A0%81%E4%B8%AD%E7%9A%84%E5%86%85%E5%AD%98%E5%88%86%E9%85%8Dzmalloc/" class="article-date">
-  <time datetime="2020-10-14T15:19:15.000Z" itemprop="datePublished">2020-10-14</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/C/">C++</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/10/14/2020-10-14-Redis%E4%BB%A3%E7%A0%81%E4%B8%AD%E7%9A%84%E5%86%85%E5%AD%98%E5%88%86%E9%85%8Dzmalloc/">Redis代码中的内存分配zmalloc</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="一、zmalloc-size-t-size"><a href="#一、zmalloc-size-t-size" class="headerlink" title="一、zmalloc(size_t size)"></a>一、<code>zmalloc(size_t size)</code></h2>
-        
-          <p class="article-more-link">
-            <a href="/2020/10/14/2020-10-14-Redis%E4%BB%A3%E7%A0%81%E4%B8%AD%E7%9A%84%E5%86%85%E5%AD%98%E5%88%86%E9%85%8Dzmalloc/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/10/14/2020-10-14-Redis%E4%BB%A3%E7%A0%81%E4%B8%AD%E7%9A%84%E5%86%85%E5%AD%98%E5%88%86%E9%85%8Dzmalloc/" data-id="cklfcspsb000f3gpv94ev1p40" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
 
 
   <nav id="page-nav">
     
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
   </nav>
 
 </section>
@@ -563,7 +630,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li></ul>
     </div>
   </div>
 
@@ -576,6 +643,14 @@
       <ul>
         
           <li>
+            <a href="/2021/03/10/2021-03-10-%E5%A4%87%E5%BF%98-git%E5%9F%BA%E7%A1%80/">备忘-git基础</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/06/2021-03-06-%E5%A4%87%E5%BF%98-Makefile%E5%9F%BA%E7%A1%80/">备忘-Makefile基础</a>
+          </li>
+        
+          <li>
             <a href="/2021/02/21/2021-02-21-protobuf-%E5%BA%8F%E5%88%97%E5%8C%96%E7%9B%B8%E5%85%B3/">protobuf-序列化相关</a>
           </li>
         
@@ -585,14 +660,6 @@
         
           <li>
             <a href="/2021/01/27/2021-01-27-C-%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1%E7%9A%84%E7%AE%80%E5%8D%95%E5%AE%9E%E7%8E%B0/">C++异步任务的简单实现</a>
-          </li>
-        
-          <li>
-            <a href="/2021/01/23/2021-01-23-%E7%AE%97%E6%B3%95-%E4%BF%AE%E6%AD%A3BST/">算法-修正BST</a>
-          </li>
-        
-          <li>
-            <a href="/2021/01/23/2021-01-23-%E7%AE%97%E6%B3%95-%E5%90%8E%E5%BA%8F%E4%B8%AD%E5%BA%8F%E6%9E%84%E9%80%A0%E6%A0%91/">算法-后序中序构造树</a>
           </li>
         
       </ul>
