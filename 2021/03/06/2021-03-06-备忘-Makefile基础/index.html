@@ -7,22 +7,22 @@
   
   <title>备忘-Makefile基础 | Mary博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="一、Makefile基础 Makefile中的规则语法一般这样: 1234target ... : prerequisites ...    command    ...    ...  $^和$@分别表示依赖部分、目标部分   二、Makefile中的.d文件2.1 简介 Makefile有个隐晦规则，.o文件会自动查找同名的.c文件。比如有两个文件first.c，main.c，Makefile">
+  <meta name="description" content="一、Makefile基础 Makefile中的规则语法一般这样: 1234target ... : prerequisites ...    command    ...    ...">
 <meta property="og:type" content="article">
 <meta property="og:title" content="备忘-Makefile基础">
 <meta property="og:url" content="http://yoursite.com/2021/03/06/2021-03-06-%E5%A4%87%E5%BF%98-Makefile%E5%9F%BA%E7%A1%80/index.html">
 <meta property="og:site_name" content="Mary博客">
-<meta property="og:description" content="一、Makefile基础 Makefile中的规则语法一般这样: 1234target ... : prerequisites ...    command    ...    ...  $^和$@分别表示依赖部分、目标部分   二、Makefile中的.d文件2.1 简介 Makefile有个隐晦规则，.o文件会自动查找同名的.c文件。比如有两个文件first.c，main.c，Makefile">
+<meta property="og:description" content="一、Makefile基础 Makefile中的规则语法一般这样: 1234target ... : prerequisites ...    command    ...    ...">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://yoursite.com/2021/03/06/2021-03-06-%E5%A4%87%E5%BF%98-Makefile%E5%9F%BA%E7%A1%80/first_result.png">
 <meta property="og:image" content="http://yoursite.com/2021/03/06/2021-03-06-%E5%A4%87%E5%BF%98-Makefile%E5%9F%BA%E7%A1%80/second_result.png">
 <meta property="og:image" content="http://yoursite.com/2021/03/06/2021-03-06-%E5%A4%87%E5%BF%98-Makefile%E5%9F%BA%E7%A1%80/update_dep.png">
 <meta property="og:image" content="http://yoursite.com/2021/03/06/2021-03-06-%E5%A4%87%E5%BF%98-Makefile%E5%9F%BA%E7%A1%80/last_valid.png">
-<meta property="og:image" content="http://yoursite.com/2021/03/06/2021-03-06-%E5%A4%87%E5%BF%98-Makefile%E5%9F%BA%E7%A1%80/!dep_update_notvalid.png">
+<meta property="og:image" content="http://yoursite.com/2021/03/06/2021-03-06-%E5%A4%87%E5%BF%98-Makefile%E5%9F%BA%E7%A1%80/dep_update_notvalid.png">
 <meta property="og:image" content="http://yoursite.com/2021/03/06/2021-03-06-%E5%A4%87%E5%BF%98-Makefile%E5%9F%BA%E7%A1%80/init_files.png">
-<meta property="og:image" content="http://yoursite.com/2021/03/06/2021-03-06-%E5%A4%87%E5%BF%98-Makefile%E5%9F%BA%E7%A1%80/final_results.png">
+<meta property="og:image" content="http://yoursite.com/2021/03/06/2021-03-06-%E5%A4%87%E5%BF%98-Makefile%E5%9F%BA%E7%A1%80/final_result.png">
 <meta property="article:published_time" content="2021-03-06T13:17:25.000Z">
-<meta property="article:modified_time" content="2021-03-14T13:19:19.722Z">
+<meta property="article:modified_time" content="2021-03-14T13:31:20.600Z">
 <meta property="article:author" content="haipingpang">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://yoursite.com/2021/03/06/2021-03-06-%E5%A4%87%E5%BF%98-Makefile%E5%9F%BA%E7%A1%80/first_result.png">
@@ -103,6 +103,7 @@
         <h2 id="一、Makefile基础"><a href="#一、Makefile基础" class="headerlink" title="一、Makefile基础"></a>一、Makefile基础</h2><ul>
 <li><p>Makefile中的规则语法一般这样:</p>
 <figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">target ... : prerequisites ...</span><br><span class="line">    command</span><br><span class="line">    ...</span><br><span class="line">    ...</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
 </li>
 <li><p><code>$^</code>和<code>$@</code>分别表示依赖部分、目标部分</p>
 </li>
@@ -133,24 +134,27 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">file.dep:a.h</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>Makefile：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">all:test</span><br><span class="line">sinclude file.dep</span><br><span class="line">file.dep:b.h</span><br><span class="line">    @echo &quot;test:d.h&quot; &gt; file.dep;</span><br><span class="line">test:c.h</span><br><span class="line">    @echo &quot;hello c.h&quot;;</span><br><span class="line">    touch test; </span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">all:test</span><br><span class="line">include file.dep</span><br><span class="line">file.dep:b.h</span><br><span class="line">    @echo &quot;test:d.h&quot; &gt; file.dep;</span><br><span class="line">test:c.h</span><br><span class="line">    @echo &quot;hello c.h&quot;;</span><br><span class="line">    touch test; </span><br></pre></td></tr></table></figure>
 </li>
-<li><p>依次输入以下内容后，结果:<br><img src="/2021/03/06/2021-03-06-%E5%A4%87%E5%BF%98-Makefile%E5%9F%BA%E7%A1%80/!dep_update_notvalid.png" alt="dep更新后make不生效">  </p>
+<li><p>依次输入以下内容后，结果:<br><img src="/2021/03/06/2021-03-06-%E5%A4%87%E5%BF%98-Makefile%E5%9F%BA%E7%A1%80/dep_update_notvalid.png" alt="dep更新后make不生效">  </p>
 </li>
 <li><p>首先检查包含文件file.dep，检查是否有更新file.dep的规则，由于file.dep比b.h新，因此该规则不执行，包含file.dep结束，把file.dep中的内容<code>file.dep:a.h</code>包含进来，由于test比c.h新，因此最后没有命令执行</p>
 </li>
 <li><p>确保以下文件存在：<br><img src="/2021/03/06/2021-03-06-%E5%A4%87%E5%BF%98-Makefile%E5%9F%BA%E7%A1%80/init_files.png" alt="已有文件"></p>
 </li>
-<li><p>依次输入以下命令，结果：<br><img src="/2021/03/06/2021-03-06-%E5%A4%87%E5%BF%98-Makefile%E5%9F%BA%E7%A1%80/final_results.png" alt="最后的结果"></p>
+<li><p>依次输入以下命令，结果：<br><img src="/2021/03/06/2021-03-06-%E5%A4%87%E5%BF%98-Makefile%E5%9F%BA%E7%A1%80/final_result.png" alt="最后的结果"></p>
 </li>
 <li><p>最后touch test执行的原因：首先include命令将file.dep包含进makefile，检查是否有命令更新file.dep， 由于b.h比file.dep新，因此该规则命令执行，更新file.dep内容为<code>test:d.h</code>，重新包含file.dep内容；由于更新了d.h文件，<code>test:d.h</code>规则生效，最后依赖该规则执行最后的命令，test文件重新生成。</p>
 </li>
 </ol>
+<h2 id="四、总结"><a href="#四、总结" class="headerlink" title="四、总结"></a>四、总结</h2><ul>
+<li>总的来说，.d文件用于将对头文件的依赖写在.d文件中，从而当.h文件变化时，也会根据相应时间戳的更新时间去编译</li>
+</ul>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/03/06/2021-03-06-%E5%A4%87%E5%BF%98-Makefile%E5%9F%BA%E7%A1%80/" data-id="ckm96qecr00122lpv2mvc8eat" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2021/03/06/2021-03-06-%E5%A4%87%E5%BF%98-Makefile%E5%9F%BA%E7%A1%80/" data-id="ckm97hjes00129upvcteb6560" class="article-share-link">Share</a>
       
       
     </footer>

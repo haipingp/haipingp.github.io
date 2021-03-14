@@ -107,7 +107,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/03/10/2021-03-10-%E5%A4%87%E5%BF%98-git%E5%9F%BA%E7%A1%80/" data-id="ckm96qecs00142lpv0iqggzl6" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2021/03/10/2021-03-10-%E5%A4%87%E5%BF%98-git%E5%9F%BA%E7%A1%80/" data-id="ckm97hjeu00149upv7ys6b02b" class="article-share-link">Share</a>
       
       
     </footer>
@@ -145,55 +145,16 @@
       
         <h2 id="一、Makefile基础"><a href="#一、Makefile基础" class="headerlink" title="一、Makefile基础"></a>一、Makefile基础</h2><ul>
 <li><p>Makefile中的规则语法一般这样:</p>
-<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">target ... : prerequisites ...</span><br><span class="line">    command</span><br><span class="line">    ...</span><br><span class="line">    ...</span><br></pre></td></tr></table></figure>
-</li>
-<li><p><code>$^</code>和<code>$@</code>分别表示依赖部分、目标部分</p>
-</li>
-</ul>
-<h2 id="二、Makefile中的-d文件"><a href="#二、Makefile中的-d文件" class="headerlink" title="二、Makefile中的.d文件"></a>二、Makefile中的.d文件</h2><h3 id="2-1-简介"><a href="#2-1-简介" class="headerlink" title="2.1 简介"></a>2.1 简介</h3><ul>
-<li><p>Makefile有个隐晦规则，<code>.o</code>文件会自动查找同名的<code>.c</code>文件。比如有两个文件<code>first.c</code>，<code>main.c</code>，Makefile可以这样写:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">OBJS:&#x3D;first.o main.o</span><br><span class="line">main:$(OBJS)</span><br><span class="line">	gcc -o main $^</span><br></pre></td></tr></table></figure>
-<p>隐晦规则中，会加入<code>gcc -c *.c</code>，所以上面的Makefile可以工作。但是这种规则下，因为规则中没有写头文件，因此即使头文件修改了，也不会重新编译。所以写比较简单的make语句时，还是建议将头文件加进去。</p>
-</li>
-<li><p>那么有什么简单的方法在规则中加入头文件呢，<code>gcc -MM first.c</code>可以输出<code>first.o : first.c *.h </code>。因此可以把每个源文件<code>gcc -MM</code>到<code>.d</code>文件中，并在Makefile中include进来，相当于把这种依赖规则包含进来了，头文件变化的时候，头文件时间戳变化，Makefile会重新编译目标文件。</p>
-</li>
-</ul>
-<h3 id="2-2-例子1"><a href="#2-2-例子1" class="headerlink" title="2.2 例子1"></a>2.2 例子1</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">SRCS:&#x3D;$(wildcard *.c) # SRCS为当前目录下的所有c文件名</span><br><span class="line">OBJS&#x3D;$(SRCS: .c&#x3D;.o) # 后缀替换</span><br><span class="line">.PHONY:all          # 表示all不是一个文件，即使存在一个文件名叫all，也不予理会</span><br><span class="line">all:dep main</span><br><span class="line">dep:</span><br><span class="line">%.d:%.c</span><br><span class="line">    rm -f $@;   # 删除原来的.d文件</span><br><span class="line">    gcc -MM $&lt; &gt; $@    # 将MM结果定向到.d文件</span><br><span class="line">    sed &#39;s,&#x2F;($*&#x2F;)&#x2F;.o[ :]*,&#x2F;1.o $@ : ,g&#39; &lt; $@    # 用sed处理.d文件, $*用于匹配%的内容，[]里出现的空格和冒号都可以出现0到n次，最后第2个逗号和第3个逗号之间是匹配后的内容,&#x2F;1表示匹配模式中括号内的内容</span><br><span class="line">    </span><br><span class="line">main:$(OBJS)</span><br><span class="line">    gcc -o main $^</span><br><span class="line">sinclude $(SRCS:.c&#x3D;.d)    # 将.d文件中的依赖规则包含进来</span><br><span class="line"></span><br><span class="line">clean:</span><br><span class="line">    rm -f *.d *.o main</span><br></pre></td></tr></table></figure>
-
-<h2 id="三、Makefile中的include命令"><a href="#三、Makefile中的include命令" class="headerlink" title="三、Makefile中的include命令"></a>三、Makefile中的include命令</h2><ul>
-<li>这一篇把include中的规则讲的比较清楚: <code>https://blog.csdn.net/q1449660223/article/details/111099765</code><h3 id="3-1-多个规则中存在相同目标，依赖更新时，目标都会更新"><a href="#3-1-多个规则中存在相同目标，依赖更新时，目标都会更新" class="headerlink" title="3.1 多个规则中存在相同目标，依赖更新时，目标都会更新"></a>3.1 多个规则中存在相同目标，依赖更新时，目标都会更新</h3></li>
-<li>代码:<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">all:test</span><br><span class="line"></span><br><span class="line">test:a.h</span><br><span class="line">test:b.h</span><br><span class="line">test:c.h</span><br><span class="line">    @echo &quot;hello &quot;;</span><br><span class="line">    touch test;</span><br></pre></td></tr></table></figure></li>
-<li>第一次运行:<br><img src="/2021/03/06/2021-03-06-%E5%A4%87%E5%BF%98-Makefile%E5%9F%BA%E7%A1%80/first_result.png" alt="第一次运行结果"></li>
-<li>第二次运行，因为没有文件更新，所以不更新:<br><img src="/2021/03/06/2021-03-06-%E5%A4%87%E5%BF%98-Makefile%E5%9F%BA%E7%A1%80/second_result.png" alt="第二次运行结果"></li>
-<li>多个规则具有相同目标时，目标中任意依赖文件更新，都会执行规则对应的命令：<br><img src="/2021/03/06/2021-03-06-%E5%A4%87%E5%BF%98-Makefile%E5%9F%BA%E7%A1%80/update_dep.png" alt="touch依赖文件后的运行"></li>
-</ul>
-<h3 id="3-2-多个规则存在相同目标时，任意规则中依赖文件更新都会导致最后一条规则中的命令执行"><a href="#3-2-多个规则存在相同目标时，任意规则中依赖文件更新都会导致最后一条规则中的命令执行" class="headerlink" title="3.2 多个规则存在相同目标时，任意规则中依赖文件更新都会导致最后一条规则中的命令执行"></a>3.2 多个规则存在相同目标时，任意规则中依赖文件更新都会导致最后一条规则中的命令执行</h3><ul>
-<li>代码：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">all:test</span><br><span class="line"> </span><br><span class="line">test:a.h</span><br><span class="line">    @echo &quot;hello a.h&quot;;                                                     </span><br><span class="line">test:b.h</span><br><span class="line">    @echo &quot;hello b.h&quot;;</span><br><span class="line">test:c.h</span><br><span class="line">    @echo &quot;hello c.h&quot;;</span><br><span class="line">    touch test;</span><br></pre></td></tr></table></figure></li>
-<li>结果：<br><img src="/2021/03/06/2021-03-06-%E5%A4%87%E5%BF%98-Makefile%E5%9F%BA%E7%A1%80/last_valid.png" alt="相同目标最后一条命令执行"></li>
-</ul>
-<h3 id="3-3-include的工作流程"><a href="#3-3-include的工作流程" class="headerlink" title="3.3 include的工作流程"></a>3.3 include的工作流程</h3><ol>
-<li><p>创建一个文件<code>file.dep</code>，内容：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">file.dep:a.h</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>Makefile：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">all:test</span><br><span class="line">sinclude file.dep</span><br><span class="line">file.dep:b.h</span><br><span class="line">    @echo &quot;test:d.h&quot; &gt; file.dep;</span><br><span class="line">test:c.h</span><br><span class="line">    @echo &quot;hello c.h&quot;;</span><br><span class="line">    touch test; </span><br></pre></td></tr></table></figure>
-</li>
-<li><p>依次输入以下内容后，结果:<br><img src="/2021/03/06/2021-03-06-%E5%A4%87%E5%BF%98-Makefile%E5%9F%BA%E7%A1%80/!dep_update_notvalid.png" alt="dep更新后make不生效">  </p>
-</li>
-<li><p>首先检查包含文件file.dep，检查是否有更新file.dep的规则，由于file.dep比b.h新，因此该规则不执行，包含file.dep结束，把file.dep中的内容<code>file.dep:a.h</code>包含进来，由于test比c.h新，因此最后没有命令执行</p>
-</li>
-<li><p>确保以下文件存在：<br><img src="/2021/03/06/2021-03-06-%E5%A4%87%E5%BF%98-Makefile%E5%9F%BA%E7%A1%80/init_files.png" alt="已有文件"></p>
-</li>
-<li><p>依次输入以下命令，结果：<br><img src="/2021/03/06/2021-03-06-%E5%A4%87%E5%BF%98-Makefile%E5%9F%BA%E7%A1%80/final_results.png" alt="最后的结果"></p>
-</li>
-<li><p>最后touch test执行的原因：首先include命令将file.dep包含进makefile，检查是否有命令更新file.dep， 由于b.h比file.dep新，因此该规则命令执行，更新file.dep内容为<code>test:d.h</code>，重新包含file.dep内容；由于更新了d.h文件，<code>test:d.h</code>规则生效，最后依赖该规则执行最后的命令，test文件重新生成。</p>
-</li>
-</ol>
-
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">target ... : prerequisites ...</span><br><span class="line">    command</span><br><span class="line">    ...</span><br><span class="line">    ...</span><br></pre></td></tr></table></figure></li></ul>
+        
+          <p class="article-more-link">
+            <a href="/2021/03/06/2021-03-06-%E5%A4%87%E5%BF%98-Makefile%E5%9F%BA%E7%A1%80/#more">Read More</a>
+          </p>
+        
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/03/06/2021-03-06-%E5%A4%87%E5%BF%98-Makefile%E5%9F%BA%E7%A1%80/" data-id="ckm96qecr00122lpv2mvc8eat" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2021/03/06/2021-03-06-%E5%A4%87%E5%BF%98-Makefile%E5%9F%BA%E7%A1%80/" data-id="ckm97hjes00129upvcteb6560" class="article-share-link">Share</a>
       
       
     </footer>
@@ -240,7 +201,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/02/21/2021-02-21-protobuf-%E5%BA%8F%E5%88%97%E5%8C%96%E7%9B%B8%E5%85%B3/" data-id="ckm96qeck000z2lpv842v5quh" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2021/02/21/2021-02-21-protobuf-%E5%BA%8F%E5%88%97%E5%8C%96%E7%9B%B8%E5%85%B3/" data-id="ckm97hjer000z9upv5l333b2a" class="article-share-link">Share</a>
       
       
     </footer>
@@ -289,7 +250,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/02/16/2021-02-16-%E7%AE%97%E6%B3%95-BFS%E7%AE%97%E6%B3%95%E8%A7%A3%E5%AF%86%E7%A0%81%E9%94%81/" data-id="ckm96qeci000x2lpvg71lbm6l" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2021/02/16/2021-02-16-%E7%AE%97%E6%B3%95-BFS%E7%AE%97%E6%B3%95%E8%A7%A3%E5%AF%86%E7%A0%81%E9%94%81/" data-id="ckm97hjeo000x9upvdew2e8yt" class="article-share-link">Share</a>
       
       
     </footer>
@@ -336,7 +297,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/01/27/2021-01-27-C-%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1%E7%9A%84%E7%AE%80%E5%8D%95%E5%AE%9E%E7%8E%B0/" data-id="ckm96qecg000u2lpvc7td07nc" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2021/01/27/2021-01-27-C-%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1%E7%9A%84%E7%AE%80%E5%8D%95%E5%AE%9E%E7%8E%B0/" data-id="ckm97hjen000u9upvdixuc1wi" class="article-share-link">Share</a>
       
       
     </footer>
@@ -383,7 +344,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/01/23/2021-01-23-%E7%AE%97%E6%B3%95-%E4%BF%AE%E6%AD%A3BST/" data-id="ckm96qecd000o2lpv04le0rw3" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2021/01/23/2021-01-23-%E7%AE%97%E6%B3%95-%E4%BF%AE%E6%AD%A3BST/" data-id="ckm97hjej000o9upvbr2vbpc1" class="article-share-link">Share</a>
       
       
     </footer>
@@ -430,7 +391,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/01/23/2021-01-23-%E7%AE%97%E6%B3%95-%E5%90%8E%E5%BA%8F%E4%B8%AD%E5%BA%8F%E6%9E%84%E9%80%A0%E6%A0%91/" data-id="ckm96qecf000s2lpv5m0ugzz7" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2021/01/23/2021-01-23-%E7%AE%97%E6%B3%95-%E5%90%8E%E5%BA%8F%E4%B8%AD%E5%BA%8F%E6%9E%84%E9%80%A0%E6%A0%91/" data-id="ckm97hjem000s9upvczgnef9r" class="article-share-link">Share</a>
       
       
     </footer>
@@ -477,7 +438,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/01/23/2021-01-23-%E7%AE%97%E6%B3%95-%E5%89%8D%E5%BA%8F%E4%B8%AD%E5%BA%8F%E6%9E%84%E9%80%A0%E6%A0%91/" data-id="ckm96qece000p2lpv5sm6a2vi" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2021/01/23/2021-01-23-%E7%AE%97%E6%B3%95-%E5%89%8D%E5%BA%8F%E4%B8%AD%E5%BA%8F%E6%9E%84%E9%80%A0%E6%A0%91/" data-id="ckm97hjek000p9upv8t1u8ntt" class="article-share-link">Share</a>
       
       
     </footer>
@@ -522,7 +483,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/01/12/2021-01-12-%E7%AE%97%E6%B3%95-%E4%BA%8C%E5%8F%89%E6%A0%91%E6%9C%80%E5%A4%A7%E8%B7%AF%E5%BE%84%E5%92%8C/" data-id="ckm96qecb000l2lpv9ia4h5wo" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2021/01/12/2021-01-12-%E7%AE%97%E6%B3%95-%E4%BA%8C%E5%8F%89%E6%A0%91%E6%9C%80%E5%A4%A7%E8%B7%AF%E5%BE%84%E5%92%8C/" data-id="ckm97hjei000l9upv2st26eqk" class="article-share-link">Share</a>
       
       
     </footer>
@@ -567,7 +528,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/11/28/2020-11-28-%E8%BD%AC%E8%BD%BD%EF%BC%9Asocket%E5%92%8CTCP%E8%BF%9E%E6%8E%A5%E8%BF%87%E7%A8%8B/" data-id="ckm96qec2000j2lpv249m87u0" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/11/28/2020-11-28-%E8%BD%AC%E8%BD%BD%EF%BC%9Asocket%E5%92%8CTCP%E8%BF%9E%E6%8E%A5%E8%BF%87%E7%A8%8B/" data-id="ckm97hjeh000j9upv1s6ca8ou" class="article-share-link">Share</a>
       
       
     </footer>
