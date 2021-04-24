@@ -5,13 +5,17 @@
   
 
   
-  <title>Category: 虚拟机 | Mary博客</title>
+  <title>Redis中的字符串sds | Mary博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Mary博客">
-<meta property="og:url" content="http://yoursite.com/categories/%E8%99%9A%E6%8B%9F%E6%9C%BA/index.html">
+  <meta name="description" content="一、sds的一些特征 binary safe, 由于sds实现中都采用的是内存的分配和拷贝等，没有使用string，因此是二进制安全的。在创建字符串时会自动在结尾加\0，因此也可以通过printf打印出来。同时，也因为是二进制安全的，即使在字符串中间插入了\0，sds也保存了整个字符串的长度，不会丢失后面的数据。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis中的字符串sds">
+<meta property="og:url" content="http://yoursite.com/2021/04/24/2021-04-24-Redis%E4%B8%AD%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2sds/index.html">
 <meta property="og:site_name" content="Mary博客">
+<meta property="og:description" content="一、sds的一些特征 binary safe, 由于sds实现中都采用的是内存的分配和拷贝等，没有使用string，因此是二进制安全的。在创建字符串时会自动在结尾加\0，因此也可以通过printf打印出来。同时，也因为是二进制安全的，即使在字符串中间插入了\0，sds也保存了整个字符串的长度，不会丢失后面的数据。">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-04-24T08:29:19.000Z">
+<meta property="article:modified_time" content="2021-04-24T14:00:06.504Z">
 <meta property="article:author" content="haipingpang">
 <meta name="twitter:card" content="summary">
   
@@ -62,40 +66,73 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2020/01/26/2020-01-26-VirtualBox-NAT%E7%BD%91%E7%BB%9C%E5%8A%A0Host-Only%E9%85%8D%E7%BD%AE/" class="archive-article-date">
-  <time datetime="2020-01-26T15:30:09.000Z" itemprop="datePublished">Jan 26</time>
+        <section id="main"><article id="post-2021-04-24-Redis中的字符串sds" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/04/24/2021-04-24-Redis%E4%B8%AD%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2sds/" class="article-date">
+  <time datetime="2021-04-24T08:29:19.000Z" itemprop="datePublished">2021-04-24</time>
 </a>
-      
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/C/">C++</a>►<a class="article-category-link" href="/categories/C/redis/">redis</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/01/26/2020-01-26-VirtualBox-NAT%E7%BD%91%E7%BB%9C%E5%8A%A0Host-Only%E9%85%8D%E7%BD%AE/">VirtualBox-NAT网络加Host-Only配置</a>
+    <h1 class="article-title" itemprop="name">
+      Redis中的字符串sds
     </h1>
   
 
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="一、sds的一些特征"><a href="#一、sds的一些特征" class="headerlink" title="一、sds的一些特征"></a>一、sds的一些特征</h2><ol>
+<li>binary safe, 由于sds实现中都采用的是内存的分配和拷贝等，没有使用string，因此是二进制安全的。在创建字符串时会自动在结尾加<code>\0</code>，因此也可以通过printf打印出来。同时，也因为是二进制安全的，即使在字符串中间插入了<code>\0</code>，sds也保存了整个字符串的长度，不会丢失后面的数据。</li>
+</ol>
+<a id="more"></a>
 
+<h2 id="二、sds实现"><a href="#二、sds实现" class="headerlink" title="二、sds实现"></a>二、sds实现</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">sds <span class="title">sdsnewlen</span><span class="params">(<span class="keyword">const</span> <span class="keyword">void</span> *init, <span class="keyword">size_t</span> initlen)</span></span>;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>用于创建sds字符串，这里主要是分配了内存，分配内存时，根据平台不同，分为两类。一类是自己可以查询到分配的内存大小的，在redis的内存管理中，可以直接调用这些平台的内存管理接口。一类是没有对外的可以查询分配内存大小的变量的，需要用一个PREFIX_SIZE来自己存储分配内存大小，从而进行内存管理。</li>
+<li>将内存管理的库分为两类后，通过宏定义HAVE_MALLOC_SIZE和zmalloc_size等，通过统一的接口进行内存管理。</li>
+<li>需要自己管理分配内存大小的一类，这个size放在sdshdr结构地址之前，可以通过地址偏移获取到。</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">sds <span class="title">sdscatvprintf</span><span class="params">(sds s, <span class="keyword">const</span> <span class="keyword">char</span> *fmt, va_list ap)</span></span>;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>用于输出fmt和ap指定的可变参数字符串到s。</li>
+<li>分配内存时，如果设置的1024字节的栈内存够用的话，直接使用栈内存，如果不够用，申请堆内存。</li>
+<li>用于输出的buff，每次都在<code>buflen-2</code>的位置首先设置<code>\0</code>，如果后面拷贝内存时被覆盖了，说明buff不够长，申请len*2的内存大小。</li>
+<li>这里选用<code>buflen-2</code>位置是因为，vsnprintf函数会在执行时在fmt和cpy组合成的字符串的最后加<code>\0</code>，如果是在<code>buflen-1</code>位置设置null char，即使buff不够长，这个位置也会被填充为null char，因此不能作为是否buff足够长的判断。</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2021/04/24/2021-04-24-Redis%E4%B8%AD%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2sds/" data-id="cknvtauk3001871pv8co1cimp" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2021/04/18/2021-04-18-%E6%97%A0%E9%94%81%E9%98%9F%E5%88%97/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">无锁队列</div>
+    </a>
+  
+</nav>
+
+  
+</article>
 
 </section>
         

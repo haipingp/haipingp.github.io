@@ -64,6 +64,53 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-2021-04-24-Redis中的字符串sds" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/04/24/2021-04-24-Redis%E4%B8%AD%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2sds/" class="article-date">
+  <time datetime="2021-04-24T08:29:19.000Z" itemprop="datePublished">2021-04-24</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/C/">C++</a>►<a class="article-category-link" href="/categories/C/redis/">redis</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/04/24/2021-04-24-Redis%E4%B8%AD%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2sds/">Redis中的字符串sds</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="一、sds的一些特征"><a href="#一、sds的一些特征" class="headerlink" title="一、sds的一些特征"></a>一、sds的一些特征</h2><ol>
+<li>binary safe, 由于sds实现中都采用的是内存的分配和拷贝等，没有使用string，因此是二进制安全的。在创建字符串时会自动在结尾加<code>\0</code>，因此也可以通过printf打印出来。同时，也因为是二进制安全的，即使在字符串中间插入了<code>\0</code>，sds也保存了整个字符串的长度，不会丢失后面的数据。</li>
+</ol>
+        
+          <p class="article-more-link">
+            <a href="/2021/04/24/2021-04-24-Redis%E4%B8%AD%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2sds/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2021/04/24/2021-04-24-Redis%E4%B8%AD%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2sds/" data-id="cknvtauk3001871pv8co1cimp" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-2021-04-18-无锁队列" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2021/04/18/2021-04-18-%E6%97%A0%E9%94%81%E9%98%9F%E5%88%97/" class="article-date">
@@ -82,7 +129,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2021/04/18/2021-04-18-%E6%97%A0%E9%94%81%E9%98%9F%E5%88%97/">2021-04-18-无锁队列</a>
+      <a class="article-title" href="/2021/04/18/2021-04-18-%E6%97%A0%E9%94%81%E9%98%9F%E5%88%97/">无锁队列</a>
     </h1>
   
 
@@ -99,7 +146,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/04/18/2021-04-18-%E6%97%A0%E9%94%81%E9%98%9F%E5%88%97/" data-id="cknnbgc4q0017elpv1skp6xu8" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2021/04/18/2021-04-18-%E6%97%A0%E9%94%81%E9%98%9F%E5%88%97/" data-id="cknvtauk0001571pvcngeb5wy" class="article-share-link">Share</a>
       
       
     </footer>
@@ -152,7 +199,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/03/10/2021-03-10-%E5%A4%87%E5%BF%98-git%E5%9F%BA%E7%A1%80/" data-id="cknnbgc4p0014elpvfpk41k8i" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2021/03/10/2021-03-10-%E5%A4%87%E5%BF%98-git%E5%9F%BA%E7%A1%80/" data-id="cknvtauju001371pva4nt8utk" class="article-share-link">Share</a>
       
       
     </footer>
@@ -199,7 +246,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/03/06/2021-03-06-%E5%A4%87%E5%BF%98-Makefile%E5%9F%BA%E7%A1%80/" data-id="cknnbgc4n0012elpv2l1yg1mq" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2021/03/06/2021-03-06-%E5%A4%87%E5%BF%98-Makefile%E5%9F%BA%E7%A1%80/" data-id="cknvtaujt001171pvf9zj2jmc" class="article-share-link">Share</a>
       
       
     </footer>
@@ -246,7 +293,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/02/21/2021-02-21-protobuf-%E5%BA%8F%E5%88%97%E5%8C%96%E7%9B%B8%E5%85%B3/" data-id="cknnbgc4m000zelpvgazjhgvc" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2021/02/21/2021-02-21-protobuf-%E5%BA%8F%E5%88%97%E5%8C%96%E7%9B%B8%E5%85%B3/" data-id="cknvtaujs000y71pv23hy7shm" class="article-share-link">Share</a>
       
       
     </footer>
@@ -295,7 +342,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/02/16/2021-02-16-%E7%AE%97%E6%B3%95-BFS%E7%AE%97%E6%B3%95%E8%A7%A3%E5%AF%86%E7%A0%81%E9%94%81/" data-id="cknnbgc4l000xelpv81kreakw" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2021/02/16/2021-02-16-%E7%AE%97%E6%B3%95-BFS%E7%AE%97%E6%B3%95%E8%A7%A3%E5%AF%86%E7%A0%81%E9%94%81/" data-id="cknvtaujq000w71pvh2owdhip" class="article-share-link">Share</a>
       
       
     </footer>
@@ -342,7 +389,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/01/27/2021-01-27-C-%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1%E7%9A%84%E7%AE%80%E5%8D%95%E5%AE%9E%E7%8E%B0/" data-id="cknnbgc4j000uelpvfnd61c06" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2021/01/27/2021-01-27-C-%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1%E7%9A%84%E7%AE%80%E5%8D%95%E5%AE%9E%E7%8E%B0/" data-id="cknvtaujp000t71pvbquf9wph" class="article-share-link">Share</a>
       
       
     </footer>
@@ -389,7 +436,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/01/23/2021-01-23-%E7%AE%97%E6%B3%95-%E4%BF%AE%E6%AD%A3BST/" data-id="cknnbgc48000oelpvfx1s5faq" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2021/01/23/2021-01-23-%E7%AE%97%E6%B3%95-%E4%BF%AE%E6%AD%A3BST/" data-id="cknvtauje000n71pvbd9i1gek" class="article-share-link">Share</a>
       
       
     </footer>
@@ -436,7 +483,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/01/23/2021-01-23-%E7%AE%97%E6%B3%95-%E5%90%8E%E5%BA%8F%E4%B8%AD%E5%BA%8F%E6%9E%84%E9%80%A0%E6%A0%91/" data-id="cknnbgc4b000selpvamljfjj5" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2021/01/23/2021-01-23-%E7%AE%97%E6%B3%95-%E5%90%8E%E5%BA%8F%E4%B8%AD%E5%BA%8F%E6%9E%84%E9%80%A0%E6%A0%91/" data-id="cknvtaujm000r71pv8fctetny" class="article-share-link">Share</a>
       
       
     </footer>
@@ -483,52 +530,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/01/23/2021-01-23-%E7%AE%97%E6%B3%95-%E5%89%8D%E5%BA%8F%E4%B8%AD%E5%BA%8F%E6%9E%84%E9%80%A0%E6%A0%91/" data-id="cknnbgc49000pelpveknj1phu" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-2021-01-12-算法-二叉树最大路径和" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/01/12/2021-01-12-%E7%AE%97%E6%B3%95-%E4%BA%8C%E5%8F%89%E6%A0%91%E6%9C%80%E5%A4%A7%E8%B7%AF%E5%BE%84%E5%92%8C/" class="article-date">
-  <time datetime="2021-01-12T12:59:03.000Z" itemprop="datePublished">2021-01-12</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/C/">C++</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/01/12/2021-01-12-%E7%AE%97%E6%B3%95-%E4%BA%8C%E5%8F%89%E6%A0%91%E6%9C%80%E5%A4%A7%E8%B7%AF%E5%BE%84%E5%92%8C/">算法-二叉树最大路径和</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="一、问题概述"><a href="#一、问题概述" class="headerlink" title="一、问题概述"></a>一、问题概述</h2><p>该算法题在LeeCode上序号为124，给出一个算法，能够返回一个二叉树的最大路径和(路径和指的是二叉树的路径上，每个节点值的和)。</p>
-        
-          <p class="article-more-link">
-            <a href="/2021/01/12/2021-01-12-%E7%AE%97%E6%B3%95-%E4%BA%8C%E5%8F%89%E6%A0%91%E6%9C%80%E5%A4%A7%E8%B7%AF%E5%BE%84%E5%92%8C/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/01/12/2021-01-12-%E7%AE%97%E6%B3%95-%E4%BA%8C%E5%8F%89%E6%A0%91%E6%9C%80%E5%A4%A7%E8%B7%AF%E5%BE%84%E5%92%8C/" data-id="cknnbgc47000lelpve7934owy" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2021/01/23/2021-01-23-%E7%AE%97%E6%B3%95-%E5%89%8D%E5%BA%8F%E4%B8%AD%E5%BA%8F%E6%9E%84%E9%80%A0%E6%A0%91/" data-id="cknvtaujl000o71pve9p83992" class="article-share-link">Share</a>
       
       
     </footer>
@@ -553,7 +555,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C/">C++</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/C/std/">std</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/">博客搭建</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/">科学上网</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%99%9A%E6%8B%9F%E6%9C%BA/">虚拟机</a></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C/">C++</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/C/redis/">redis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/C/std/">std</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/">博客搭建</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/">科学上网</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%99%9A%E6%8B%9F%E6%9C%BA/">虚拟机</a></li></ul>
     </div>
   </div>
 
@@ -581,7 +583,11 @@
       <ul>
         
           <li>
-            <a href="/2021/04/18/2021-04-18-%E6%97%A0%E9%94%81%E9%98%9F%E5%88%97/">2021-04-18-无锁队列</a>
+            <a href="/2021/04/24/2021-04-24-Redis%E4%B8%AD%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2sds/">Redis中的字符串sds</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/18/2021-04-18-%E6%97%A0%E9%94%81%E9%98%9F%E5%88%97/">无锁队列</a>
           </li>
         
           <li>
@@ -594,10 +600,6 @@
         
           <li>
             <a href="/2021/02/21/2021-02-21-protobuf-%E5%BA%8F%E5%88%97%E5%8C%96%E7%9B%B8%E5%85%B3/">protobuf-序列化相关</a>
-          </li>
-        
-          <li>
-            <a href="/2021/02/16/2021-02-16-%E7%AE%97%E6%B3%95-BFS%E7%AE%97%E6%B3%95%E8%A7%A3%E5%AF%86%E7%A0%81%E9%94%81/">算法-BFS算法解密码锁</a>
           </li>
         
       </ul>

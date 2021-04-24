@@ -5,17 +5,17 @@
   
 
   
-  <title>2021-04-18-无锁队列 | Mary博客</title>
+  <title>无锁队列 | Mary博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="一、简介如果使用锁来确保多线程访问时数据的一致性，当加解锁变得频繁时，比较耗时，因此需要找到一种无锁队列解决这个问题。举个现实中的例子，在一个四岔路口，如果朝南和朝北的车辆可以同时在开的话，容易发生交通事故，因此，需要在这些路口安放红绿灯。这样朝南行驶的车放行时，朝北的车辆不能行驶。为了更高效的通过这个路口，采用了环岛使所有的车辆可以进入环岛来通行，如果有秩序的话，其实不设置红绿灯，也不会产生冲突">
 <meta property="og:type" content="article">
-<meta property="og:title" content="2021-04-18-无锁队列">
+<meta property="og:title" content="无锁队列">
 <meta property="og:url" content="http://yoursite.com/2021/04/18/2021-04-18-%E6%97%A0%E9%94%81%E9%98%9F%E5%88%97/index.html">
 <meta property="og:site_name" content="Mary博客">
 <meta property="og:description" content="一、简介如果使用锁来确保多线程访问时数据的一致性，当加解锁变得频繁时，比较耗时，因此需要找到一种无锁队列解决这个问题。举个现实中的例子，在一个四岔路口，如果朝南和朝北的车辆可以同时在开的话，容易发生交通事故，因此，需要在这些路口安放红绿灯。这样朝南行驶的车放行时，朝北的车辆不能行驶。为了更高效的通过这个路口，采用了环岛使所有的车辆可以进入环岛来通行，如果有秩序的话，其实不设置红绿灯，也不会产生冲突">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-04-18T14:07:52.000Z">
-<meta property="article:modified_time" content="2021-04-18T14:51:52.923Z">
+<meta property="article:modified_time" content="2021-04-24T14:00:59.201Z">
 <meta property="article:author" content="haipingpang">
 <meta name="twitter:card" content="summary">
   
@@ -84,7 +84,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      2021-04-18-无锁队列
+      无锁队列
     </h1>
   
 
@@ -108,7 +108,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/04/18/2021-04-18-%E6%97%A0%E9%94%81%E9%98%9F%E5%88%97/" data-id="cknnbgc4q0017elpv1skp6xu8" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2021/04/18/2021-04-18-%E6%97%A0%E9%94%81%E9%98%9F%E5%88%97/" data-id="cknvtauk0001571pvcngeb5wy" class="article-share-link">Share</a>
       
       
     </footer>
@@ -116,6 +116,15 @@
   
     
 <nav id="article-nav">
+  
+    <a href="/2021/04/24/2021-04-24-Redis%E4%B8%AD%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2sds/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Redis中的字符串sds
+        
+      </div>
+    </a>
   
   
     <a href="/2021/03/10/2021-03-10-%E5%A4%87%E5%BF%98-git%E5%9F%BA%E7%A1%80/" id="article-nav-older" class="article-nav-link-wrap">
@@ -136,7 +145,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C/">C++</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/C/std/">std</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/">博客搭建</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/">科学上网</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%99%9A%E6%8B%9F%E6%9C%BA/">虚拟机</a></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C/">C++</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/C/redis/">redis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/C/std/">std</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/">博客搭建</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/">科学上网</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%99%9A%E6%8B%9F%E6%9C%BA/">虚拟机</a></li></ul>
     </div>
   </div>
 
@@ -164,7 +173,11 @@
       <ul>
         
           <li>
-            <a href="/2021/04/18/2021-04-18-%E6%97%A0%E9%94%81%E9%98%9F%E5%88%97/">2021-04-18-无锁队列</a>
+            <a href="/2021/04/24/2021-04-24-Redis%E4%B8%AD%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2sds/">Redis中的字符串sds</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/18/2021-04-18-%E6%97%A0%E9%94%81%E9%98%9F%E5%88%97/">无锁队列</a>
           </li>
         
           <li>
@@ -177,10 +190,6 @@
         
           <li>
             <a href="/2021/02/21/2021-02-21-protobuf-%E5%BA%8F%E5%88%97%E5%8C%96%E7%9B%B8%E5%85%B3/">protobuf-序列化相关</a>
-          </li>
-        
-          <li>
-            <a href="/2021/02/16/2021-02-16-%E7%AE%97%E6%B3%95-BFS%E7%AE%97%E6%B3%95%E8%A7%A3%E5%AF%86%E7%A0%81%E9%94%81/">算法-BFS算法解密码锁</a>
           </li>
         
       </ul>
