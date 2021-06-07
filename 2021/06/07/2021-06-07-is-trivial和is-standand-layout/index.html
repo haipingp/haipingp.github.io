@@ -15,7 +15,7 @@
 <meta property="og:description" content="一、简介 POD，全称plain old data，plain代表它是一个普通类型，old代表它可以与C兼容，可以使用比如memcpy()这类C中最原始的函数。C++11把POD分为了两个基本概念的集合。即：trivial(平凡的)和standard layout(标准布局的)。 下面主要针对std中的两个接口进行说明，具体和C++标准中的概念是否一一对应，有待进一步看看。">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-06-07T14:03:18.000Z">
-<meta property="article:modified_time" content="2021-06-07T15:51:07.613Z">
+<meta property="article:modified_time" content="2021-06-07T16:00:59.677Z">
 <meta property="article:author" content="haipingpang">
 <meta name="twitter:card" content="summary">
   
@@ -128,12 +128,13 @@
 <li>描述如此之复杂，虽然看懂了，但感觉也没找到这些定义的规律，所以使用的时候，还是要继续翻下这些接口的标准定义。不过记录一下后，可以按照这些记录大致找回记忆，再去看接口的标准定义进行细化理解。</li>
 <li>其实平时使用也不需要这么细致</li>
 <li>使用memcopy memset等函数时，可以看下这些接口的注意事项，比如potentially-overlapping subobject 和not TriviallyCopyable的对象是不能使用这些函数的。其中，union中两个字段如果部分重叠，就会产生overlapping。</li>
+<li>虽然使用这些接口、配合static_assert可以找到一些错误的使用，但是最好不对一些复杂结构进行内存操作。</li>
 </ul>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/06/07/2021-06-07-is-trivial%E5%92%8Cis-standand-layout/" data-id="ckpmstfjc001af2dc46023rv7" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2021/06/07/2021-06-07-is-trivial%E5%92%8Cis-standand-layout/" data-id="ckpmsyl61001ahudc5h3nb6fg" class="article-share-link">Share</a>
       
       
     </footer>
