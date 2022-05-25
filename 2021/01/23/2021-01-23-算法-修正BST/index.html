@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>算法-修正BST | Mary博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="一、问题概述 二叉搜索树中有一对节点，swap by mistake，需要找出这一对节点进行修正，如BST 1和BST 2所示">
+<meta property="og:type" content="article">
+<meta property="og:title" content="算法-修正BST">
+<meta property="og:url" content="http://example.com/2021/01/23/2021-01-23-%E7%AE%97%E6%B3%95-%E4%BF%AE%E6%AD%A3BST/index.html">
+<meta property="og:site_name" content="Mary博客">
+<meta property="og:description" content="一、问题概述 二叉搜索树中有一对节点，swap by mistake，需要找出这一对节点进行修正，如BST 1和BST 2所示">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/bst1.png">
+<meta property="og:image" content="http://example.com/bst2.png">
+<meta property="og:image" content="http://example.com/2021/01/23/2021-01-23-%E7%AE%97%E6%B3%95-%E4%BF%AE%E6%AD%A3BST/bst3.jpg">
+<meta property="og:image" content="http://example.com/2021/01/23/2021-01-23-%E7%AE%97%E6%B3%95-%E4%BF%AE%E6%AD%A3BST/bst4.jpg">
+<meta property="og:image" content="http://example.com/deduction1.jpg">
+<meta property="og:image" content="http://example.com/deduction2.jpg">
+<meta property="article:published_time" content="2021-01-23T09:02:52.000Z">
+<meta property="article:modified_time" content="2022-05-25T03:01:20.094Z">
+<meta property="article:author" content="haipingpang">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/bst1.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Mary博客" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Mary博客</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-2021-01-23-算法-修正BST" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/01/23/2021-01-23-%E7%AE%97%E6%B3%95-%E4%BF%AE%E6%AD%A3BST/" class="article-date">
+  <time class="dt-published" datetime="2021-01-23T09:02:52.000Z" itemprop="datePublished">2021-01-23</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/C/">C++</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      算法-修正BST
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="一、问题概述"><a href="#一、问题概述" class="headerlink" title="一、问题概述"></a>一、问题概述</h2><ul>
+<li>二叉搜索树中有一对节点，swap by mistake，需要找出这一对节点进行修正，如<code>BST 1</code>和<code>BST 2</code>所示</li>
+</ul>
+<span id="more"></span>
+
+<p><img src="/bst1.png" alt="BST 1"><br><img src="/bst2.png" alt="BST 2"></p>
+<h2 id="二、解决思路"><a href="#二、解决思路" class="headerlink" title="二、解决思路"></a>二、解决思路</h2><ul>
+<li>BST的一个特点是，中序遍历得到的结果是按大小顺序排列的</li>
+<li>由于题目中只有一对节点发生了错误，这一对节点即，第1个大于当前root的节点和最后1个小于root的节点。因此可以按照这个思路寻找并纠正。</li>
+</ul>
+<h2 id="三、代码"><a href="#三、代码" class="headerlink" title="三、代码"></a>三、代码</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    TreeNode* prev = <span class="literal">nullptr</span>;</span><br><span class="line">    TreeNode* first = <span class="literal">nullptr</span>;</span><br><span class="line">    TreeNode* second = <span class="literal">nullptr</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">recoverTree</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">        <span class="built_in">tranverse</span>(root);</span><br><span class="line">        <span class="keyword">if</span> (!first || !second)</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        <span class="type">int</span> temp = first-&gt;val;</span><br><span class="line">        first-&gt;val = second-&gt;val;</span><br><span class="line">        second-&gt;val = temp;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">tranverse</span><span class="params">(TreeNode* root)</span> </span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!root)</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">        <span class="built_in">tranverse</span>(root-&gt;left);      <span class="comment">// 遍历左子树</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (prev &amp;&amp; root-&gt;val &lt; prev-&gt;val) &#123;</span><br><span class="line">            <span class="keyword">if</span> (!first)</span><br><span class="line">                first = prev;       <span class="comment">// 找到第1个大于当前root的节点</span></span><br><span class="line">            second = root;          <span class="comment">// 找到最后1个小于前面的值的节点</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        prev = root;</span><br><span class="line"></span><br><span class="line">        <span class="built_in">tranverse</span>(root-&gt;right);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="四、对于自己的难点"><a href="#四、对于自己的难点" class="headerlink" title="四、对于自己的难点"></a>四、对于自己的难点</h2><ul>
+<li>自己没想到思路，虽然看到中序遍历的思路，但是直接从这个思路为入口思考，有点舍本逐末的感觉。一直在想怎么中序遍历可以找到结果，却很难想到</li>
+<li>应该从问题本身开始思考，只有两个节点是错误的，参考BST本身的特点，如何找到这两个节点</li>
+</ul>
+<h2 id="五、从两个例子比较容易找到思路"><a href="#五、从两个例子比较容易找到思路" class="headerlink" title="五、从两个例子比较容易找到思路"></a>五、从两个例子比较容易找到思路</h2><ul>
+<li>从<code>BST 3</code>可以直观地看到1和3节点是错误的，并且看到一个特点，由于只有一对节点有问题，因此3节点比1节点大的错误特性是沿着路径2一直到1节点的。所以可以从条件<code>root-&gt;val &lt; prev-&gt;val</code>找到第一个不对的节点3和最后一个不对的节点1;</li>
+<li>从<code>BST 4</code>可以直观地看到1和3节点是错误的，并且有个特点，由于只有一对节点有问题，因此3节点比1节点大的错误是沿着路径2一直到3节点的。所以可以从条件<code>root-&gt;val &lt; prev-&gt;val</code>找到第一个不对的节点3和最后一个不对的节点1;</li>
+</ul>
+<img src="bst3.jpg" alt="BST 3" width="250"/>
+<img src="bst4.jpg" alt="BST 4" width="250"/>
+
+
+<ul>
+<li><code>BST 3</code>和<code>BST 4</code>的递归过程如<code>BST deduction 1</code>和<code>BST deduction 2</code>所示，这样看得懂一些<br><img src="/deduction1.jpg" alt="BST deduction 1"><br><img src="/deduction2.jpg" alt="BST deduction 2"></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/01/23/2021-01-23-%E7%AE%97%E6%B3%95-%E4%BF%AE%E6%AD%A3BST/" data-id="cl3l02ost000n14dc7t6y83nv" data-title="算法-修正BST" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2021/01/27/2021-01-27-C-%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1%E7%9A%84%E7%AE%80%E5%8D%95%E5%AE%9E%E7%8E%B0/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          C++异步任务的简单实现
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/01/23/2021-01-23-%E7%AE%97%E6%B3%95-%E5%90%8E%E5%BA%8F%E4%B8%AD%E5%BA%8F%E6%9E%84%E9%80%A0%E6%A0%91/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">算法-后序中序构造树</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C/">C++</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/C/redis/">redis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/C/std/">std</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/">博客搭建</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/">科学上网</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%99%9A%E6%8B%9F%E6%9C%BA/">虚拟机</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/06/07/2021-06-07-is-trivial%E5%92%8Cis-standand-layout/">is_trivial和is_standand_layout</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/24/2021-04-24-Redis%E4%B8%AD%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2sds/">Redis中的字符串sds</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/18/2021-04-18-%E6%97%A0%E9%94%81%E9%98%9F%E5%88%97/">无锁队列</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/10/2021-03-10-%E5%A4%87%E5%BF%98-git%E5%9F%BA%E7%A1%80/">备忘-git基础</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/06/2021-03-06-%E5%A4%87%E5%BF%98-Makefile%E5%9F%BA%E7%A1%80/">备忘-Makefile基础</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2022 haipingpang<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

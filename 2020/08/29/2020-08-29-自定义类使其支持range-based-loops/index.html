@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>自定义类使其支持range-based-loops | Mary博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="一、motivation 看项目代码的时候，同事用了，不明白为什么可以这么用，所以搜了一下">
+<meta property="og:type" content="article">
+<meta property="og:title" content="自定义类使其支持range-based-loops">
+<meta property="og:url" content="http://example.com/2020/08/29/2020-08-29-%E8%87%AA%E5%AE%9A%E4%B9%89%E7%B1%BB%E4%BD%BF%E5%85%B6%E6%94%AF%E6%8C%81range-based-loops/index.html">
+<meta property="og:site_name" content="Mary博客">
+<meta property="og:description" content="一、motivation 看项目代码的时候，同事用了，不明白为什么可以这么用，所以搜了一下">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-08-29T10:18:53.000Z">
+<meta property="article:modified_time" content="2022-05-25T03:01:20.093Z">
+<meta property="article:author" content="haipingpang">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Mary博客" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Mary博客</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-2020-08-29-自定义类使其支持range-based-loops" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/08/29/2020-08-29-%E8%87%AA%E5%AE%9A%E4%B9%89%E7%B1%BB%E4%BD%BF%E5%85%B6%E6%94%AF%E6%8C%81range-based-loops/" class="article-date">
+  <time class="dt-published" datetime="2020-08-29T10:18:53.000Z" itemprop="datePublished">2020-08-29</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/C/">C++</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      自定义类使其支持range-based-loops
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="一、motivation"><a href="#一、motivation" class="headerlink" title="一、motivation"></a>一、motivation</h2><ul>
+<li>看项目代码的时候，同事用了，不明白为什么可以这么用，所以搜了一下</li>
+</ul>
+<span id="more"></span>
+<ul>
+<li>代码类似这样：<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">MyMap mymap;</span><br><span class="line">mymap.<span class="built_in">load</span>();</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">auto</span>&amp; [id, val] : mymap)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;id: %u, val: %f\n&quot;</span>, id, val);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="二、类中通过begin和end声明范围"><a href="#二、类中通过begin和end声明范围" class="headerlink" title="二、类中通过begin和end声明范围"></a>二、类中通过begin和end声明范围</h2><ul>
+<li><p>下面基本上是抄这里的:<br><code>https://stackoverflow.com/questions/8164567/how-to-make-my-custom-type-to-work-with-range-based-for-loops</code></p>
+</li>
+<li><p>可以在类中通过<code>begin()</code>和<code>end()</code>声明遍历的初始及结束条件，如下所示：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">MyMap</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">        <span class="built_in">MyMap</span>()&#123;&#125;</span><br><span class="line">        ~<span class="built_in">MyMap</span>()&#123;&#125;</span><br><span class="line">        <span class="keyword">typedef</span> <span class="keyword">typename</span> std::map&lt;<span class="type">uint32_t</span>, <span class="type">double</span>&gt;::const_iterator _mymap_iter;</span><br><span class="line">        <span class="function">_mymap_iter <span class="title">begin</span><span class="params">()</span> <span class="type">const</span></span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> _realmap.<span class="built_in">begin</span>();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="function">_mymap_iter <span class="title">end</span><span class="params">()</span> <span class="type">const</span></span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> _realmap.<span class="built_in">end</span>();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="function"><span class="type">void</span> <span class="title">load</span><span class="params">()</span></span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            _realmap[<span class="number">1</span>] = <span class="number">0.1</span>;</span><br><span class="line">            _realmap[<span class="number">2</span>] = <span class="number">0.2</span>;</span><br><span class="line">            _realmap[<span class="number">3</span>] = <span class="number">0.3</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span>:</span><br><span class="line">        std::map&lt;<span class="type">uint32_t</span>, <span class="type">double</span>&gt; _realmap;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>看到了吗，看到了吗，这里只要这样简单返回了初始与结束的iterator就可以了。那么还有个问题，这里<code>begin()</code>和<code>end()</code>返回的只能是迭代器吗。不是的。</p>
+</li>
+<li><p>这里<code>begin()</code>和<code>end()</code>只是定义了一个开始和结束的条件，一般的<code>for(:) loop</code>是这样的：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>( range_declaration : range_expression )</span><br></pre></td></tr></table></figure>
+<p>其等同于：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// (until C++17)</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">auto</span> &amp;&amp; __range = range_expression;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">auto</span> __begin = begin_expr,</span><br><span class="line">          __end = end_expr;</span><br><span class="line">          __begin != __end; ++__begin) &#123;</span><br><span class="line">          range_declaration = *__begin;</span><br><span class="line">          loop_statement</span><br><span class="line">          &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>从上述扩展可以看到，这里<code>begin_expr</code>和<code>end_expr</code>不一定是迭代器，但是<code>begin()/end()</code>返回的值需要满足几个条件：</p>
+<ol>
+<li>需要支持前置<code>++</code>算子</li>
+<li><code>!=</code>在这里是有效的（我的理解是这里end()返回的值是能够达到的，我还没想到这里可能是浮点数的情况）</li>
+<li><code>*</code>算子返回的值是有效的，比如这里需要一个<code>public</code>的构造函数，才能返回相应的值</li>
+</ol>
+</li>
+<li><p>但是<code>begin()/end()</code>返回的如果不是迭代器的话，后面也是很可能随着C++标准的变化，而不再支持。所以这里推荐返回的就是<code>iterator</code>类型的值。</p>
+</li>
+<li><p>C++17开始，上述<code>for(:) loop</code>的定义变了，它变了:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// since c++17</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">auto</span> &amp;&amp; __range = range_expression ;</span><br><span class="line">    <span class="keyword">auto</span> __begin = begin_expr;</span><br><span class="line">    <span class="keyword">auto</span> __end = end_expr;</span><br><span class="line">    <span class="keyword">for</span> (;__begin != __end; ++__begin) &#123;</span><br><span class="line">        range_declaration = *__begin;</span><br><span class="line">        loop_statement</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>上述变化是，begin和end的类型可以不同，不再耦合。</p>
+</li>
+</ul>
+<h2 id="三、待续…"><a href="#三、待续…" class="headerlink" title="三、待续…"></a>三、待续…</h2><ul>
+<li>我感觉这一块还可以dfs一下，我现在有点累，被之前的自己搭的博客折磨的累了。有生之年再补充…我是真的菜</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/08/29/2020-08-29-%E8%87%AA%E5%AE%9A%E4%B9%89%E7%B1%BB%E4%BD%BF%E5%85%B6%E6%94%AF%E6%8C%81range-based-loops/" data-id="cl3l02orv000814dchsl1at0s" data-title="自定义类使其支持range-based-loops" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/09/05/2020-09-05-%E7%AE%97%E6%B3%95-%E5%88%A9%E7%94%A8Rand7%E5%AE%9E%E7%8E%B0Rand10/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          利用Rand7实现Rand10
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/08/09/2020-08-09-void*%E5%92%8Cvoid**%E7%9A%84%E5%8C%BA%E5%88%AB/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">void*和void**的区别</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C/">C++</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/C/redis/">redis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/C/std/">std</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/">博客搭建</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/">科学上网</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%99%9A%E6%8B%9F%E6%9C%BA/">虚拟机</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/06/07/2021-06-07-is-trivial%E5%92%8Cis-standand-layout/">is_trivial和is_standand_layout</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/24/2021-04-24-Redis%E4%B8%AD%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2sds/">Redis中的字符串sds</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/18/2021-04-18-%E6%97%A0%E9%94%81%E9%98%9F%E5%88%97/">无锁队列</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/10/2021-03-10-%E5%A4%87%E5%BF%98-git%E5%9F%BA%E7%A1%80/">备忘-git基础</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/06/2021-03-06-%E5%A4%87%E5%BF%98-Makefile%E5%9F%BA%E7%A1%80/">备忘-Makefile基础</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2022 haipingpang<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

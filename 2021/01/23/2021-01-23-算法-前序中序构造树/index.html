@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>算法-前序中序构造树 | Mary博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="一、问题概述 通过前序和中序排列构造二叉树，问题如例1(LeeCode 105)所示">
+<meta property="og:type" content="article">
+<meta property="og:title" content="算法-前序中序构造树">
+<meta property="og:url" content="http://example.com/2021/01/23/2021-01-23-%E7%AE%97%E6%B3%95-%E5%89%8D%E5%BA%8F%E4%B8%AD%E5%BA%8F%E6%9E%84%E9%80%A0%E6%A0%91/index.html">
+<meta property="og:site_name" content="Mary博客">
+<meta property="og:description" content="一、问题概述 通过前序和中序排列构造二叉树，问题如例1(LeeCode 105)所示">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/%E4%BE%8B%E5%AD%901.png">
+<meta property="og:image" content="http://example.com/%E4%BE%8B%E5%AD%902.png">
+<meta property="article:published_time" content="2021-01-23T05:25:03.000Z">
+<meta property="article:modified_time" content="2022-05-25T03:01:20.094Z">
+<meta property="article:author" content="haipingpang">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/%E4%BE%8B%E5%AD%901.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Mary博客" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Mary博客</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-2021-01-23-算法-前序中序构造树" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/01/23/2021-01-23-%E7%AE%97%E6%B3%95-%E5%89%8D%E5%BA%8F%E4%B8%AD%E5%BA%8F%E6%9E%84%E9%80%A0%E6%A0%91/" class="article-date">
+  <time class="dt-published" datetime="2021-01-23T05:25:03.000Z" itemprop="datePublished">2021-01-23</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/C/">C++</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      算法-前序中序构造树
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="一、问题概述"><a href="#一、问题概述" class="headerlink" title="一、问题概述"></a>一、问题概述</h2><ul>
+<li>通过前序和中序排列构造二叉树，问题如例1(<code>LeeCode 105</code>)所示</li>
+</ul>
+<span id="more"></span>
+<p><img src="/%E4%BE%8B%E5%AD%901.png" alt="例1"></p>
+<h2 id="二、根据思路自己写的算法1"><a href="#二、根据思路自己写的算法1" class="headerlink" title="二、根据思路自己写的算法1"></a>二、根据思路自己写的算法1</h2><ul>
+<li><p>这个算法因为每次递归都会创建新的vector，占用内存太高</p>
+</li>
+<li><p>不过可以大致说明前序和中序的思路，如例2所示: 1. 根据每次前序遍历确定根节点的位置。因为前序遍历先访问的是根节点，所以前序遍历第一个位置就是根节点；2. 根据根节点在中序遍历中的位置，将树划分为左右两棵树；3. 根据第一步和第二步递归处理左右两棵树。<br>  <img src="/%E4%BE%8B%E5%AD%902.png" alt="例2"></p>
+<ol>
+<li>根据前序遍历A B D E G C F H 确定根节点是A，根据中序遍历 D B G E A C H F 将树划分为左子树 D B G E 和右子树 C H F</li>
+<li>划分为左右两棵子树：对于左子树，前序遍历是 B D E G，后续遍历是 D B G E。对于右子树，前序遍历是 C F H，后续遍历是 C H F</li>
+<li>对左右子树进行第1 2步的递归分析，递归结束条件为：中序遍历的节点只剩下1个节点</li>
+</ol>
+</li>
+<li><p>代码：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">TreeNode* <span class="title">buildTree</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; preorder, vector&lt;<span class="type">int</span>&gt;&amp; inorder)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (preorder.<span class="built_in">empty</span>() || inorder.<span class="built_in">empty</span>()) <span class="keyword">return</span> <span class="literal">nullptr</span>;</span><br><span class="line">        </span><br><span class="line">        TreeNode* root = <span class="keyword">new</span> <span class="built_in">TreeNode</span>(preorder[<span class="number">0</span>]);</span><br><span class="line">        vector&lt;<span class="type">int</span>&gt;::iterator it = <span class="built_in">find</span>(inorder.<span class="built_in">begin</span>(), inorder.<span class="built_in">end</span>(), preorder[<span class="number">0</span>]);</span><br><span class="line">        <span class="type">int</span> numsLeft = <span class="built_in">distance</span>(inorder.<span class="built_in">begin</span>(), it);</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> (numsLeft &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">            root-&gt;left = <span class="literal">nullptr</span>;   <span class="comment">// 表示root没有左子树</span></span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            vector&lt;<span class="type">int</span>&gt; <span class="built_in">left_preorder</span>(preorder.<span class="built_in">begin</span>()+<span class="number">1</span>, preorder.<span class="built_in">begin</span>()+numsLeft+<span class="number">1</span>); <span class="comment">// 左子树前序</span></span><br><span class="line">            <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">left_inorder</span><span class="params">(inorder.begin(), inorder.begin()+numsLeft)</span></span>;        <span class="comment">// 左子树中序</span></span><br><span class="line">            root-&gt;left = <span class="built_in">buildTree</span>(left_preorder, left_inorder);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (it+<span class="number">1</span> &gt;= inorder.<span class="built_in">end</span>()) &#123;</span><br><span class="line">            root-&gt;right = <span class="literal">nullptr</span>;  <span class="comment">// 表示root没有右子树</span></span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            vector&lt;<span class="type">int</span>&gt; <span class="built_in">right_preorder</span>(preorder.<span class="built_in">begin</span>()+numsLeft+<span class="number">1</span>, preorder.<span class="built_in">end</span>());    <span class="comment">// 右子树前序</span></span><br><span class="line">            <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">right_inorder</span><span class="params">(it+<span class="number">1</span>, inorder.end())</span></span>;     <span class="comment">// 右子树中序</span></span><br><span class="line">            root-&gt;right = <span class="built_in">buildTree</span>(right_preorder, right_inorder);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> root;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></li>
+<li><p>由于<code>left_preorder left_inorder right_preorder right_inorder</code>都是每次递归新创建的vector，因此随着递归层数增加，会增加内存，所以占用内存很多</p>
+</li>
+<li><p>当时思路局限在LeeCode题目的接口参数上了，没想到接口参数传入数组的索引</p>
+</li>
+</ul>
+<h2 id="三、优化：根据索引分左右子树，进行递归"><a href="#三、优化：根据索引分左右子树，进行递归" class="headerlink" title="三、优化：根据索引分左右子树，进行递归"></a>三、优化：根据索引分左右子树，进行递归</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">TreeNode* <span class="title">buildTree</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; preorder, vector&lt;<span class="type">int</span>&gt;&amp; inorder)</span> </span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">buildTree</span>(preorder, <span class="number">0</span>, preorder.<span class="built_in">size</span>()<span class="number">-1</span>, inorder, <span class="number">0</span>, inorder.<span class="built_in">size</span>()<span class="number">-1</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function">TreeNode* <span class="title">buildTree</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; preorder, <span class="type">int</span> pre_start, <span class="type">int</span> pre_end, vector&lt;<span class="type">int</span>&gt;&amp; inorder, <span class="type">int</span> in_start, <span class="type">int</span> in_end)</span> </span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (pre_start &gt; pre_end || in_start &gt; in_end) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">nullptr</span>; </span><br><span class="line">        &#125;</span><br><span class="line">        TreeNode* root = <span class="keyword">new</span> <span class="built_in">TreeNode</span>(preorder[pre_start]);</span><br><span class="line">        vector&lt;<span class="type">int</span>&gt;::iterator it = <span class="built_in">find</span>(inorder.<span class="built_in">begin</span>(), inorder.<span class="built_in">end</span>(), preorder[pre_start]);</span><br><span class="line">        <span class="type">int</span> rootpos = <span class="built_in">distance</span>(inorder.<span class="built_in">begin</span>(), it);</span><br><span class="line">        <span class="type">int</span> numleft = <span class="built_in">distance</span>(inorder.<span class="built_in">begin</span>()+in_start, it);</span><br><span class="line"></span><br><span class="line">        root-&gt;left = <span class="built_in">buildTree</span>(preorder, pre_start+<span class="number">1</span>, pre_start+numleft, inorder, in_start, in_start+numleft<span class="number">-1</span>);</span><br><span class="line">        root-&gt;right = <span class="built_in">buildTree</span>(preorder, pre_start+numleft+<span class="number">1</span>, pre_end, inorder, rootpos+<span class="number">1</span>, in_end);</span><br><span class="line">        <span class="keyword">return</span> root;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="四、针对题中没有重复元素的优化"><a href="#四、针对题中没有重复元素的优化" class="headerlink" title="四、针对题中没有重复元素的优化"></a>四、针对题中没有重复元素的优化</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">TreeNode* <span class="title">buildTree</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; preorder, vector&lt;<span class="type">int</span>&gt;&amp; inorder)</span> </span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        map&lt;<span class="type">int</span>, <span class="type">int</span>&gt; inmap;</span><br><span class="line">        <span class="type">int</span> i = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">auto</span>&amp; it : inorder)</span><br><span class="line">        &#123;</span><br><span class="line">            inmap[it] = i; </span><br><span class="line">            i++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">buildTree</span>(preorder, <span class="number">0</span>, preorder.<span class="built_in">size</span>()<span class="number">-1</span>, inorder, <span class="number">0</span>, inorder.<span class="built_in">size</span>()<span class="number">-1</span>, inmap);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function">TreeNode* <span class="title">buildTree</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; preorder, <span class="type">int</span> pre_start, <span class="type">int</span> pre_end, vector&lt;<span class="type">int</span>&gt;&amp; inorder, <span class="type">int</span> in_start, <span class="type">int</span> in_end, map&lt;<span class="type">int</span>, <span class="type">int</span>&gt;&amp; inmap)</span> </span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (pre_start &gt; pre_end || in_start &gt; in_end) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">nullptr</span>; </span><br><span class="line">        &#125;</span><br><span class="line">        TreeNode* root = <span class="keyword">new</span> <span class="built_in">TreeNode</span>(preorder[pre_start]);</span><br><span class="line">        vector&lt;<span class="type">int</span>&gt;::iterator it = <span class="built_in">find</span>(inorder.<span class="built_in">begin</span>(), inorder.<span class="built_in">end</span>(), preorder[pre_start]);</span><br><span class="line">        <span class="type">int</span> rootpos = inmap[root-&gt;val];</span><br><span class="line">        <span class="type">int</span> numleft = rootpos - in_start;</span><br><span class="line"></span><br><span class="line">        root-&gt;left = <span class="built_in">buildTree</span>(preorder, pre_start+<span class="number">1</span>, pre_start+numleft, inorder, in_start, in_start+numleft<span class="number">-1</span>, inmap);</span><br><span class="line">        root-&gt;right = <span class="built_in">buildTree</span>(preorder, pre_start+numleft+<span class="number">1</span>, pre_end, inorder, rootpos+<span class="number">1</span>, in_end, inmap);</span><br><span class="line">        <span class="keyword">return</span> root;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>哈哈，本来想用map存储inorder中的值和索引的，发现leecode上跑出来的速度没有提高多少，但是内存增加了20%</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/01/23/2021-01-23-%E7%AE%97%E6%B3%95-%E5%89%8D%E5%BA%8F%E4%B8%AD%E5%BA%8F%E6%9E%84%E9%80%A0%E6%A0%91/" data-id="cl3l02osu000o14dc48tuaj6y" data-title="算法-前序中序构造树" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2021/01/23/2021-01-23-%E7%AE%97%E6%B3%95-%E5%90%8E%E5%BA%8F%E4%B8%AD%E5%BA%8F%E6%9E%84%E9%80%A0%E6%A0%91/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          算法-后序中序构造树
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/01/12/2021-01-12-%E7%AE%97%E6%B3%95-%E4%BA%8C%E5%8F%89%E6%A0%91%E6%9C%80%E5%A4%A7%E8%B7%AF%E5%BE%84%E5%92%8C/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">算法-二叉树最大路径和</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C/">C++</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/C/redis/">redis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/C/std/">std</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/">博客搭建</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/">科学上网</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%99%9A%E6%8B%9F%E6%9C%BA/">虚拟机</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/06/07/2021-06-07-is-trivial%E5%92%8Cis-standand-layout/">is_trivial和is_standand_layout</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/24/2021-04-24-Redis%E4%B8%AD%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2sds/">Redis中的字符串sds</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/18/2021-04-18-%E6%97%A0%E9%94%81%E9%98%9F%E5%88%97/">无锁队列</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/10/2021-03-10-%E5%A4%87%E5%BF%98-git%E5%9F%BA%E7%A1%80/">备忘-git基础</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/06/2021-03-06-%E5%A4%87%E5%BF%98-Makefile%E5%9F%BA%E7%A1%80/">备忘-Makefile基础</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2022 haipingpang<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

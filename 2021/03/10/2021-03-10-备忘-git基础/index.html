@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>备忘-git基础 | Mary博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="一、简介 主要摘述和整理了这个博客的内容: http:&#x2F;&#x2F;www.linuxidc.com&#x2F;Linux&#x2F;2014-05&#x2F;101829.htm Linus开发Linux内核，需要版本控制，于是开发了git 集中式管理和分布式管理区别: 集中式管理：从中央服务器取得最新版本，放在自己电脑，开始修改，修改好后提交到中央服务器；网速不好的话，可能无法提交大文件，影响工作。 分布式管理: 没有中央服务器，每">
+<meta property="og:type" content="article">
+<meta property="og:title" content="备忘-git基础">
+<meta property="og:url" content="http://example.com/2021/03/10/2021-03-10-%E5%A4%87%E5%BF%98-git%E5%9F%BA%E7%A1%80/index.html">
+<meta property="og:site_name" content="Mary博客">
+<meta property="og:description" content="一、简介 主要摘述和整理了这个博客的内容: http:&#x2F;&#x2F;www.linuxidc.com&#x2F;Linux&#x2F;2014-05&#x2F;101829.htm Linus开发Linux内核，需要版本控制，于是开发了git 集中式管理和分布式管理区别: 集中式管理：从中央服务器取得最新版本，放在自己电脑，开始修改，修改好后提交到中央服务器；网速不好的话，可能无法提交大文件，影响工作。 分布式管理: 没有中央服务器，每">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/central_server.png">
+<meta property="og:image" content="http://example.com/distrubuted_server.png">
+<meta property="og:image" content="http://example.com/git_tree.png">
+<meta property="og:image" content="http://example.com/workflow.png">
+<meta property="og:image" content="http://example.com/newfile.png">
+<meta property="og:image" content="http://example.com/addfile.png">
+<meta property="og:image" content="http://example.com/commit_result.png">
+<meta property="og:image" content="http://example.com/commit_status.png">
+<meta property="og:image" content="http://example.com/modify_status.png">
+<meta property="og:image" content="http://example.com/gitdiff.png">
+<meta property="og:image" content="http://example.com/gitlog.png">
+<meta property="og:image" content="http://example.com/gitlog_oneline.png">
+<meta property="og:image" content="http://example.com/git_reset.png">
+<meta property="og:image" content="http://example.com/git_reset_result.png">
+<meta property="og:image" content="http://example.com/architecture.png">
+<meta property="article:published_time" content="2021-03-10T03:28:25.000Z">
+<meta property="article:modified_time" content="2022-05-25T03:01:20.096Z">
+<meta property="article:author" content="haipingpang">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/central_server.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Mary博客" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Mary博客</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-2021-03-10-备忘-git基础" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/03/10/2021-03-10-%E5%A4%87%E5%BF%98-git%E5%9F%BA%E7%A1%80/" class="article-date">
+  <time class="dt-published" datetime="2021-03-10T03:28:25.000Z" itemprop="datePublished">2021-03-10</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/C/">C++</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      备忘-git基础
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="一、简介"><a href="#一、简介" class="headerlink" title="一、简介"></a>一、简介</h2><ul>
+<li>主要摘述和整理了这个博客的内容: <a target="_blank" rel="noopener" href="http://www.linuxidc.com/Linux/2014-05/101829.htm">http://www.linuxidc.com/Linux/2014-05/101829.htm</a></li>
+<li>Linus开发Linux内核，需要版本控制，于是开发了git</li>
+<li>集中式管理和分布式管理区别:<ol>
+<li>集中式管理：从中央服务器取得最新版本，放在自己电脑，开始修改，修改好后提交到中央服务器；网速不好的话，可能无法提交大文件，影响工作。</li>
+<li>分布式管理: 没有中央服务器，每个电脑都有完整的版本库，如果两台电脑在同一个局域网的话，甚至可以互相推送修改。即使服务器数据丢失，也可以用别的已经同步过版本号的电脑，获得版本信息。</li>
+</ol>
+</li>
+</ul>
+<span id="more"></span>
+
+<p><img src="/central_server.png" alt="集中式管理"><br><img src="/distrubuted_server.png" alt="分布式管理"></p>
+<ul>
+<li>git特点<ol>
+<li>分布式</li>
+<li>存储快照而非差异</li>
+<li>本地有完整的版本库，几乎所有操作都在本地</li>
+<li>有内在一致性，SHA1</li>
+<li>分支管理</li>
+<li>支持各种协同模式</li>
+<li>开源，一些第三方软件可整合使用</li>
+</ol>
+</li>
+</ul>
+<h2 id="二、原理"><a href="#二、原理" class="headerlink" title="二、原理"></a>二、原理</h2><ul>
+<li>BLOB:每个blob代表一个（版本的）文件，blob只包含文件的数据，而忽略文件的其他元数据，如名字、路径、格式等</li>
+<li>TREE:每个tree代表了一个目录的信息，包含了此目录下的blobs，子目录（对应于子trees），文件名、路径等元数据。因此，对于有子目录的目录，git相当于存储了嵌套的trees</li>
+<li>COMMIT:每个commit记录了提交一个更新的所有元数据，如指向的tree，父commit，作者、提交者、提交日期、提交日志等。每次提交都指向一个tree对象，记录了当次提交时的目录信息。一个commit可以有多个（至少一个）父commits</li>
+<li>TAG:</li>
+</ul>
+<p><img src="/git_tree.png" alt="git基本类型"><br><img src="/workflow.png" alt="git工作流程"></p>
+<ul>
+<li>主要分为工作区(Working Dir)，提交区&#x2F;暂存区(stage&#x2F;index)，版本库</li>
+</ul>
+<h2 id="三、git配置"><a href="#三、git配置" class="headerlink" title="三、git配置"></a>三、git配置</h2><ul>
+<li><code>git config</code>后加<code>--global</code>表示所有仓库都使用该配置:<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name &quot;Your Name&quot;</span><br><span class="line">git config --global user.email &quot;email@example.com&quot;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="四、git基本操作"><a href="#四、git基本操作" class="headerlink" title="四、git基本操作"></a>四、git基本操作</h2><ul>
+<li>新建空仓库: <code>git init</code></li>
+<li>在当前目录下新建一个<code>readme.txt</code>文件后，再使用<code>git status</code>查看，发现该文件是<code>untracked files</code>:<br><img src="/newfile.png" alt="新建文件"></li>
+<li><code>git add</code>命令告诉git，需要把哪些文件提交到仓库，即将文件加入到暂存区(index)，执行<code>git add readme.txt</code>之后，再使用<code>git status</code>查看状态:<br><img src="/addfile.png" alt="添加文件"></li>
+<li><code>git commit</code>命令将文件提交到版本库，提交结果如图所示，<code>1 file changed, 0 insertions(+), 0 deletions(-)</code>,增加了1个文件，没有对原有文件进行删除或增加。<br><img src="/commit_result.png" alt="提交文件"></li>
+<li>再使用<code>git status</code>查看状态，说明已经没有改动可以提交:<br><img src="/commit_status.png" alt="提交后状态"></li>
+</ul>
+<h2 id="五、修改与回滚"><a href="#五、修改与回滚" class="headerlink" title="五、修改与回滚"></a>五、修改与回滚</h2><ul>
+<li>在readme.txt中增加了一行，再使用<code>git status</code>查看:<br><img src="/modify_status.png" alt="修改文件后的状态"></li>
+<li>再使用<code>git diff</code>查看改动的地方，发现是增加了一行:<br><img src="/gitdiff.png" alt="git diff查看改动"></li>
+<li>对于以上改动，还是使用相同的方式，先<code>git add</code>，后<code>git commit</code>进行提交</li>
+<li>多次提交后的log，可以通过<code>git log</code>或者<code>git log --pretty=oneline</code>进行查看:<br><img src="/gitlog.png" alt="git log"><br><img src="/gitlog_oneline.png" alt="git log one line"></li>
+<li><code>HEAD</code>表示最新版本，往<code>HEAD</code>后加<code>^</code>表示向前推一个版本，几个<code>^</code>表示前推几个版本，同时，也可以使用log中的版本号标记一个版本。通过<code>git reset</code>命令回滚到某个版本。<code>--hard</code>表示回滚的同时，覆盖工作区文件，不写的话，只是将版本回滚结果放在暂存区:<br><img src="/git_reset.png" alt="git reset"></li>
+<li>回滚后，结果如图:<br><img src="/git_reset_result.png" alt="回滚后log"></li>
+<li>如果回滚后，又后悔了，可以找到原来最新的版本号，同样使用<code>git reset</code>回到原来最新的版本号。</li>
+<li>如果已经关了窗口，找不到原来的版本号了，可以使用<code>git reflog</code>查找到执行过的命令，从中找到需要的版本号，再进行<code>git reset</code></li>
+</ul>
+<h2 id="六、工作区、提交区-x2F-暂存区-index-和版本区"><a href="#六、工作区、提交区-x2F-暂存区-index-和版本区" class="headerlink" title="六、工作区、提交区&#x2F;暂存区(index)和版本区"></a>六、工作区、提交区&#x2F;暂存区(index)和版本区</h2><p><img src="/architecture.png" alt="不同区的结构"></p>
+<ul>
+<li>工作区指的是跟<code>.git</code>文件夹平级的其他文件或目录</li>
+<li>版本区在<code>.git</code>文件夹中</li>
+<li>暂存区在<code>.git</code>文件夹的<code>index</code>文件夹中</li>
+<li>左侧为工作区，右侧为版本库，版本库中<code>index</code>部分是暂存区，此时<code>HEAD</code>是指向master分支的一个指针</li>
+<li>图中objects, 对象库，即<code>.git/objects</code>目录</li>
+<li>执行<code>git add</code>之后，暂存区的目录树更新，同时工作区新增&#x2F;修改的文件被写入到对象库的一个新的对象中，对象id在暂存区索引中</li>
+<li>执行<code>git commit</code>之后，暂存区的目录树写到版本库的对象库中，master分支做相应更新。即master指向的目录树就是提交暂存区的目录树</li>
+<li><code>git reset HEAD</code>, 暂存区的目录树被重写，被master指向的目录树替换, 工作区不受影响。</li>
+<li><code>git rm --cached &lt;file&gt;</code>会从暂存区删除文件，工作区不作出改变</li>
+<li><code>git checkout .</code>,<code>git checkout -- &lt;file&gt;</code>会用暂存区全部或指定文件替换工作区的文件，这个操作危险, 会清除工作区中未添加到暂存区的改动</li>
+<li><code>git checkout HEAD .</code>, <code>git checkout HEAD -- &lt;file&gt;</code>会用HEAD指向的全部或部分文件替换暂存区及工作区文件。操作危险。</li>
+</ul>
+<h2 id="七、不同情况下的撤销修改"><a href="#七、不同情况下的撤销修改" class="headerlink" title="七、不同情况下的撤销修改"></a>七、不同情况下的撤销修改</h2><ul>
+<li>当改错工作区某个文件内容，想直接丢弃工作区的修改时，<code>git checkout -- &lt;file&gt;</code></li>
+<li>当改错工作区某个文件内容、并添加到暂存区时，想丢弃修改，分为两步，第一步，<code>git reset HEAD &lt;file&gt;</code>，回到第一步，第二步按第1步操作，执行<code>git checkout -- &lt;file&gt;</code></li>
+<li>当错误修改已提交到版本库，通过回滚方式回退版本，不过前提是没有推送到远程库</li>
+<li>总结，以一篇博客的评论大致总结一下:原来git并不是用restore的，工作区的用checkout 放弃修改，添加后的用reset head 。这样做指令风险太大。reset的模式就很多。加入restore 就改变了很多，但离完美还差的远。 restore 是对指定区域撤销一步。 工作区域 撤销 git restore 文件名， 执行后 指针指向 Stage Head[0] || Repository Head[0] 短路或的作用，如果暂存区有新版本就直接用暂存区的版本，没有最新就用 仓库最新版本。实际上暂存区的 Head[0] 在没有新加文件都是指向仓库区的。 git restore –staged <file_name> 这个只是针对暂存区撤销一步，指针指向 Repository Head[0]，所以你无论添加多少次操作都是恢复到仓库最后一次提交的指针。</li>
+</ul>
+<h2 id="八、删除文件"><a href="#八、删除文件" class="headerlink" title="八、删除文件"></a>八、删除文件</h2><ul>
+<li>删除工作区文件后，正常流程是通过<code>git rm</code>将该删除动作同步到暂存区，再进行<code>git commit</code>提交到版本库</li>
+<li>如果误删，和上述撤销修改的操作道理差不多</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/03/10/2021-03-10-%E5%A4%87%E5%BF%98-git%E5%9F%BA%E7%A1%80/" data-id="cl3l02ot2001314dce2fz2tpl" data-title="备忘-git基础" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2021/04/18/2021-04-18-%E6%97%A0%E9%94%81%E9%98%9F%E5%88%97/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          无锁队列
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/03/06/2021-03-06-%E5%A4%87%E5%BF%98-Makefile%E5%9F%BA%E7%A1%80/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">备忘-Makefile基础</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C/">C++</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/C/redis/">redis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/C/std/">std</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/">博客搭建</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/">科学上网</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%99%9A%E6%8B%9F%E6%9C%BA/">虚拟机</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/06/07/2021-06-07-is-trivial%E5%92%8Cis-standand-layout/">is_trivial和is_standand_layout</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/24/2021-04-24-Redis%E4%B8%AD%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2sds/">Redis中的字符串sds</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/18/2021-04-18-%E6%97%A0%E9%94%81%E9%98%9F%E5%88%97/">无锁队列</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/10/2021-03-10-%E5%A4%87%E5%BF%98-git%E5%9F%BA%E7%A1%80/">备忘-git基础</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/06/2021-03-06-%E5%A4%87%E5%BF%98-Makefile%E5%9F%BA%E7%A1%80/">备忘-Makefile基础</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2022 haipingpang<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

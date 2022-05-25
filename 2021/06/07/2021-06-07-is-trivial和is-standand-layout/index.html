@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>is_trivial和is_standand_layout | Mary博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="一、简介 POD，全称plain old data，plain代表它是一个普通类型，old代表它可以与C兼容，可以使用比如memcpy()这类C中最原始的函数。C++11把POD分为了两个基本概念的集合。即：trivial(平凡的)和standard layout(标准布局的)。 下面主要针对std中的两个接口进行说明，具体和C++标准中的概念是否一一对应，有待进一步看看。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="is_trivial和is_standand_layout">
+<meta property="og:url" content="http://example.com/2021/06/07/2021-06-07-is-trivial%E5%92%8Cis-standand-layout/index.html">
+<meta property="og:site_name" content="Mary博客">
+<meta property="og:description" content="一、简介 POD，全称plain old data，plain代表它是一个普通类型，old代表它可以与C兼容，可以使用比如memcpy()这类C中最原始的函数。C++11把POD分为了两个基本概念的集合。即：trivial(平凡的)和standard layout(标准布局的)。 下面主要针对std中的两个接口进行说明，具体和C++标准中的概念是否一一对应，有待进一步看看。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-06-07T14:03:18.000Z">
+<meta property="article:modified_time" content="2022-05-25T03:01:20.096Z">
+<meta property="article:author" content="haipingpang">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Mary博客" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Mary博客</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-2021-06-07-is-trivial和is-standand-layout" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/06/07/2021-06-07-is-trivial%E5%92%8Cis-standand-layout/" class="article-date">
+  <time class="dt-published" datetime="2021-06-07T14:03:18.000Z" itemprop="datePublished">2021-06-07</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/C/">C++</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      is_trivial和is_standand_layout
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="一、简介"><a href="#一、简介" class="headerlink" title="一、简介"></a>一、简介</h2><ul>
+<li>POD，全称plain old data，plain代表它是一个普通类型，old代表它可以与C兼容，可以使用比如memcpy()这类C中最原始的函数。C++11把POD分为了两个基本概念的集合。即：trivial(平凡的)和standard layout(标准布局的)。</li>
+<li>下面主要针对std中的两个接口进行说明，具体和C++标准中的概念是否一一对应，有待进一步看看。</li>
+</ul>
+<span id="more"></span>
+
+<h2 id="二、std-is-trivial"><a href="#二、std-is-trivial" class="headerlink" title="二、std::is_trivial"></a>二、<code>std::is_trivial</code></h2><ul>
+<li><code>template &lt;class T&gt; struct is_trivial;</code></li>
+<li>一个trivial类型满足：1. 存储连续(trivially copyable) 2. 只支持静态默认的初始化(trivially default constructiable)。且不管它是否为cv-qualified(const-qualified\volatile-qualified\const-volatile-qualified)。</li>
+<li>包括scalar types(arithmetic \ pointer \ member pointer \ std::nullptr_t), trivial classes 或者上述类型的数组类型；</li>
+<li>trivial classes 是通过class、struct、union定义的，并且同时满足trivially default constructable和trivially copyable，即：<ol>
+<li>使用显式定义的、默认的copy and move constructors, copy and move assignments, and destructor。我们不能自定义上述函数，函数体为空也不行，但是可以通过<code>=default</code>指出;</li>
+<li>没有virtual成员</li>
+<li>没有采用brace- or equal- initializers方式初始化的非静态成员，其中brace or equal initializers的例子如下：  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">X</span> &#123;</span><br><span class="line">	<span class="type">int</span> i = <span class="number">4</span>;</span><br><span class="line">	<span class="type">int</span> j &#123;<span class="number">5</span>&#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></li>
+<li>如果判断目标是一个派生类，那它的基类必须是trivial type，如果目标作为一个类，它的非静态成员也必须是trivial type（递归定义）：</li>
+</ol>
+</li>
+<li>与<code>is_trivial</code>相对应，还有一系列函数<code>is_trivially_constructible</code>、<code>is_trivially_copy_assignable</code>等，限制的是某一方面的特点</li>
+</ul>
+<h2 id="三、std-is-standard-layout"><a href="#三、std-is-standard-layout" class="headerlink" title="三、std::is_standard_layout"></a>三、<code>std::is_standard_layout</code></h2><ul>
+<li><code>template &lt;class T&gt; struct is_standard_layout;</code></li>
+<li>一个standard-layout类型指的是简单线性的结构，并且很容易和其他语言进行交互，比如C语言;</li>
+<li>包括scalar types，standard-layout classes 和任意上述类型的数组类型;</li>
+<li>standard-layout class指的是通过class、struct、union定义的，满足以下条件的结构:<ol>
+<li>不包含虚函数，没有虚基类;</li>
+<li>对于结构内的所有非静态成员，都有相同的访问权限，即private、public、protected等;</li>
+<li>要么，在most derived class中没有非静态成员，并且最多只有一个基类，这个基类不能包含非静态成员;<br>  要么没有包含非静态成员的基类；<br>  其中most derived class，表示初始化对象时用的类型:  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">base</span> &#123;&#125;;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">derived</span> : base &#123;&#125;;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">base2</span> &#123;&#125;;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">mostderived</span> : derived, base2 &#123;&#125;;</span><br><span class="line"></span><br><span class="line">mostderived md;</span><br></pre></td></tr></table></figure>
+  这里md的most derived class是实例化对象用的类型mostderived</li>
+<li>它的基类也必须是standard-layout class, 并且第一个非静态成员不是基类的类型;</li>
+</ol>
+</li>
+</ul>
+<h2 id="四、总结"><a href="#四、总结" class="headerlink" title="四、总结"></a>四、总结</h2><ul>
+<li>描述如此之复杂，虽然看懂了，但感觉也没找到这些定义的规律，所以使用的时候，还是要继续翻下这些接口的标准定义。不过记录一下后，可以按照这些记录大致找回记忆，再去看接口的标准定义进行细化理解。</li>
+<li>其实平时使用也不需要这么细致</li>
+<li>使用memcopy memset等函数时，可以看下这些接口的注意事项，比如potentially-overlapping subobject 和not TriviallyCopyable的对象是不能使用这些函数的。其中，union中两个字段如果部分重叠，就会产生overlapping。</li>
+<li>虽然使用这些接口、配合static_assert可以找到一些错误的使用，但是最好不对一些复杂结构进行内存操作。</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/06/07/2021-06-07-is-trivial%E5%92%8Cis-standand-layout/" data-id="cl3l02ot6001a14dc8rizdiod" data-title="is_trivial和is_standand_layout" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2021/04/24/2021-04-24-Redis%E4%B8%AD%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2sds/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Redis中的字符串sds</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C/">C++</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/C/redis/">redis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/C/std/">std</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/">博客搭建</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/">科学上网</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%99%9A%E6%8B%9F%E6%9C%BA/">虚拟机</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/06/07/2021-06-07-is-trivial%E5%92%8Cis-standand-layout/">is_trivial和is_standand_layout</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/24/2021-04-24-Redis%E4%B8%AD%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2sds/">Redis中的字符串sds</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/18/2021-04-18-%E6%97%A0%E9%94%81%E9%98%9F%E5%88%97/">无锁队列</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/10/2021-03-10-%E5%A4%87%E5%BF%98-git%E5%9F%BA%E7%A1%80/">备忘-git基础</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/06/2021-03-06-%E5%A4%87%E5%BF%98-Makefile%E5%9F%BA%E7%A1%80/">备忘-Makefile基础</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2022 haipingpang<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

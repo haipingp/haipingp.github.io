@@ -4,17 +4,17 @@
   <meta charset="utf-8">
   
   
-  <title>Hexo</title>
+  <title>Mary博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
+<meta property="og:title" content="Mary博客">
 <meta property="og:url" content="http://example.com/index.html">
-<meta property="og:site_name" content="Hexo">
+<meta property="og:site_name" content="Mary博客">
 <meta property="og:locale" content="en_US">
-<meta property="article:author" content="John Doe">
+<meta property="article:author" content="haipingpang">
 <meta name="twitter:card" content="summary">
   
-    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+    <link rel="alternate" href="/atom.xml" title="Mary博客" type="application/atom+xml">
   
   
     <link rel="shortcut icon" href="/favicon.png">
@@ -42,7 +42,7 @@
   <div id="header-outer" class="outer">
     <div id="header-title" class="inner">
       <h1 id="logo-wrap">
-        <a href="/" id="logo">Hexo</a>
+        <a href="/" id="logo">Mary博客</a>
       </h1>
       
     </div>
@@ -71,12 +71,16 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-hello-world" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-2021-06-07-is-trivial和is-standand-layout" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2022/05/24/hello-world/" class="article-date">
-  <time class="dt-published" datetime="2022-05-24T12:33:00.065Z" itemprop="datePublished">2022-05-24</time>
+    <a href="/2021/06/07/2021-06-07-is-trivial%E5%92%8Cis-standand-layout/" class="article-date">
+  <time class="dt-published" datetime="2021-06-07T14:03:18.000Z" itemprop="datePublished">2021-06-07</time>
 </a>
     
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/C/">C++</a>
+  </div>
+
   </div>
   <div class="article-inner">
     
@@ -85,7 +89,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2022/05/24/hello-world/">Hello World</a>
+      <a class="p-name article-title" href="/2021/06/07/2021-06-07-is-trivial%E5%92%8Cis-standand-layout/">is_trivial和is_standand_layout</a>
     </h1>
   
 
@@ -93,24 +97,466 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-
+        <h2 id="一、简介"><a href="#一、简介" class="headerlink" title="一、简介"></a>一、简介</h2><ul>
+<li>POD，全称plain old data，plain代表它是一个普通类型，old代表它可以与C兼容，可以使用比如memcpy()这类C中最原始的函数。C++11把POD分为了两个基本概念的集合。即：trivial(平凡的)和standard layout(标准布局的)。</li>
+<li>下面主要针对std中的两个接口进行说明，具体和C++标准中的概念是否一一对应，有待进一步看看。</li>
+</ul>
+        
+          <p class="article-more-link">
+            <a href="/2021/06/07/2021-06-07-is-trivial%E5%92%8Cis-standand-layout/#more">Read More</a>
+          </p>
+        
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/05/24/hello-world/" data-id="cl3k619kb0000kndc7jil5z0o" data-title="Hello World" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/06/07/2021-06-07-is-trivial%E5%92%8Cis-standand-layout/" data-id="cl3l02ot6001a14dc8rizdiod" data-title="is_trivial和is_standand_layout" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-2021-04-24-Redis中的字符串sds" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/04/24/2021-04-24-Redis%E4%B8%AD%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2sds/" class="article-date">
+  <time class="dt-published" datetime="2021-04-24T08:29:19.000Z" itemprop="datePublished">2021-04-24</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/C/">C++</a>►<a class="article-category-link" href="/categories/C/redis/">redis</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/04/24/2021-04-24-Redis%E4%B8%AD%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2sds/">Redis中的字符串sds</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="一、sds的一些特征"><a href="#一、sds的一些特征" class="headerlink" title="一、sds的一些特征"></a>一、sds的一些特征</h2><ol>
+<li>binary safe, 由于sds实现中都采用的是内存的分配和拷贝等，没有使用string，因此是二进制安全的。在创建字符串时会自动在结尾加<code>\0</code>，因此也可以通过printf打印出来。同时，也因为是二进制安全的，即使在字符串中间插入了<code>\0</code>，sds也保存了整个字符串的长度，不会丢失后面的数据。</li>
+</ol>
+        
+          <p class="article-more-link">
+            <a href="/2021/04/24/2021-04-24-Redis%E4%B8%AD%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2sds/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/04/24/2021-04-24-Redis%E4%B8%AD%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2sds/" data-id="cl3l02ot5001814dc2c8072md" data-title="Redis中的字符串sds" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-2021-04-18-无锁队列" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/04/18/2021-04-18-%E6%97%A0%E9%94%81%E9%98%9F%E5%88%97/" class="article-date">
+  <time class="dt-published" datetime="2021-04-18T14:07:52.000Z" itemprop="datePublished">2021-04-18</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/C/">C++</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/04/18/2021-04-18-%E6%97%A0%E9%94%81%E9%98%9F%E5%88%97/">无锁队列</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="一、简介"><a href="#一、简介" class="headerlink" title="一、简介"></a>一、简介</h2><p>如果使用锁来确保多线程访问时数据的一致性，当加解锁变得频繁时，比较耗时，因此需要找到一种无锁队列解决这个问题。举个现实中的例子，在一个四岔路口，如果朝南和朝北的车辆可以同时在开的话，容易发生交通事故，因此，需要在这些路口安放红绿灯。<br>这样朝南行驶的车放行时，朝北的车辆不能行驶。为了更高效的通过这个路口，采用了环岛使所有的车辆可以进入环岛来通行，如果有秩序的话，其实不设置红绿灯，也不会产生冲突。<br>这就好像用原子操作实现的无锁队列，不再有红绿灯值守。</p>
+        
+          <p class="article-more-link">
+            <a href="/2021/04/18/2021-04-18-%E6%97%A0%E9%94%81%E9%98%9F%E5%88%97/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/04/18/2021-04-18-%E6%97%A0%E9%94%81%E9%98%9F%E5%88%97/" data-id="cl3l02ot3001514dcb16fbl93" data-title="无锁队列" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-2021-03-10-备忘-git基础" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/03/10/2021-03-10-%E5%A4%87%E5%BF%98-git%E5%9F%BA%E7%A1%80/" class="article-date">
+  <time class="dt-published" datetime="2021-03-10T03:28:25.000Z" itemprop="datePublished">2021-03-10</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/C/">C++</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/03/10/2021-03-10-%E5%A4%87%E5%BF%98-git%E5%9F%BA%E7%A1%80/">备忘-git基础</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="一、简介"><a href="#一、简介" class="headerlink" title="一、简介"></a>一、简介</h2><ul>
+<li>主要摘述和整理了这个博客的内容: <a target="_blank" rel="noopener" href="http://www.linuxidc.com/Linux/2014-05/101829.htm">http://www.linuxidc.com/Linux/2014-05/101829.htm</a></li>
+<li>Linus开发Linux内核，需要版本控制，于是开发了git</li>
+<li>集中式管理和分布式管理区别:<ol>
+<li>集中式管理：从中央服务器取得最新版本，放在自己电脑，开始修改，修改好后提交到中央服务器；网速不好的话，可能无法提交大文件，影响工作。</li>
+<li>分布式管理: 没有中央服务器，每个电脑都有完整的版本库，如果两台电脑在同一个局域网的话，甚至可以互相推送修改。即使服务器数据丢失，也可以用别的已经同步过版本号的电脑，获得版本信息。</li>
+</ol>
+</li>
+</ul>
+        
+          <p class="article-more-link">
+            <a href="/2021/03/10/2021-03-10-%E5%A4%87%E5%BF%98-git%E5%9F%BA%E7%A1%80/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/03/10/2021-03-10-%E5%A4%87%E5%BF%98-git%E5%9F%BA%E7%A1%80/" data-id="cl3l02ot2001314dce2fz2tpl" data-title="备忘-git基础" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-2021-03-06-备忘-Makefile基础" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/03/06/2021-03-06-%E5%A4%87%E5%BF%98-Makefile%E5%9F%BA%E7%A1%80/" class="article-date">
+  <time class="dt-published" datetime="2021-03-06T13:17:25.000Z" itemprop="datePublished">2021-03-06</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/C/">C++</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/03/06/2021-03-06-%E5%A4%87%E5%BF%98-Makefile%E5%9F%BA%E7%A1%80/">备忘-Makefile基础</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="一、Makefile基础"><a href="#一、Makefile基础" class="headerlink" title="一、Makefile基础"></a>一、Makefile基础</h2><ul>
+<li><p>Makefile中的规则语法一般这样:</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">target ... : prerequisites ...</span><br><span class="line">    command</span><br><span class="line">    ...</span><br><span class="line">    ...</span><br></pre></td></tr></table></figure>
+        
+          <p class="article-more-link">
+            <a href="/2021/03/06/2021-03-06-%E5%A4%87%E5%BF%98-Makefile%E5%9F%BA%E7%A1%80/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/03/06/2021-03-06-%E5%A4%87%E5%BF%98-Makefile%E5%9F%BA%E7%A1%80/" data-id="cl3l02ot1001114dcbll8g4p3" data-title="备忘-Makefile基础" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-2021-02-21-protobuf-序列化相关" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/02/21/2021-02-21-protobuf-%E5%BA%8F%E5%88%97%E5%8C%96%E7%9B%B8%E5%85%B3/" class="article-date">
+  <time class="dt-published" datetime="2021-02-21T15:40:00.000Z" itemprop="datePublished">2021-02-21</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/C/">C++</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/02/21/2021-02-21-protobuf-%E5%BA%8F%E5%88%97%E5%8C%96%E7%9B%B8%E5%85%B3/">protobuf-序列化相关</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="一、ByteSize接口的使用"><a href="#一、ByteSize接口的使用" class="headerlink" title="一、ByteSize接口的使用"></a>一、<code>ByteSize</code>接口的使用</h2><ul>
+<li>之前搜<code>GetCachedSize</code>的使用方法时，搜到这个相关的一个问题:<code>https://groups.google.com/g/protobuf/c/wtFmdPWvPHM?pli=1</code>(如何防止重复计算序列化所需的大小)</li>
+</ul>
+        
+          <p class="article-more-link">
+            <a href="/2021/02/21/2021-02-21-protobuf-%E5%BA%8F%E5%88%97%E5%8C%96%E7%9B%B8%E5%85%B3/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/02/21/2021-02-21-protobuf-%E5%BA%8F%E5%88%97%E5%8C%96%E7%9B%B8%E5%85%B3/" data-id="cl3l02osz000y14dc1qq762kl" data-title="protobuf-序列化相关" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-2021-02-16-算法-BFS算法解密码锁" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/02/16/2021-02-16-%E7%AE%97%E6%B3%95-BFS%E7%AE%97%E6%B3%95%E8%A7%A3%E5%AF%86%E7%A0%81%E9%94%81/" class="article-date">
+  <time class="dt-published" datetime="2021-02-16T08:42:49.000Z" itemprop="datePublished">2021-02-16</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/C/">C++</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/02/16/2021-02-16-%E7%AE%97%E6%B3%95-BFS%E7%AE%97%E6%B3%95%E8%A7%A3%E5%AF%86%E7%A0%81%E9%94%81/">算法-BFS算法解密码锁</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="一、用BFS解密码锁"><a href="#一、用BFS解密码锁" class="headerlink" title="一、用BFS解密码锁"></a>一、用BFS解密码锁</h2><h3 id="1-1-算法需求"><a href="#1-1-算法需求" class="headerlink" title="1.1 算法需求"></a>1.1 算法需求</h3><ul>
+<li>假设密码锁有四个圆形拨轮，每个拨轮有0-9共10个数字</li>
+<li>四个转盘初始密码为“0000”，现在输入一个列表deadends和一个字符串target，其中target表示可以打开密码锁的数字，而deadends中包含了一组“死亡数字”，需要避免拨出其中任何一个密码</li>
+<li>需要写一个算法，计算从初始状态<code>0000</code>到<code>target</code>的最少次数</li>
+</ul>
+        
+          <p class="article-more-link">
+            <a href="/2021/02/16/2021-02-16-%E7%AE%97%E6%B3%95-BFS%E7%AE%97%E6%B3%95%E8%A7%A3%E5%AF%86%E7%A0%81%E9%94%81/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/02/16/2021-02-16-%E7%AE%97%E6%B3%95-BFS%E7%AE%97%E6%B3%95%E8%A7%A3%E5%AF%86%E7%A0%81%E9%94%81/" data-id="cl3l02osy000w14dcbko9ee8n" data-title="算法-BFS算法解密码锁" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-2021-01-27-C-异步任务的简单实现" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/01/27/2021-01-27-C-%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1%E7%9A%84%E7%AE%80%E5%8D%95%E5%AE%9E%E7%8E%B0/" class="article-date">
+  <time class="dt-published" datetime="2021-01-27T14:52:48.000Z" itemprop="datePublished">2021-01-27</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/C/">C++</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/01/27/2021-01-27-C-%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1%E7%9A%84%E7%AE%80%E5%8D%95%E5%AE%9E%E7%8E%B0/">C++异步任务的简单实现</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="一、std-async基础使用"><a href="#一、std-async基础使用" class="headerlink" title="一、std::async基础使用"></a>一、<code>std::async</code>基础使用</h2><ul>
+<li>下面是该函数的参数模板：<br><img src="/async.png" alt="async的函数签名"></li>
+</ul>
+        
+          <p class="article-more-link">
+            <a href="/2021/01/27/2021-01-27-C-%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1%E7%9A%84%E7%AE%80%E5%8D%95%E5%AE%9E%E7%8E%B0/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/01/27/2021-01-27-C-%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1%E7%9A%84%E7%AE%80%E5%8D%95%E5%AE%9E%E7%8E%B0/" data-id="cl3l02osx000t14dc3crkba3u" data-title="C++异步任务的简单实现" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-2021-01-23-算法-修正BST" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/01/23/2021-01-23-%E7%AE%97%E6%B3%95-%E4%BF%AE%E6%AD%A3BST/" class="article-date">
+  <time class="dt-published" datetime="2021-01-23T09:02:52.000Z" itemprop="datePublished">2021-01-23</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/C/">C++</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/01/23/2021-01-23-%E7%AE%97%E6%B3%95-%E4%BF%AE%E6%AD%A3BST/">算法-修正BST</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="一、问题概述"><a href="#一、问题概述" class="headerlink" title="一、问题概述"></a>一、问题概述</h2><ul>
+<li>二叉搜索树中有一对节点，swap by mistake，需要找出这一对节点进行修正，如<code>BST 1</code>和<code>BST 2</code>所示</li>
+</ul>
+        
+          <p class="article-more-link">
+            <a href="/2021/01/23/2021-01-23-%E7%AE%97%E6%B3%95-%E4%BF%AE%E6%AD%A3BST/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/01/23/2021-01-23-%E7%AE%97%E6%B3%95-%E4%BF%AE%E6%AD%A3BST/" data-id="cl3l02ost000n14dc7t6y83nv" data-title="算法-修正BST" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-2021-01-23-算法-后序中序构造树" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/01/23/2021-01-23-%E7%AE%97%E6%B3%95-%E5%90%8E%E5%BA%8F%E4%B8%AD%E5%BA%8F%E6%9E%84%E9%80%A0%E6%A0%91/" class="article-date">
+  <time class="dt-published" datetime="2021-01-23T07:20:47.000Z" itemprop="datePublished">2021-01-23</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/C/">C++</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/01/23/2021-01-23-%E7%AE%97%E6%B3%95-%E5%90%8E%E5%BA%8F%E4%B8%AD%E5%BA%8F%E6%9E%84%E9%80%A0%E6%A0%91/">算法-后序中序构造树</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="一、问题概述"><a href="#一、问题概述" class="headerlink" title="一、问题概述"></a>一、问题概述</h2><ul>
+<li>通过前序和中序排列构造二叉树，问题如<code>LeeCode 106</code>所示</li>
+</ul>
+        
+          <p class="article-more-link">
+            <a href="/2021/01/23/2021-01-23-%E7%AE%97%E6%B3%95-%E5%90%8E%E5%BA%8F%E4%B8%AD%E5%BA%8F%E6%9E%84%E9%80%A0%E6%A0%91/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/01/23/2021-01-23-%E7%AE%97%E6%B3%95-%E5%90%8E%E5%BA%8F%E4%B8%AD%E5%BA%8F%E6%9E%84%E9%80%A0%E6%A0%91/" data-id="cl3l02osv000r14dc0jdgcs55" data-title="算法-后序中序构造树" class="article-share-link">Share</a>
       
       
       
@@ -124,11 +570,23 @@
   
 
 
+  <nav id="page-nav">
+    
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+  </nav>
+
 </section>
         
           <aside id="sidebar">
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C/">C++</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/C/redis/">redis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/C/std/">std</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/">博客搭建</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/">科学上网</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%99%9A%E6%8B%9F%E6%9C%BA/">虚拟机</a></li></ul>
+    </div>
+  </div>
+
 
   
     
@@ -140,7 +598,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">May 2022</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li></ul>
     </div>
   </div>
 
@@ -153,7 +611,23 @@
       <ul>
         
           <li>
-            <a href="/2022/05/24/hello-world/">Hello World</a>
+            <a href="/2021/06/07/2021-06-07-is-trivial%E5%92%8Cis-standand-layout/">is_trivial和is_standand_layout</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/24/2021-04-24-Redis%E4%B8%AD%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2sds/">Redis中的字符串sds</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/18/2021-04-18-%E6%97%A0%E9%94%81%E9%98%9F%E5%88%97/">无锁队列</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/10/2021-03-10-%E5%A4%87%E5%BF%98-git%E5%9F%BA%E7%A1%80/">备忘-git基础</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/06/2021-03-06-%E5%A4%87%E5%BF%98-Makefile%E5%9F%BA%E7%A1%80/">备忘-Makefile基础</a>
           </li>
         
       </ul>
@@ -169,7 +643,7 @@
   <div class="outer">
     <div id="footer-info" class="inner">
       
-      &copy; 2022 John Doe<br>
+      &copy; 2022 haipingpang<br>
       Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>

@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>ruby-gem-jekyll简单博客搭建 | Mary博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="一、服务器环境 我使用的服务器环境是：Ubuntu 18.04 Server版">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ruby-gem-jekyll简单博客搭建">
+<meta property="og:url" content="http://example.com/2020/01/13/2020-01-13-ruby-gem-jekyll%E7%AE%80%E5%8D%95%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/index.html">
+<meta property="og:site_name" content="Mary博客">
+<meta property="og:description" content="一、服务器环境 我使用的服务器环境是：Ubuntu 18.04 Server版">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-01-13T15:30:09.000Z">
+<meta property="article:modified_time" content="2022-05-25T03:01:20.093Z">
+<meta property="article:author" content="haipingpang">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Mary博客" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Mary博客</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-2020-01-13-ruby-gem-jekyll简单博客搭建" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/01/13/2020-01-13-ruby-gem-jekyll%E7%AE%80%E5%8D%95%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/" class="article-date">
+  <time class="dt-published" datetime="2020-01-13T15:30:09.000Z" itemprop="datePublished">2020-01-13</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/">博客搭建</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      ruby-gem-jekyll简单博客搭建
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="一、服务器环境"><a href="#一、服务器环境" class="headerlink" title="一、服务器环境"></a>一、服务器环境</h2><ul>
+<li>我使用的服务器环境是：Ubuntu 18.04 Server版</li>
+</ul>
+<span id="more"></span>
+
+<h2 id="二、搭建步骤"><a href="#二、搭建步骤" class="headerlink" title="二、搭建步骤"></a>二、搭建步骤</h2><h3 id="2-1-安装ruby"><a href="#2-1-安装ruby" class="headerlink" title="2.1. 安装ruby"></a>2.1. 安装ruby</h3><ul>
+<li>由于之前有一次安装的ruby版本比较低，可能影响了后面的rubygems的安装，所以这一次我采用的目前最新的稳定版ruby 2.7.0</li>
+<li>之前有一次因为ruby版本低，卸载重新安装的痛苦经历，卸载之后有一些其他软件不能用了（具体忘记是啥软件了）。这一次安装ruby，看了网上很多安装教程推荐使用Rbenv这个轻量级的ruby版本管理器来安装，找到了一个靠谱的安装教程和一个参考链接很重要：<br><a target="_blank" rel="noopener" href="https://linuxize.com/post/how-to-install-ruby-on-ubuntu-18-04/%E3%80%82">https://linuxize.com/post/how-to-install-ruby-on-ubuntu-18-04/。</a><br><a target="_blank" rel="noopener" href="https://gorails.com/setup/ubuntu/18.04">https://gorails.com/setup/ubuntu/18.04</a><br>有了它，后面只需要解决一些边边角角的问题了</li>
+<li>由于默认Rbenv是没有版本控制功能的，需要安装<code>ruby-build</code>来完成，以下是按照上面链接中的安装步骤:</li>
+</ul>
+<ol>
+<li><p>首先需要安装ruby-build用来安装ruby的准备工具，从源码安装：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt install git curl libssl-dev libreadline-dev zlib1g-dev autoconf bison build-essential libyaml-dev libreadline-dev libncurses5-dev libffi-dev libgdbm-dev</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>运行curl命令安装rbenv和ruby-build ：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -sL https://github.com/rbenv/rbenv-installer/raw/master/bin/rbenv-installer | bash -</span><br></pre></td></tr></table></figure>
+<p><code>curl -s</code>表示使用静默模式跳转链接，<code>curl -L</code>表示允许重定向到一个新的地址，不像简单的get一个链接<br>后面的<code>bash -</code>命令通过前面的管道标识符<code>|</code>执行前面下载的脚本<br>上述脚本会从将rbenv和ruby-build仓库从GitHub拷贝到<code>~/.rbenv</code>目录下。同时，这个安装脚本会验证此次安装，输出如下：</p>
+</li>
+<li><p>将<code>$HOME/.rbenv/bin</code>添加到环境变量中： </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;export PATH=&quot;$HOME/.rbenv/bin:$PATH&quot;&#x27;</span> &gt;&gt; ~/.bashrc</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;eval &quot;$(rbenv init -)&quot;&#x27;</span> &gt;&gt; ~/.bashrc</span><br><span class="line"><span class="built_in">source</span> ~/.bashrc</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>通过rbenv安装ruby:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rbenv install 2.7.0</span><br></pre></td></tr></table></figure>
+<p>该命令在线安装超级慢：会一直卡在一个下载链接的进度上，于是我复制了下载链接中的包名，并到ruby官网的镜像地址中下载了该包，并放在<code>.rbenv/cache</code>目录下；<br>再执行<code>rbenv install 2.7.0</code>命令，显示进度为“安装ruby 2.7.0”而不是下载包的进度了</p>
+</li>
+<li><p>为了防止安装了多个ruby版本，通过下面的命令指定默认使用的ruby版本:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rbenv global 2.7.0</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>下载RubyGems(rubygems-3.1.2.zip)，并在目录下执行<code>ruby setup.rb</code>:</p>
+</li>
+</ol>
+<h3 id="2-2-安装jekyll"><a href="#2-2-安装jekyll" class="headerlink" title="2.2 安装jekyll"></a>2.2 安装jekyll</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gem install jekyll</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-3-使用jekyll"><a href="#2-3-使用jekyll" class="headerlink" title="2.3 使用jekyll"></a>2.3 使用jekyll</h3><ul>
+<li><p>需要按照jekyll的格式建立一定格式的文件夹</p>
+</li>
+<li><p>其中<code>_posts</code>文件夹下放的就是博客文章</p>
+</li>
+<li><p>一些博客模板：<br><a target="_blank" rel="noopener" href="https://github.com/poole/poole">https://github.com/poole/poole</a><br><a target="_blank" rel="noopener" href="http://jekyllthemes.org/">http://jekyllthemes.org/</a></p>
+</li>
+<li><p>使用<code>jekyll serve</code>报错时，尝试使用<code>bundle exec jekyll serve</code>启动，起来了之后发现无法在本地通过ip地址访问的话，采用<code>bundle exec jekyll serve --host 0.0.0.0</code>启动，通过<code>http://192.168.56.101:8008/</code>，端口可以在<code>_config.yml</code>中配置</p>
+</li>
+</ul>
+<h2 id="三、遇到的问题"><a href="#三、遇到的问题" class="headerlink" title="三、遇到的问题"></a>三、遇到的问题</h2><ul>
+<li>一个依赖未找到：</li>
+</ul>
+<p><code>in &#39;block in materialize&#39;: Could not find public_suffix-3.0.0 in any of the sources (Bundler::GemNotFound)</code></p>
+<p>解决方法：按照提示通过gem安装：<code>gem install public_suffix --version 3.0.0</code></p>
+<ul>
+<li>还有东西没找到：</li>
+</ul>
+<p><code>spec_set.rb:87:in &#39;block in materialize&#39;: Could not find addressable-2.5.2 in any of the sources (Bundler::GemNotFound)</code></p>
+<p>解决方法：<code>bundle update</code>或<code>bundle install</code>，这个过程可能有点慢</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/01/13/2020-01-13-ruby-gem-jekyll%E7%AE%80%E5%8D%95%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/" data-id="cl3l02oqm000014dc53w4csxl" data-title="ruby-gem-jekyll简单博客搭建" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/01/26/2020-01-26-VirtualBox-NAT%E7%BD%91%E7%BB%9C%E5%8A%A0Host-Only%E9%85%8D%E7%BD%AE/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          VirtualBox-NAT网络加Host-Only配置
+        
+      </div>
+    </a>
+  
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C/">C++</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/C/redis/">redis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/C/std/">std</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/">博客搭建</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/">科学上网</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%99%9A%E6%8B%9F%E6%9C%BA/">虚拟机</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/06/07/2021-06-07-is-trivial%E5%92%8Cis-standand-layout/">is_trivial和is_standand_layout</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/24/2021-04-24-Redis%E4%B8%AD%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2sds/">Redis中的字符串sds</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/18/2021-04-18-%E6%97%A0%E9%94%81%E9%98%9F%E5%88%97/">无锁队列</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/10/2021-03-10-%E5%A4%87%E5%BF%98-git%E5%9F%BA%E7%A1%80/">备忘-git基础</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/06/2021-03-06-%E5%A4%87%E5%BF%98-Makefile%E5%9F%BA%E7%A1%80/">备忘-Makefile基础</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2022 haipingpang<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

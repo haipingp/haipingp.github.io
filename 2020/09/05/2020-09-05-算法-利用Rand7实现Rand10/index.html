@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>利用Rand7实现Rand10 | Mary博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="一、简述 以下是https:&#x2F;&#x2F;leetcode.com&#x2F;problems&#x2F;implement-rand10-using-rand7&#x2F;solution&#x2F;上的解答  二、Intuition 如果我们知道如何从生成1-49中的随机数，我们是不是就可以生成1-10之间的随机数了。那我们就要考虑，如果生成的随机数在可用范围（可以映射到1-10的范围）内，或者不在该范围内，我们需要做什么。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="利用Rand7实现Rand10">
+<meta property="og:url" content="http://example.com/2020/09/05/2020-09-05-%E7%AE%97%E6%B3%95-%E5%88%A9%E7%94%A8Rand7%E5%AE%9E%E7%8E%B0Rand10/index.html">
+<meta property="og:site_name" content="Mary博客">
+<meta property="og:description" content="一、简述 以下是https:&#x2F;&#x2F;leetcode.com&#x2F;problems&#x2F;implement-rand10-using-rand7&#x2F;solution&#x2F;上的解答  二、Intuition 如果我们知道如何从生成1-49中的随机数，我们是不是就可以生成1-10之间的随机数了。那我们就要考虑，如果生成的随机数在可用范围（可以映射到1-10的范围）内，或者不在该范围内，我们需要做什么。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/rand7rand10.png">
+<meta property="og:image" content="http://example.com/callstorand7.png">
+<meta property="article:published_time" content="2020-09-05T06:42:38.000Z">
+<meta property="article:modified_time" content="2022-05-25T03:01:20.093Z">
+<meta property="article:author" content="haipingpang">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/rand7rand10.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Mary博客" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Mary博客</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-2020-09-05-算法-利用Rand7实现Rand10" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/09/05/2020-09-05-%E7%AE%97%E6%B3%95-%E5%88%A9%E7%94%A8Rand7%E5%AE%9E%E7%8E%B0Rand10/" class="article-date">
+  <time class="dt-published" datetime="2020-09-05T06:42:38.000Z" itemprop="datePublished">2020-09-05</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/C/">C++</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      利用Rand7实现Rand10
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="一、简述"><a href="#一、简述" class="headerlink" title="一、简述"></a>一、简述</h2><ul>
+<li>以下是<code>https://leetcode.com/problems/implement-rand10-using-rand7/solution/</code>上的解答</li>
+</ul>
+<h2 id="二、Intuition"><a href="#二、Intuition" class="headerlink" title="二、Intuition"></a>二、Intuition</h2><ul>
+<li>如果我们知道如何从生成1-49中的随机数，我们是不是就可以生成1-10之间的随机数了。那我们就要考虑，如果生成的随机数在可用范围（可以映射到1-10的范围）内，或者不在该范围内，我们需要做什么。</li>
+</ul>
+<span id="more"></span>
+<h2 id="三、Algorithm"><a href="#三、Algorithm" class="headerlink" title="三、Algorithm"></a>三、Algorithm</h2><ul>
+<li>该算法是基于<code>Rejection Sampling</code>来做的。主要的思想是，如果在可用范围内，直接输出该数值对应的目标数值，如果不在该范围内，不采用该数值，重新进行随机。</li>
+<li>由于所有在可用范围内的数值被取到的概率是相等的，因此最后的目标数值也是满足均匀分布的。</li>
+<li>由于只调用一次<code>rand7</code>生成的随机数范围是1-7，不够映射1-10这么多数值。因此我们可以调用2次<code>rand7</code>来获得如下的一个1-49的均匀分布：<br><img src="/rand7rand10.png" alt="均匀分布"></li>
+<li>结题过程：调用<code>rand7</code>2次，对应于上述方阵中的行(列)，从而获得一个方阵中的坐标。如果是在1-40内，立即返回映射到1-10内的随机数；否则，重新通过<code>rand7</code>随机。</li>
+<li>代码：<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span></span><br><span class="line">&#123;</span><br><span class="line">   <span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">uint32_t</span> <span class="title">rand10</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> row, col, idx;</span><br><span class="line">        <span class="keyword">do</span> &#123;</span><br><span class="line">            row = <span class="built_in">rand7</span>();</span><br><span class="line">            col = <span class="built_in">rand7</span>();</span><br><span class="line">            idx = col + (row - <span class="number">1</span>) * <span class="number">7</span>;</span><br><span class="line">        &#125; <span class="keyword">while</span> (idx &gt; <span class="number">40</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span> + (idx - <span class="number">1</span>) % <span class="number">10</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="四、复杂度分析"><a href="#四、复杂度分析" class="headerlink" title="四、复杂度分析"></a>四、复杂度分析</h2><ul>
+<li>平均复杂度: $$O(1)$$，但是最坏的复杂度是O(无限)</li>
+<li><img src="/callstorand7.png" alt="调用rand7平均次数"></li>
+<li>上述计算中，第一个分项: <code>40/49</code>的概率调用了两次<code>rand7</code>，表示一次运算就<code>idx</code>在1-40中，第二个分项：表示第一次运算<code>idx</code>在41-49中，第二次运算才命中1-40…</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/09/05/2020-09-05-%E7%AE%97%E6%B3%95-%E5%88%A9%E7%94%A8Rand7%E5%AE%9E%E7%8E%B0Rand10/" data-id="cl3l02orx000b14dcg1245jfy" data-title="利用Rand7实现Rand10" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/10/11/2020-10-11-do-while-0/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          do-while-0的作用
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/08/29/2020-08-29-%E8%87%AA%E5%AE%9A%E4%B9%89%E7%B1%BB%E4%BD%BF%E5%85%B6%E6%94%AF%E6%8C%81range-based-loops/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">自定义类使其支持range-based-loops</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C/">C++</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/C/redis/">redis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/C/std/">std</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/">博客搭建</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/">科学上网</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%99%9A%E6%8B%9F%E6%9C%BA/">虚拟机</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/06/07/2021-06-07-is-trivial%E5%92%8Cis-standand-layout/">is_trivial和is_standand_layout</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/24/2021-04-24-Redis%E4%B8%AD%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2sds/">Redis中的字符串sds</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/18/2021-04-18-%E6%97%A0%E9%94%81%E9%98%9F%E5%88%97/">无锁队列</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/10/2021-03-10-%E5%A4%87%E5%BF%98-git%E5%9F%BA%E7%A1%80/">备忘-git基础</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/06/2021-03-06-%E5%A4%87%E5%BF%98-Makefile%E5%9F%BA%E7%A1%80/">备忘-Makefile基础</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2022 haipingpang<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

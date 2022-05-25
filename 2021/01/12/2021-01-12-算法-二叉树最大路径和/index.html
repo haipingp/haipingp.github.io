@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>算法-二叉树最大路径和 | Mary博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="一、问题概述该算法题在LeeCode上序号为124，给出一个算法，能够返回一个二叉树的最大路径和(路径和指的是二叉树的路径上，每个节点值的和)。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="算法-二叉树最大路径和">
+<meta property="og:url" content="http://example.com/2021/01/12/2021-01-12-%E7%AE%97%E6%B3%95-%E4%BA%8C%E5%8F%89%E6%A0%91%E6%9C%80%E5%A4%A7%E8%B7%AF%E5%BE%84%E5%92%8C/index.html">
+<meta property="og:site_name" content="Mary博客">
+<meta property="og:description" content="一、问题概述该算法题在LeeCode上序号为124，给出一个算法，能够返回一个二叉树的最大路径和(路径和指的是二叉树的路径上，每个节点值的和)。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/%E4%BE%8B%E5%AD%901.png">
+<meta property="og:image" content="http://example.com/%E4%BE%8B%E5%AD%902.png">
+<meta property="article:published_time" content="2021-01-12T12:59:03.000Z">
+<meta property="article:modified_time" content="2022-05-25T03:01:20.094Z">
+<meta property="article:author" content="haipingpang">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/%E4%BE%8B%E5%AD%901.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Mary博客" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Mary博客</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-2021-01-12-算法-二叉树最大路径和" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/01/12/2021-01-12-%E7%AE%97%E6%B3%95-%E4%BA%8C%E5%8F%89%E6%A0%91%E6%9C%80%E5%A4%A7%E8%B7%AF%E5%BE%84%E5%92%8C/" class="article-date">
+  <time class="dt-published" datetime="2021-01-12T12:59:03.000Z" itemprop="datePublished">2021-01-12</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/C/">C++</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      算法-二叉树最大路径和
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="一、问题概述"><a href="#一、问题概述" class="headerlink" title="一、问题概述"></a>一、问题概述</h2><p>该算法题在LeeCode上序号为124，给出一个算法，能够返回一个二叉树的最大路径和(路径和指的是二叉树的路径上，每个节点值的和)。</p>
+<span id="more"></span>
+<p>以下是两个例子：<br><img src="/%E4%BE%8B%E5%AD%901.png" alt="例1"></p>
+<p><img src="/%E4%BE%8B%E5%AD%902.png" alt="例2"></p>
+<h2 id="二、解法1"><a href="#二、解法1" class="headerlink" title="二、解法1"></a>二、解法1</h2><h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="type">long</span> ans;</span><br><span class="line">    <span class="function"><span class="type">long</span> <span class="title">max</span><span class="params">(<span class="type">long</span> ans,<span class="type">int</span> p)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> (p&gt;ans)?p:ans;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">solution</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(!root) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> p=INT_MIN,q=INT_MIN;</span><br><span class="line">        p=<span class="built_in">solution</span>(root-&gt;left);</span><br><span class="line">        q=<span class="built_in">solution</span>(root-&gt;right);</span><br><span class="line">        ans=<span class="built_in">max</span>(ans,p+q+root-&gt;val);   <span class="comment">// 加到任意一个值都取最大的那个和 </span></span><br><span class="line">        p=<span class="built_in">max</span>(p,q)+root-&gt;val;</span><br><span class="line">        <span class="keyword">if</span>(p&lt;<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;   <span class="comment">// 舍弃小于0的子节点(子树)，因为负数只会越加越小</span></span><br><span class="line">        <span class="keyword">return</span> p;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">maxPathSum</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">        ans=LONG_MIN;</span><br><span class="line">        <span class="built_in">solution</span>(root);</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="解析"><a href="#解析" class="headerlink" title="解析"></a>解析</h3><ol>
+<li>因为路径不可以绕圈，因此经过每个root的时候，只能选择经过二叉树中的一个子节点，所以这个问题变成了: 比较左右子树的路径和，选择保留左子树还是右子树，并且在路径遍历过程中，记录目前的路径可以达到的最大的和。  </li>
+<li>需要先分别计算左右子树的最大路径和，再加上root的节点值，才能计算最终最大路径和，因此采用后序遍历</li>
+<li>这里因为需要有比较操作，因此需要在起始处设置int或long的最小值，才能进行比较，因此题中也给出了节点值和节点数的范围</li>
+<li>这里ans用于记录目前路径可以达到的最大和，比如当前root的值为负数，ans则越加越小，就不会将该root加进去</li>
+<li><code>p=max(p,q)+root-&gt;val;if(p&lt;0) return 0;</code>，前一句，当走到某个选择路口root时，选择一个值较大的路p或q；后一句，如果选择了之后，只能让结果p变得更小，那么选择放弃这个子节点(子树)</li>
+</ol>
+<h2 id="三、解法二"><a href="#三、解法二" class="headerlink" title="三、解法二"></a>三、解法二</h2><h3 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> ans = INT_MIN;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">oneSideMax</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (root == <span class="literal">nullptr</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> left = <span class="built_in">max</span>(<span class="number">0</span>, <span class="built_in">oneSideMax</span>(root-&gt;left));</span><br><span class="line">    <span class="type">int</span> right = <span class="built_in">max</span>(<span class="number">0</span>, <span class="built_in">oneSideMax</span>(root-&gt;right));</span><br><span class="line"></span><br><span class="line">    ans = <span class="built_in">max</span>(ans, left + right + root-&gt;val);</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">max</span>(left, right) + root-&gt;val;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="解析-1"><a href="#解析-1" class="headerlink" title="解析"></a>解析</h3><ol>
+<li>这种解法和前一种是同一种思路，只是写法不同，解法1将舍弃子节点(子树)操作放在递归return前，解法2将舍弃子节点(子树)放在递归return刚刚回来的时候</li>
+<li>但是自己更倾向于前一种，在递归return前把该作的各种计算都做好了，递归回来只单纯用方法名Solution就可以了，思路比较干净明了</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/01/12/2021-01-12-%E7%AE%97%E6%B3%95-%E4%BA%8C%E5%8F%89%E6%A0%91%E6%9C%80%E5%A4%A7%E8%B7%AF%E5%BE%84%E5%92%8C/" data-id="cl3l02osp000l14dc3calfrx5" data-title="算法-二叉树最大路径和" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2021/01/23/2021-01-23-%E7%AE%97%E6%B3%95-%E5%89%8D%E5%BA%8F%E4%B8%AD%E5%BA%8F%E6%9E%84%E9%80%A0%E6%A0%91/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          算法-前序中序构造树
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/11/28/2020-11-28-%E8%BD%AC%E8%BD%BD%EF%BC%9Asocket%E5%92%8CTCP%E8%BF%9E%E6%8E%A5%E8%BF%87%E7%A8%8B/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">转载：socket和TCP连接过程</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C/">C++</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/C/redis/">redis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/C/std/">std</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/">博客搭建</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/">科学上网</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%99%9A%E6%8B%9F%E6%9C%BA/">虚拟机</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/06/07/2021-06-07-is-trivial%E5%92%8Cis-standand-layout/">is_trivial和is_standand_layout</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/24/2021-04-24-Redis%E4%B8%AD%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2sds/">Redis中的字符串sds</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/18/2021-04-18-%E6%97%A0%E9%94%81%E9%98%9F%E5%88%97/">无锁队列</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/10/2021-03-10-%E5%A4%87%E5%BF%98-git%E5%9F%BA%E7%A1%80/">备忘-git基础</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/06/2021-03-06-%E5%A4%87%E5%BF%98-Makefile%E5%9F%BA%E7%A1%80/">备忘-Makefile基础</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2022 haipingpang<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
