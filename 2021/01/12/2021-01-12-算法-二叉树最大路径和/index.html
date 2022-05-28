@@ -13,13 +13,13 @@
 <meta property="og:site_name" content="Mary博客">
 <meta property="og:description" content="一、问题概述该算法题在LeeCode上序号为124，给出一个算法，能够返回一个二叉树的最大路径和(路径和指的是二叉树的路径上，每个节点值的和)。">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://example.com/%E4%BE%8B%E5%AD%901.png">
-<meta property="og:image" content="http://example.com/%E4%BE%8B%E5%AD%902.png">
+<meta property="og:image" content="http://example.com/2021/01/12/2021-01-12-%E7%AE%97%E6%B3%95-%E4%BA%8C%E5%8F%89%E6%A0%91%E6%9C%80%E5%A4%A7%E8%B7%AF%E5%BE%84%E5%92%8C/%E4%BE%8B%E5%AD%901.png">
+<meta property="og:image" content="http://example.com/2021/01/12/2021-01-12-%E7%AE%97%E6%B3%95-%E4%BA%8C%E5%8F%89%E6%A0%91%E6%9C%80%E5%A4%A7%E8%B7%AF%E5%BE%84%E5%92%8C/%E4%BE%8B%E5%AD%902.png">
 <meta property="article:published_time" content="2021-01-12T12:59:03.000Z">
 <meta property="article:modified_time" content="2022-05-25T03:01:20.094Z">
 <meta property="article:author" content="haipingpang">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/%E4%BE%8B%E5%AD%901.png">
+<meta name="twitter:image" content="http://example.com/2021/01/12/2021-01-12-%E7%AE%97%E6%B3%95-%E4%BA%8C%E5%8F%89%E6%A0%91%E6%9C%80%E5%A4%A7%E8%B7%AF%E5%BE%84%E5%92%8C/%E4%BE%8B%E5%AD%901.png">
   
     <link rel="alternate" href="/atom.xml" title="Mary博客" type="application/atom+xml">
   
@@ -104,8 +104,8 @@
       
         <h2 id="一、问题概述"><a href="#一、问题概述" class="headerlink" title="一、问题概述"></a>一、问题概述</h2><p>该算法题在LeeCode上序号为124，给出一个算法，能够返回一个二叉树的最大路径和(路径和指的是二叉树的路径上，每个节点值的和)。</p>
 <span id="more"></span>
-<p>以下是两个例子：<br><img src="/%E4%BE%8B%E5%AD%901.png" alt="例1"></p>
-<p><img src="/%E4%BE%8B%E5%AD%902.png" alt="例2"></p>
+<p>以下是两个例子：<br><img src="/2021/01/12/2021-01-12-%E7%AE%97%E6%B3%95-%E4%BA%8C%E5%8F%89%E6%A0%91%E6%9C%80%E5%A4%A7%E8%B7%AF%E5%BE%84%E5%92%8C/%E4%BE%8B%E5%AD%901.png" alt="例1"></p>
+<p><img src="/2021/01/12/2021-01-12-%E7%AE%97%E6%B3%95-%E4%BA%8C%E5%8F%89%E6%A0%91%E6%9C%80%E5%A4%A7%E8%B7%AF%E5%BE%84%E5%92%8C/%E4%BE%8B%E5%AD%902.png" alt="例2"></p>
 <h2 id="二、解法1"><a href="#二、解法1" class="headerlink" title="二、解法1"></a>二、解法1</h2><h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="type">long</span> ans;</span><br><span class="line">    <span class="function"><span class="type">long</span> <span class="title">max</span><span class="params">(<span class="type">long</span> ans,<span class="type">int</span> p)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> (p&gt;ans)?p:ans;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">solution</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(!root) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> p=INT_MIN,q=INT_MIN;</span><br><span class="line">        p=<span class="built_in">solution</span>(root-&gt;left);</span><br><span class="line">        q=<span class="built_in">solution</span>(root-&gt;right);</span><br><span class="line">        ans=<span class="built_in">max</span>(ans,p+q+root-&gt;val);   <span class="comment">// 加到任意一个值都取最大的那个和 </span></span><br><span class="line">        p=<span class="built_in">max</span>(p,q)+root-&gt;val;</span><br><span class="line">        <span class="keyword">if</span>(p&lt;<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;   <span class="comment">// 舍弃小于0的子节点(子树)，因为负数只会越加越小</span></span><br><span class="line">        <span class="keyword">return</span> p;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">maxPathSum</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">        ans=LONG_MIN;</span><br><span class="line">        <span class="built_in">solution</span>(root);</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 
 <h3 id="解析"><a href="#解析" class="headerlink" title="解析"></a>解析</h3><ol>
@@ -124,7 +124,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/12/2021-01-12-%E7%AE%97%E6%B3%95-%E4%BA%8C%E5%8F%89%E6%A0%91%E6%9C%80%E5%A4%A7%E8%B7%AF%E5%BE%84%E5%92%8C/" data-id="cl3oj9lp7000daddc3v221e9s" data-title="算法-二叉树最大路径和" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/12/2021-01-12-%E7%AE%97%E6%B3%95-%E4%BA%8C%E5%8F%89%E6%A0%91%E6%9C%80%E5%A4%A7%E8%B7%AF%E5%BE%84%E5%92%8C/" data-id="cl3pquk91000dgddcf63che2d" data-title="算法-二叉树最大路径和" class="article-share-link">Share</a>
       
       
       
@@ -191,6 +191,14 @@
       <ul>
         
           <li>
+            <a href="/2022/05/28/2022-05-28-Copy-on-write/">2022-05-28-Copy-on-write</a>
+          </li>
+        
+          <li>
+            <a href="/2022/05/28/2022-05-28-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%9C%AF%E8%AF%AD/">计算机术语</a>
+          </li>
+        
+          <li>
             <a href="/2022/05/27/2022-05-27-C-restrict%E7%B1%BB%E5%9E%8B%E9%99%90%E5%AE%9A%E7%AC%A6/">转载：restrict类型限定符</a>
           </li>
         
@@ -200,14 +208,6 @@
         
           <li>
             <a href="/2021/04/24/2021-04-24-Redis%E4%B8%AD%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2sds/">Redis中的字符串sds</a>
-          </li>
-        
-          <li>
-            <a href="/2021/04/18/2021-04-18-%E6%97%A0%E9%94%81%E9%98%9F%E5%88%97/">无锁队列</a>
-          </li>
-        
-          <li>
-            <a href="/2021/03/10/2021-03-10-%E5%A4%87%E5%BF%98-git%E5%9F%BA%E7%A1%80/">备忘-git基础</a>
           </li>
         
       </ul>

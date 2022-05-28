@@ -13,26 +13,26 @@
 <meta property="og:site_name" content="Mary博客">
 <meta property="og:description" content="一、简介 主要摘述和整理了这个博客的内容: http:&#x2F;&#x2F;www.linuxidc.com&#x2F;Linux&#x2F;2014-05&#x2F;101829.htm Linus开发Linux内核，需要版本控制，于是开发了git 集中式管理和分布式管理区别: 集中式管理：从中央服务器取得最新版本，放在自己电脑，开始修改，修改好后提交到中央服务器；网速不好的话，可能无法提交大文件，影响工作。 分布式管理: 没有中央服务器，每">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://example.com/central_server.png">
-<meta property="og:image" content="http://example.com/distrubuted_server.png">
-<meta property="og:image" content="http://example.com/git_tree.png">
-<meta property="og:image" content="http://example.com/workflow.png">
-<meta property="og:image" content="http://example.com/newfile.png">
-<meta property="og:image" content="http://example.com/addfile.png">
-<meta property="og:image" content="http://example.com/commit_result.png">
-<meta property="og:image" content="http://example.com/commit_status.png">
-<meta property="og:image" content="http://example.com/modify_status.png">
-<meta property="og:image" content="http://example.com/gitdiff.png">
-<meta property="og:image" content="http://example.com/gitlog.png">
-<meta property="og:image" content="http://example.com/gitlog_oneline.png">
-<meta property="og:image" content="http://example.com/git_reset.png">
-<meta property="og:image" content="http://example.com/git_reset_result.png">
-<meta property="og:image" content="http://example.com/architecture.png">
+<meta property="og:image" content="http://example.com/2021/03/10/2021-03-10-%E5%A4%87%E5%BF%98-git%E5%9F%BA%E7%A1%80/central_server.png">
+<meta property="og:image" content="http://example.com/2021/03/10/2021-03-10-%E5%A4%87%E5%BF%98-git%E5%9F%BA%E7%A1%80/distrubuted_server.png">
+<meta property="og:image" content="http://example.com/2021/03/10/2021-03-10-%E5%A4%87%E5%BF%98-git%E5%9F%BA%E7%A1%80/git_tree.png">
+<meta property="og:image" content="http://example.com/2021/03/10/2021-03-10-%E5%A4%87%E5%BF%98-git%E5%9F%BA%E7%A1%80/workflow.png">
+<meta property="og:image" content="http://example.com/2021/03/10/2021-03-10-%E5%A4%87%E5%BF%98-git%E5%9F%BA%E7%A1%80/newfile.png">
+<meta property="og:image" content="http://example.com/2021/03/10/2021-03-10-%E5%A4%87%E5%BF%98-git%E5%9F%BA%E7%A1%80/addfile.png">
+<meta property="og:image" content="http://example.com/2021/03/10/2021-03-10-%E5%A4%87%E5%BF%98-git%E5%9F%BA%E7%A1%80/commit_result.png">
+<meta property="og:image" content="http://example.com/2021/03/10/2021-03-10-%E5%A4%87%E5%BF%98-git%E5%9F%BA%E7%A1%80/commit_status.png">
+<meta property="og:image" content="http://example.com/2021/03/10/2021-03-10-%E5%A4%87%E5%BF%98-git%E5%9F%BA%E7%A1%80/modify_status.png">
+<meta property="og:image" content="http://example.com/2021/03/10/2021-03-10-%E5%A4%87%E5%BF%98-git%E5%9F%BA%E7%A1%80/gitdiff.png">
+<meta property="og:image" content="http://example.com/2021/03/10/2021-03-10-%E5%A4%87%E5%BF%98-git%E5%9F%BA%E7%A1%80/gitlog.png">
+<meta property="og:image" content="http://example.com/2021/03/10/2021-03-10-%E5%A4%87%E5%BF%98-git%E5%9F%BA%E7%A1%80/gitlog_oneline.png">
+<meta property="og:image" content="http://example.com/2021/03/10/2021-03-10-%E5%A4%87%E5%BF%98-git%E5%9F%BA%E7%A1%80/git_reset.png">
+<meta property="og:image" content="http://example.com/2021/03/10/2021-03-10-%E5%A4%87%E5%BF%98-git%E5%9F%BA%E7%A1%80/git_reset_result.png">
+<meta property="og:image" content="http://example.com/2021/03/10/2021-03-10-%E5%A4%87%E5%BF%98-git%E5%9F%BA%E7%A1%80/architecture.png">
 <meta property="article:published_time" content="2021-03-10T03:28:25.000Z">
-<meta property="article:modified_time" content="2022-05-25T03:01:20.096Z">
+<meta property="article:modified_time" content="2022-05-28T10:07:13.691Z">
 <meta property="article:author" content="haipingpang">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/central_server.png">
+<meta name="twitter:image" content="http://example.com/2021/03/10/2021-03-10-%E5%A4%87%E5%BF%98-git%E5%9F%BA%E7%A1%80/central_server.png">
   
     <link rel="alternate" href="/atom.xml" title="Mary博客" type="application/atom+xml">
   
@@ -126,7 +126,7 @@
 </ul>
 <span id="more"></span>
 
-<p><img src="/central_server.png" alt="集中式管理"><br><img src="/distrubuted_server.png" alt="分布式管理"></p>
+<p><img src="/2021/03/10/2021-03-10-%E5%A4%87%E5%BF%98-git%E5%9F%BA%E7%A1%80/central_server.png" alt="集中式管理"><br><img src="/2021/03/10/2021-03-10-%E5%A4%87%E5%BF%98-git%E5%9F%BA%E7%A1%80/distrubuted_server.png" alt="分布式管理"></p>
 <ul>
 <li>git特点<ol>
 <li>分布式</li>
@@ -145,7 +145,7 @@
 <li>COMMIT:每个commit记录了提交一个更新的所有元数据，如指向的tree，父commit，作者、提交者、提交日期、提交日志等。每次提交都指向一个tree对象，记录了当次提交时的目录信息。一个commit可以有多个（至少一个）父commits</li>
 <li>TAG:</li>
 </ul>
-<p><img src="/git_tree.png" alt="git基本类型"><br><img src="/workflow.png" alt="git工作流程"></p>
+<p><img src="/2021/03/10/2021-03-10-%E5%A4%87%E5%BF%98-git%E5%9F%BA%E7%A1%80/git_tree.png" alt="git基本类型"><br><img src="/2021/03/10/2021-03-10-%E5%A4%87%E5%BF%98-git%E5%9F%BA%E7%A1%80/workflow.png" alt="git工作流程"></p>
 <ul>
 <li>主要分为工作区(Working Dir)，提交区&#x2F;暂存区(stage&#x2F;index)，版本库</li>
 </ul>
@@ -154,22 +154,22 @@
 </ul>
 <h2 id="四、git基本操作"><a href="#四、git基本操作" class="headerlink" title="四、git基本操作"></a>四、git基本操作</h2><ul>
 <li>新建空仓库: <code>git init</code></li>
-<li>在当前目录下新建一个<code>readme.txt</code>文件后，再使用<code>git status</code>查看，发现该文件是<code>untracked files</code>:<br><img src="/newfile.png" alt="新建文件"></li>
-<li><code>git add</code>命令告诉git，需要把哪些文件提交到仓库，即将文件加入到暂存区(index)，执行<code>git add readme.txt</code>之后，再使用<code>git status</code>查看状态:<br><img src="/addfile.png" alt="添加文件"></li>
-<li><code>git commit</code>命令将文件提交到版本库，提交结果如图所示，<code>1 file changed, 0 insertions(+), 0 deletions(-)</code>,增加了1个文件，没有对原有文件进行删除或增加。<br><img src="/commit_result.png" alt="提交文件"></li>
-<li>再使用<code>git status</code>查看状态，说明已经没有改动可以提交:<br><img src="/commit_status.png" alt="提交后状态"></li>
+<li>在当前目录下新建一个<code>readme.txt</code>文件后，再使用<code>git status</code>查看，发现该文件是<code>untracked files</code>:<br><img src="/2021/03/10/2021-03-10-%E5%A4%87%E5%BF%98-git%E5%9F%BA%E7%A1%80/newfile.png" alt="新建文件"></li>
+<li><code>git add</code>命令告诉git，需要把哪些文件提交到仓库，即将文件加入到暂存区(index)，执行<code>git add readme.txt</code>之后，再使用<code>git status</code>查看状态:<br><img src="/2021/03/10/2021-03-10-%E5%A4%87%E5%BF%98-git%E5%9F%BA%E7%A1%80/addfile.png" alt="添加文件"></li>
+<li><code>git commit</code>命令将文件提交到版本库，提交结果如图所示，<code>1 file changed, 0 insertions(+), 0 deletions(-)</code>,增加了1个文件，没有对原有文件进行删除或增加。<br><img src="/2021/03/10/2021-03-10-%E5%A4%87%E5%BF%98-git%E5%9F%BA%E7%A1%80/commit_result.png" alt="提交文件"></li>
+<li>再使用<code>git status</code>查看状态，说明已经没有改动可以提交:<br><img src="/2021/03/10/2021-03-10-%E5%A4%87%E5%BF%98-git%E5%9F%BA%E7%A1%80/commit_status.png" alt="提交后状态"></li>
 </ul>
 <h2 id="五、修改与回滚"><a href="#五、修改与回滚" class="headerlink" title="五、修改与回滚"></a>五、修改与回滚</h2><ul>
-<li>在readme.txt中增加了一行，再使用<code>git status</code>查看:<br><img src="/modify_status.png" alt="修改文件后的状态"></li>
-<li>再使用<code>git diff</code>查看改动的地方，发现是增加了一行:<br><img src="/gitdiff.png" alt="git diff查看改动"></li>
+<li>在readme.txt中增加了一行，再使用<code>git status</code>查看:<br><img src="/2021/03/10/2021-03-10-%E5%A4%87%E5%BF%98-git%E5%9F%BA%E7%A1%80/modify_status.png" alt="修改文件后的状态"></li>
+<li>再使用<code>git diff</code>查看改动的地方，发现是增加了一行:<br><img src="/2021/03/10/2021-03-10-%E5%A4%87%E5%BF%98-git%E5%9F%BA%E7%A1%80/gitdiff.png" alt="git diff查看改动"></li>
 <li>对于以上改动，还是使用相同的方式，先<code>git add</code>，后<code>git commit</code>进行提交</li>
-<li>多次提交后的log，可以通过<code>git log</code>或者<code>git log --pretty=oneline</code>进行查看:<br><img src="/gitlog.png" alt="git log"><br><img src="/gitlog_oneline.png" alt="git log one line"></li>
-<li><code>HEAD</code>表示最新版本，往<code>HEAD</code>后加<code>^</code>表示向前推一个版本，几个<code>^</code>表示前推几个版本，同时，也可以使用log中的版本号标记一个版本。通过<code>git reset</code>命令回滚到某个版本。<code>--hard</code>表示回滚的同时，覆盖工作区文件，不写的话，只是将版本回滚结果放在暂存区:<br><img src="/git_reset.png" alt="git reset"></li>
-<li>回滚后，结果如图:<br><img src="/git_reset_result.png" alt="回滚后log"></li>
+<li>多次提交后的log，可以通过<code>git log</code>或者<code>git log --pretty=oneline</code>进行查看:<br><img src="/2021/03/10/2021-03-10-%E5%A4%87%E5%BF%98-git%E5%9F%BA%E7%A1%80/gitlog.png" alt="git log"><br><img src="/2021/03/10/2021-03-10-%E5%A4%87%E5%BF%98-git%E5%9F%BA%E7%A1%80/gitlog_oneline.png" alt="git log one line"></li>
+<li><code>HEAD</code>表示最新版本，往<code>HEAD</code>后加<code>^</code>表示向前推一个版本，几个<code>^</code>表示前推几个版本，同时，也可以使用log中的版本号标记一个版本。通过<code>git reset</code>命令回滚到某个版本。<code>--hard</code>表示回滚的同时，覆盖工作区文件，不写的话，只是将版本回滚结果放在暂存区:<br><img src="/2021/03/10/2021-03-10-%E5%A4%87%E5%BF%98-git%E5%9F%BA%E7%A1%80/git_reset.png" alt="git reset"></li>
+<li>回滚后，结果如图:<br><img src="/2021/03/10/2021-03-10-%E5%A4%87%E5%BF%98-git%E5%9F%BA%E7%A1%80/git_reset_result.png" alt="回滚后log"></li>
 <li>如果回滚后，又后悔了，可以找到原来最新的版本号，同样使用<code>git reset</code>回到原来最新的版本号。</li>
 <li>如果已经关了窗口，找不到原来的版本号了，可以使用<code>git reflog</code>查找到执行过的命令，从中找到需要的版本号，再进行<code>git reset</code></li>
 </ul>
-<h2 id="六、工作区、提交区-x2F-暂存区-index-和版本区"><a href="#六、工作区、提交区-x2F-暂存区-index-和版本区" class="headerlink" title="六、工作区、提交区&#x2F;暂存区(index)和版本区"></a>六、工作区、提交区&#x2F;暂存区(index)和版本区</h2><p><img src="/architecture.png" alt="不同区的结构"></p>
+<h2 id="六、工作区、提交区-x2F-暂存区-index-和版本区"><a href="#六、工作区、提交区-x2F-暂存区-index-和版本区" class="headerlink" title="六、工作区、提交区&#x2F;暂存区(index)和版本区"></a>六、工作区、提交区&#x2F;暂存区(index)和版本区</h2><p><img src="/2021/03/10/2021-03-10-%E5%A4%87%E5%BF%98-git%E5%9F%BA%E7%A1%80/architecture.png" alt="不同区的结构"></p>
 <ul>
 <li>工作区指的是跟<code>.git</code>文件夹平级的其他文件或目录</li>
 <li>版本区在<code>.git</code>文件夹中</li>
@@ -197,7 +197,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/03/10/2021-03-10-%E5%A4%87%E5%BF%98-git%E5%9F%BA%E7%A1%80/" data-id="cl3oj9lq2000waddc12zn1erx" data-title="备忘-git基础" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/03/10/2021-03-10-%E5%A4%87%E5%BF%98-git%E5%9F%BA%E7%A1%80/" data-id="cl3pquk9x000wgddc4jiwaqdo" data-title="备忘-git基础" class="article-share-link">Share</a>
       
       
       
@@ -264,6 +264,14 @@
       <ul>
         
           <li>
+            <a href="/2022/05/28/2022-05-28-Copy-on-write/">2022-05-28-Copy-on-write</a>
+          </li>
+        
+          <li>
+            <a href="/2022/05/28/2022-05-28-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%9C%AF%E8%AF%AD/">计算机术语</a>
+          </li>
+        
+          <li>
             <a href="/2022/05/27/2022-05-27-C-restrict%E7%B1%BB%E5%9E%8B%E9%99%90%E5%AE%9A%E7%AC%A6/">转载：restrict类型限定符</a>
           </li>
         
@@ -273,14 +281,6 @@
         
           <li>
             <a href="/2021/04/24/2021-04-24-Redis%E4%B8%AD%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2sds/">Redis中的字符串sds</a>
-          </li>
-        
-          <li>
-            <a href="/2021/04/18/2021-04-18-%E6%97%A0%E9%94%81%E9%98%9F%E5%88%97/">无锁队列</a>
-          </li>
-        
-          <li>
-            <a href="/2021/03/10/2021-03-10-%E5%A4%87%E5%BF%98-git%E5%9F%BA%E7%A1%80/">备忘-git基础</a>
           </li>
         
       </ul>

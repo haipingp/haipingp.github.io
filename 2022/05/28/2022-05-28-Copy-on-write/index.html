@@ -4,15 +4,22 @@
   <meta charset="utf-8">
   
   
-  <title>Archives: 2022 | Mary博客</title>
+  <title>2022-05-28-Copy-on-write | Mary博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Mary博客">
-<meta property="og:url" content="http://example.com/archives/2022/index.html">
+  <meta name="description" content="一、转载地址 https:&#x2F;&#x2F;www.geeksforgeeks.org&#x2F;copy-on-write&#x2F;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2022-05-28-Copy-on-write">
+<meta property="og:url" content="http://example.com/2022/05/28/2022-05-28-Copy-on-write/index.html">
 <meta property="og:site_name" content="Mary博客">
+<meta property="og:description" content="一、转载地址 https:&#x2F;&#x2F;www.geeksforgeeks.org&#x2F;copy-on-write&#x2F;">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/2022/05/28/2022-05-28-Copy-on-write/before_modify_page3.png">
+<meta property="og:image" content="http://example.com/2022/05/28/2022-05-28-Copy-on-write/after_modify_page3.png">
+<meta property="article:published_time" content="2022-05-28T09:07:39.000Z">
+<meta property="article:modified_time" content="2022-05-28T10:07:52.113Z">
 <meta property="article:author" content="haipingpang">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2022/05/28/2022-05-28-Copy-on-write/before_modify_page3.png">
   
     <link rel="alternate" href="/atom.xml" title="Mary博客" type="application/atom+xml">
   
@@ -69,77 +76,78 @@
 </header>
 
       <div class="outer">
-        <section id="main">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2022" class="archive-year">2022</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2022/05/28/2022-05-28-Copy-on-write/" class="archive-article-date">
-  <time class="dt-published" datetime="2022-05-28T09:07:39.000Z" itemprop="datePublished">May 28</time>
+        <section id="main"><article id="post-2022-05-28-Copy-on-write" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/05/28/2022-05-28-Copy-on-write/" class="article-date">
+  <time class="dt-published" datetime="2022-05-28T09:07:39.000Z" itemprop="datePublished">2022-05-28</time>
 </a>
-      
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/linux/">linux</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2022/05/28/2022-05-28-Copy-on-write/">2022-05-28-Copy-on-write</a>
+    <h1 class="p-name article-title" itemprop="headline name">
+      2022-05-28-Copy-on-write
     </h1>
   
 
-    </header>
-  </div>
-</article>
-  
+      </header>
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2022/05/28/2022-05-28-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%9C%AF%E8%AF%AD/" class="archive-article-date">
-  <time class="dt-published" datetime="2022-05-28T04:49:20.000Z" itemprop="datePublished">May 28</time>
-</a>
+    <div class="e-content article-entry" itemprop="articleBody">
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2022/05/28/2022-05-28-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%9C%AF%E8%AF%AD/">计算机术语</a>
-    </h1>
-  
+        <h2 id="一、转载地址"><a href="#一、转载地址" class="headerlink" title="一、转载地址"></a>一、转载地址</h2><ul>
+<li><code>https://www.geeksforgeeks.org/copy-on-write/</code></li>
+</ul>
+<span id="more"></span>
 
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2022/05/27/2022-05-27-C-restrict%E7%B1%BB%E5%9E%8B%E9%99%90%E5%AE%9A%E7%AC%A6/" class="archive-article-date">
-  <time class="dt-published" datetime="2022-05-27T13:32:16.000Z" itemprop="datePublished">May 27</time>
-</a>
+<h2 id="二、Copy-on-write"><a href="#二、Copy-on-write" class="headerlink" title="二、Copy on write"></a>二、Copy on write</h2><ul>
+<li>Copy on Write or simply COW is a resource management technique. One of its main use is in the implementation of the fork system call in which it shares the virtual memory(pages) of the OS.</li>
+</ul>
+<p>Copy on Write是一种资源管理技术。该技术的一个主要作用是，在fork系统调用中需要共享系统的虚拟内存(页)。</p>
+<ul>
+<li>In UNIX like OS, fork() system call creates a duplicate process of the parent process which is called as the child process.</li>
+</ul>
+<p>在UNIX系统中，fork()系统调用会从父进程中复制一个子进程。</p>
+<ul>
+<li>The idea behind a copy-on-write is that when a parent process creates a child process then both of these processes initially will share the same pages in memory and these shared pages will be marked as copy-on-write which means that if any of these processes will try to modify the shared pages then only a copy of these pages will be created and the modifications will be done on the copy of pages by that process and thus not affecting the other process.</li>
+</ul>
+<p>copy-on-write指的是，当父进程创建一个子进程后，它们起初共享这些内存里的共同的页、这些共享页会被标记为copy-on-write。即如果其中任意进程需要修改共享页、它会将该页拷贝一份，并在拷贝这份上进行修改，这样它对其修改不影响其他进程。</p>
+<ul>
+<li>Suppose, there is a process P that creates a new process Q and then process P modifies page 3.<br>The below figures shows what happens before and after process P modifies page 3.</li>
+</ul>
+<p>假如，现在有个进程P创建了进程Q，并且进程P修改了page 3。以下图示说明了进程P修改page 3前后的变化。</p>
+<p><img src="/2022/05/28/2022-05-28-Copy-on-write/before_modify_page3.png" alt="进程P修改Page 3前"><br><img src="/2022/05/28/2022-05-28-Copy-on-write/after_modify_page3.png" alt="进程P修改Page 3后"></p>
+
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2022/05/27/2022-05-27-C-restrict%E7%B1%BB%E5%9E%8B%E9%99%90%E5%AE%9A%E7%AC%A6/">转载：restrict类型限定符</a>
-    </h1>
-  
-
-    </header>
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/05/28/2022-05-28-Copy-on-write/" data-id="cl3pquka30016gddcdgm15xns" data-title="2022-05-28-Copy-on-write" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
   </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2022/05/28/2022-05-28-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%9C%AF%E8%AF%AD/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">计算机术语</div>
+    </a>
+  
+</nav>
+
+  
 </article>
-  
-  
-    </div></section>
-  
 
 
 </section>
