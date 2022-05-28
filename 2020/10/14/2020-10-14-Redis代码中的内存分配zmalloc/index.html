@@ -14,7 +14,7 @@
 <meta property="og:description" content="一、zmalloc(size_t size)">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-10-14T15:19:15.000Z">
-<meta property="article:modified_time" content="2022-05-25T03:01:20.093Z">
+<meta property="article:modified_time" content="2022-05-28T14:53:14.484Z">
 <meta property="article:author" content="haipingpang">
 <meta name="twitter:card" content="summary">
   
@@ -129,11 +129,18 @@
 <li><p>在<code>zmalloc</code>函数中，如果未定义<code>HAVE_MALLOC_SIZE</code>，需要通过分配的额外<code>PREFIX_SIZE</code>空间来自行存储分配的内存大小。</p>
 </li>
 </ul>
+<h3 id="1-4-void-zmadvise-dontneed-void-ptr"><a href="#1-4-void-zmadvise-dontneed-void-ptr" class="headerlink" title="1.4 void zmadvise_dontneed(void *ptr)"></a>1.4 <code>void zmadvise_dontneed(void *ptr)</code></h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* Use &#x27;MADV_DONTNEED&#x27; to release memory to operating system quickly.</span></span><br><span class="line"><span class="comment"> * We do that in a fork child process to avoid CoW when the parent modifies</span></span><br><span class="line"><span class="comment"> * these shared pages. */</span></span><br><span class="line"><span class="comment">/* 通过&#x27;MADV_DONTNEED&#x27;释放内存给系统。</span></span><br><span class="line"><span class="comment"> * 我们在fork的子进程中调用该函数，防止父进程修改一些共享页时做“写时拷贝”。</span></span><br><span class="line"><span class="comment"> * 备注：我理解的是，子进程不用特定的内存时尽快释放、防止因为是共享内存、父进程产生不必要的写时拷贝。*/</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">zmadvise_dontneed</span><span class="params">(<span class="type">void</span> *ptr)</span> &#123;</span><br><span class="line"><span class="meta">#<span class="keyword">if</span> defined(USE_JEMALLOC) &amp;&amp; defined(__linux__)</span></span><br><span class="line">    <span class="type">static</span> <span class="type">size_t</span> page_size = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (page_size == <span class="number">0</span>) page_size = sysconf(_SC_PAGESIZE);</span><br><span class="line">    <span class="type">size_t</span> page_size_mask = page_size - <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="type">size_t</span> real_size = zmalloc_size(ptr);</span><br><span class="line">    <span class="keyword">if</span> (real_size &lt; page_size) <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* We need to align the pointer upwards according to page size, because</span></span><br><span class="line"><span class="comment">     * the memory address is increased upwards and we only can free memory</span></span><br><span class="line"><span class="comment">     * based on page. */</span></span><br><span class="line">    <span class="comment">/* 我们需要按照页大小进行内存的向前对齐，这是因为内存地址是向前递增的、并且我们只能按照页的单位</span></span><br><span class="line"><span class="comment">     * 释放内存 */</span></span><br><span class="line">    <span class="type">char</span> *aligned_ptr = (<span class="type">char</span> *)(((<span class="type">size_t</span>)ptr+page_size_mask) &amp; ~page_size_mask);</span><br><span class="line">    real_size -= (aligned_ptr-(<span class="type">char</span>*)ptr);</span><br><span class="line">    <span class="keyword">if</span> (real_size &gt;= page_size) &#123;</span><br><span class="line">        madvise((<span class="type">void</span> *)aligned_ptr, real_size&amp;~page_size_mask, MADV_DONTNEED);</span><br><span class="line">    &#125;</span><br><span class="line"><span class="meta">#<span class="keyword">else</span></span></span><br><span class="line">    (<span class="type">void</span>)(ptr);</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>调用<code>madvise</code>会检查<code>real_size &lt; page_size</code>，可能是因为这里希望不要做不必要的写时拷贝(比如某页如果释放后，只有一个进程使用该页内存了，该进程对该页做修改的时候可能不需要写时拷贝吧)，所以是按照页进行释放的，当占用内存小于页的时候，不进行madvise操作；</li>
+<li>按照后面的计算方式，<code>aligned_ptr</code>应该指向<code>ptr</code>指针之后下一个分页开始的地方；</li>
+<li>判断指针的内存大于单个页大小后，从<code>aligned_ptr</code>开始释放内存、其中释放的内存大小是页大小的整数倍。</li>
+<li>宏定义的else部分，由于void不是一个完整数据类型、单句不会产生实际效果，类似于空语句<code>;</code>，这里用于防止未使用变量ptr的编译错误</li>
+</ul>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2020/10/14/2020-10-14-Redis%E4%BB%A3%E7%A0%81%E4%B8%AD%E7%9A%84%E5%86%85%E5%AD%98%E5%88%86%E9%85%8Dzmalloc/" data-id="cl3pquk8w0008gddcarw6c3wa" data-title="Redis代码中的内存分配zmalloc" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2020/10/14/2020-10-14-Redis%E4%BB%A3%E7%A0%81%E4%B8%AD%E7%9A%84%E5%86%85%E5%AD%98%E5%88%86%E9%85%8Dzmalloc/" data-id="cl3q0138i000803dcc8decjoe" data-title="Redis代码中的内存分配zmalloc" class="article-share-link">Share</a>
       
       
       
@@ -200,7 +207,7 @@
       <ul>
         
           <li>
-            <a href="/2022/05/28/2022-05-28-Copy-on-write/">2022-05-28-Copy-on-write</a>
+            <a href="/2022/05/28/2022-05-28-Copy-on-write/">Copy-on-write</a>
           </li>
         
           <li>
