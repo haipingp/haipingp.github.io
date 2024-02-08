@@ -14,7 +14,7 @@
 <meta property="og:description" content="一、sds的一些特征 binary safe, 由于sds实现中都采用的是内存的分配和拷贝等，没有使用string，因此是二进制安全的。在创建字符串时会自动在结尾加\0，因此也可以通过printf打印出来。同时，也因为是二进制安全的，即使在字符串中间插入了\0，sds也保存了整个字符串的长度，不会丢失后面的数据。">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-04-24T08:29:19.000Z">
-<meta property="article:modified_time" content="2022-05-25T03:01:20.096Z">
+<meta property="article:modified_time" content="2022-11-02T12:27:42.798Z">
 <meta property="article:author" content="haipingpang">
 <meta name="twitter:card" content="summary">
   
@@ -114,14 +114,20 @@
 <ul>
 <li>用于输出fmt和ap指定的可变参数字符串到s。</li>
 <li>分配内存时，如果设置的1024字节的栈内存够用的话，直接使用栈内存，如果不够用，申请堆内存。</li>
-<li>用于输出的buff，每次都在<code>buflen-2</code>的位置首先设置<code>\0</code>，如果后面拷贝内存时被覆盖了，说明buff不够长，申请len*2的内存大小。</li>
+<li>用于输出的buff，每次都在<code>buflen-2</code>的位置首先设置<code>\0</code>，如果后面拷贝内存时被覆盖了，说明buff不够长，申请<code>len*2</code>的内存大小。</li>
 <li>这里选用<code>buflen-2</code>位置是因为，vsnprintf函数会在执行时在fmt和cpy组合成的字符串的最后加<code>\0</code>，如果是在<code>buflen-1</code>位置设置null char，即使buff不够长，这个位置也会被填充为null char，因此不能作为是否buff足够长的判断。</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">ifdef</span> __GNUC__</span></span><br><span class="line"><span class="function">sds <span class="title">sdscatprintf</span><span class="params">(sds s, <span class="type">const</span> <span class="type">char</span> *fmt, ...)</span></span></span><br><span class="line"><span class="function">  __<span class="title">attribute__</span><span class="params">((format(printf, <span class="number">2</span>, <span class="number">3</span>)))</span></span>;      <span class="comment">// format(printf, 2, 3)告诉编译器，第二个参数fmt相当于是printf的format参数，第三个参数相当于是printf的可变参数的开始</span></span><br><span class="line"><span class="meta">#<span class="keyword">else</span>               </span></span><br><span class="line"><span class="function">sds <span class="title">sdscatprintf</span><span class="params">(sds s, <span class="type">const</span> <span class="type">char</span> *fmt, ...)</span></span>;</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span> </span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>__attribute__((format(printf, 2, 3)))</code>用于在编译时，用与printf一样的检查规则来确认可变参数是否正确，不正确的话、会产生对应的warning，例如，<code>%d</code>中传了字符串类型的参数</li>
+<li>format(printf, 2, 3)告诉编译器，第二个参数fmt相当于是printf的format参数，第三个参数相当于是printf的可变参数的开始</li>
+<li>注意：如果该函数是一个类的成员函数的话，需要通过<code>format(printf, 3, 4)</code>来告诉编译器检查规则，因为类成员函数有一个隐含的参数<code>this</code>作为函数的第一个参数</li>
 </ul>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/04/24/2021-04-24-Redis%E4%B8%AD%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2sds/" data-id="cl3svrbbm0010tedc54105fw7" data-title="Redis中的字符串sds" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/04/24/2021-04-24-Redis%E4%B8%AD%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2sds/" data-id="cl9zmo9qj0010q6ijd6ju7yxj" data-title="Redis中的字符串sds" class="article-share-link">Share</a>
       
       
       
@@ -175,7 +181,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">May 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/02/">February 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">November 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">June 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">May 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li></ul>
     </div>
   </div>
 
@@ -188,23 +194,23 @@
       <ul>
         
           <li>
+            <a href="/2024/02/08/2023-02-08-YouCompleteMe%E9%85%8D%E7%BD%AE/">2023-02-08-YouCompleteMe配置</a>
+          </li>
+        
+          <li>
+            <a href="/2022/11/02/2022-11-02-%E5%9B%9E%E9%A1%BE%E8%A1%A5%E7%A0%81%E3%80%81%E5%8E%9F%E7%A0%81%E4%B8%8E%E7%B1%BB%E5%9E%8B%E6%89%A9%E5%B1%95/">回顾补码、原码与类型扩展</a>
+          </li>
+        
+          <li>
+            <a href="/2022/06/24/2022-06-24-%E5%B7%A6%E5%80%BC%E4%B8%8E%E5%8F%B3%E5%80%BC-%E7%BF%BB%E8%AF%91/">翻译：左值与右值</a>
+          </li>
+        
+          <li>
+            <a href="/2022/06/13/2022-06-13-%E5%8F%B3%E5%80%BC%E5%BC%95%E7%94%A8-%E7%BF%BB%E8%AF%91/">翻译：右值引用</a>
+          </li>
+        
+          <li>
             <a href="/2022/05/30/2022-05-30-%E8%BF%9B%E7%A8%8B%E9%97%B4%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98/">进程间共享内存</a>
-          </li>
-        
-          <li>
-            <a href="/2022/05/28/2022-05-28-Copy-on-write/">Copy-on-write</a>
-          </li>
-        
-          <li>
-            <a href="/2022/05/28/2022-05-28-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%9C%AF%E8%AF%AD/">计算机术语</a>
-          </li>
-        
-          <li>
-            <a href="/2022/05/27/2022-05-27-C-restrict%E7%B1%BB%E5%9E%8B%E9%99%90%E5%AE%9A%E7%AC%A6/">转载：restrict类型限定符</a>
-          </li>
-        
-          <li>
-            <a href="/2021/06/07/2021-06-07-is-trivial%E5%92%8Cis-standand-layout/">is_trivial和is_standand_layout</a>
           </li>
         
       </ul>
@@ -220,7 +226,7 @@
   <div class="outer">
     <div id="footer-info" class="inner">
       
-      &copy; 2022 haipingpang<br>
+      &copy; 2024 haipingpang<br>
       Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>

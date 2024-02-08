@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>翻译：右值引用 | Mary博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="一、概述 摘抄、翻译了一下关于右值引用的介绍，用于备忘，原文章为微软文档">
+<meta property="og:type" content="article">
+<meta property="og:title" content="翻译：右值引用">
+<meta property="og:url" content="http://example.com/2022/06/13/2022-06-13-%E5%8F%B3%E5%80%BC%E5%BC%95%E7%94%A8-%E7%BF%BB%E8%AF%91/index.html">
+<meta property="og:site_name" content="Mary博客">
+<meta property="og:description" content="一、概述 摘抄、翻译了一下关于右值引用的介绍，用于备忘，原文章为微软文档">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-06-13T07:08:33.000Z">
+<meta property="article:modified_time" content="2022-11-02T12:27:42.798Z">
+<meta property="article:author" content="haipingpang">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Mary博客" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Mary博客</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-2022-06-13-右值引用-翻译" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/06/13/2022-06-13-%E5%8F%B3%E5%80%BC%E5%BC%95%E7%94%A8-%E7%BF%BB%E8%AF%91/" class="article-date">
+  <time class="dt-published" datetime="2022-06-13T07:08:33.000Z" itemprop="datePublished">2022-06-13</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/C/">C++</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      翻译：右值引用
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="一、概述"><a href="#一、概述" class="headerlink" title="一、概述"></a>一、概述</h2><ul>
+<li>摘抄、翻译了一下关于右值引用的介绍，用于备忘，原文章为微软文档</li>
+</ul>
+<span id="more"></span>
+
+<ul>
+<li>源地址:  <code>https://docs.microsoft.com/en-us/cpp/cpp/rvalue-reference-declarator-amp-amp?view=msvc-170</code></li>
+</ul>
+<h2 id="二、附注"><a href="#二、附注" class="headerlink" title="二、附注"></a>二、附注</h2><ul>
+<li>右值引用用于区别右值与左值，接下去将描述右值引用如何支持<code>移动语义</code>与<code>完美转发</code></li>
+</ul>
+<h2 id="三、移动语义"><a href="#三、移动语义" class="headerlink" title="三、移动语义"></a>三、移动语义</h2><p>Rvalue references support the implementation of move semantics, which can significantly increase the performance of your applications. Move semantics enables you to write code that transfers resources (such as dynamically allocated memory) from one object to another. Move semantics works because it enables transfer of resources from temporary objects: ones that can’t be referenced elsewhere in the program.</p>
+<p>右值引用支持移动语义的实现，移动语义可以有效提高应用的性能。移动语义使代码可以支持资源(例如，动态分配内存)从一个对象迁移到另一个对象。移动语义能有效提高应用的性能，是由于它支持资源从临时对象迁移到别的对象上：如果没有移动语义，是无法被引用到的。</p>
+<p>To implement move semantics, you typically provide a move constructor, and optionally a move assignment operator (operator&#x3D;), to your class. Copy and assignment operations whose sources are rvalues then automatically take advantage of move semantics. Unlike the default copy constructor, the compiler doesn’t provide a default move constructor.<br>为了实现移动语义，可以为类提供一个移动构造函数，或者一个移动赋值函数。这样可以通过移动语义实现右值的拷贝、赋值。与默认拷贝构造函数不同的是，编译器不会自动提供一个默认的移动构造函数。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// string_concatenation.cpp</span></span><br><span class="line"><span class="comment">// compile with: /EHsc</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">   string s = <span class="built_in">string</span>(<span class="string">&quot;h&quot;</span>) + <span class="string">&quot;e&quot;</span> + <span class="string">&quot;ll&quot;</span> + <span class="string">&quot;o&quot;</span>;</span><br><span class="line">   cout &lt;&lt; s &lt;&lt; endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Before Visual Studio 2010, each call to operator+ allocates and returns a new temporary string object (an rvalue). operator+ can’t append one string to the other because it doesn’t know whether the source strings are lvalues or rvalues. If the source strings are both lvalues, they might be referenced elsewhere in the program and so must not be modified. By using rvalue references, operator+ can be modified to take rvalues, which can’t be referenced elsewhere in the program. With this change, operator+ can now append one string to another. The change significantly reduces the number of dynamic memory allocations that the string class must make. For more information about the string class, see basic_string Class.<br>在Visual Studio 2010前，每调用一次+会分配和返回一个新的临时字符串对象(一个右值)。operator+由于不知道源字符串是左值还是右值，因此不能将一个字符串扩展到另一个字符串上。如果字符串都是左值，这些字符串可能在程序别的地方被引用到、因此不能被修改。而通过右值引用，operator+可以被修改为使用右值，这些右值将不会被程序的其他地方引用到。通过这种方法，现在operator+可以从一个字符串扩展到另一个字符串。这种方法大大减少了字符串对象进行动态内存分配的次数。更多信息，可以查看basic_string类。</p>
+<p>Move semantics also helps when the compiler can’t use Return Value Optimization (RVO) or Named Return Value Optimization (NRVO). In these cases, the compiler calls the move constructor if the type defines it.<br>当编译器不能使用<code>返回值优化(RVO)</code>或<code>名称返回值优化(NRVO)</code>时，也可以通过移动语义实现相关的优化。在这些优化中，编译器会调用对应类型的移动构造函数(如果该类型有移动构造函数的定义的话)。</p>
+<p>To better understand move semantics, consider the example of inserting an element into a vector object. If the capacity of the vector object is exceeded, the vector object must reallocate memory for its elements and then copy each element to another memory location to make room for the inserted element. When an insertion operation copies an element, it first creates a new element. Then it calls the copy constructor to copy the data from the previous element to the new element. Finally, it destroys the previous element. Move semantics enables you to move objects directly without having to make expensive memory allocation and copy operations.<br>在vector对象中插入一个元素的例子可以很好地说明移动语义。如果插入后超过vector对象的容量了，vector对象会为其元素重新分配内存、然后将每个元素拷贝到另一块内存地址中、从而为插入元素腾出空间。当插入操作需要拷贝一个元素时，首先会创建一个新的元素。接着会调用拷贝构造函数将数据从原来的元素中拷贝到新的元素中。最后，销毁原来的元素。有了移动语义之后，可以直接移动对象，而不用花代价进行内存分配和拷贝操作。</p>
+<p>To take advantage of move semantics in the vector example, you can write a move constructor to move data from one object to another.<br>为了能够使用vector例子中的移动语义，需要为vector中的数据写一个移动构造函数、方便将数据从一个对象移动到另一个对象。</p>
+<p>For more information about the introduction of move semantics into the C++ Standard Library in Visual Studio 2010, see C++ Standard Library.<br>更多关于Visual Studio 2010中C++标准库的移动语义信息，参考C++标准库。</p>
+<h2 id="四、完美转发"><a href="#四、完美转发" class="headerlink" title="四、完美转发"></a>四、完美转发</h2><p>Perfect forwarding reduces the need for overloaded functions and helps avoid the forwarding problem. The forwarding problem can occur when you write a generic function that takes references as its parameters. If it passes (or forwards) these parameters to another function, for example, if it takes a parameter of type const T&amp;, then the called function can’t modify the value of that parameter. If the generic function takes a parameter of type T&amp;, then the function can’t be called by using an rvalue (such as a temporary object or integer literal).<br>完美转发减少重载函数的个数、从而帮助防止转发问题。通常在我们写一个以引用为参数的通用函数时会出现转发问题。如果通用函数将这些参数传递(或转发)给另一个函数，例如，当通用函数的一个参数类型为<code>const T&amp;</code>时，它内部调用的函数不能修改这个参数。如果通用函数的一个参数类型为<code>T&amp;</code>，那么这个函数的这个参数就不能传入一个右值(例如一个临时对象或者整数)。</p>
+<p>Ordinarily, to solve this problem, you must provide overloaded versions of the generic function that take both T&amp; and const T&amp; for each of its parameters. As a result, the number of overloaded functions increases exponentially with the number of parameters. Rvalue references enable you to write one version of a function that accepts arbitrary arguments. Then that function can forward them to another function as if the other function had been called directly.<br>通常，为解决这个问题，你必须提供通用函数的重载版本，不同的重载版本分别以<code>T&amp;</code>与<code>const T&amp;</code>为参数。结果，重载函数的版本会随着参数数量以指数数量递增。右值引用作为参数形参类型，使得函数的一个版本可以接受任意参数。这样这个函数就可以将这些参数转发给另外的函数，调用另外的函数的效果与直接调用另外的函数相同。</p>
+<p>Consider the following example that declares four types, W, X, Y, and Z. The constructor for each type takes a different combination of const and non-const lvalue references as its parameters.<br>下面这个例子中声明了四种类型<code>W</code>，<code>X</code>，<code>Y</code>，<code>Z</code>。每种类型的构造函数结合了不同的const引用与非const引用参数的组合。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">W</span></span><br><span class="line">&#123;</span><br><span class="line">   <span class="built_in">W</span>(<span class="type">int</span>&amp;, <span class="type">int</span>&amp;) &#123;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">X</span></span><br><span class="line">&#123;</span><br><span class="line">   <span class="built_in">X</span>(<span class="type">const</span> <span class="type">int</span>&amp;, <span class="type">int</span>&amp;) &#123;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Y</span></span><br><span class="line">&#123;</span><br><span class="line">   <span class="built_in">Y</span>(<span class="type">int</span>&amp;, <span class="type">const</span> <span class="type">int</span>&amp;) &#123;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Z</span></span><br><span class="line">&#123;</span><br><span class="line">   <span class="built_in">Z</span>(<span class="type">const</span> <span class="type">int</span>&amp;, <span class="type">const</span> <span class="type">int</span>&amp;) &#123;&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>Suppose you want to write a generic function that generates objects. The following example shows one way to write this function:<br>假如你需要写一个通用函数来生成对象。下面的例子说明了一种写法:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> A1, <span class="keyword">typename</span> A2&gt;</span><br><span class="line"><span class="function">T* <span class="title">factory</span><span class="params">(A1&amp; a1, A2&amp; a2)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">   <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">T</span>(a1, a2);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>The following example shows a valid call to the factory function:<br>下面的例子说明了一种对<code>factory</code>函数的有效调用:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> a = <span class="number">4</span>, b = <span class="number">5</span>;</span><br><span class="line">W* pw = <span class="built_in">factory</span>&lt;W&gt;(a, b);</span><br></pre></td></tr></table></figure>
+
+<p>However, the following example doesn’t contain a valid call to the factory function. That’s because factory takes lvalue references that are modifiable as its parameters, but it’s called by using rvalues:<br>然而，下面的例子没有有效的工厂函数可以调用。因为工厂函数的参数为左值引用，左值引用可以被修改，而调用时传入的参数为右值。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Z* pz = <span class="built_in">factory</span>&lt;Z&gt;(<span class="number">2</span>, <span class="number">2</span>);</span><br></pre></td></tr></table></figure>
+
+<p>Ordinarily, to solve this problem, you must create an overloaded version of the factory function for every combination of A&amp; and const A&amp; parameters. Rvalue references enable you to write one version of the factory function, as shown in the following example:<br>通常，为解决这个问题，我们必须创建一个工厂函数的重载版本，这个重载版本可以适用于<code>A&amp;</code>与<code>const A&amp;</code>的所有组合类型参数。通过右值引用(与完美转发)我们可以写出这样一个版本的工厂函数，如下所示：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> A1, <span class="keyword">typename</span> A2&gt;</span><br><span class="line"><span class="function">T* <span class="title">factory</span><span class="params">(A1&amp;&amp; a1, A2&amp;&amp; a2)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">   <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">T</span>(std::forward&lt;A1&gt;(a1), std::forward&lt;A2&gt;(a2));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>This example uses rvalue references as the parameters to the factory function. The purpose of the std::forward function is to forward the parameters of the factory function to the constructor of the template class.<br>这个例子使用右值引用作为工厂函数的参数。<code>std::forward</code>函数是用来转发工厂函数的参数给模板类的构造函数的。</p>
+<p>The following example shows the main function that uses the revised factory function to create instances of the W, X, Y, and Z classes. The revised factory function forwards its parameters (either lvalues or rvalues) to the appropriate class constructor.<br>下面的例子使用了一个修改后的工厂函数的main函数，用于创建<code>W</code>、<code>X</code>、<code>Y</code>、<code>Z</code>类型的实例。改进版的工厂函数将它的参数(左值或右值)转发给合适的构造函数。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">   <span class="type">int</span> a = <span class="number">4</span>, b = <span class="number">5</span>;</span><br><span class="line">   W* pw = <span class="built_in">factory</span>&lt;W&gt;(a, b);</span><br><span class="line">   X* px = <span class="built_in">factory</span>&lt;X&gt;(<span class="number">2</span>, b);</span><br><span class="line">   Y* py = <span class="built_in">factory</span>&lt;Y&gt;(a, <span class="number">2</span>);</span><br><span class="line">   Z* pz = <span class="built_in">factory</span>&lt;Z&gt;(<span class="number">2</span>, <span class="number">2</span>);</span><br><span class="line"></span><br><span class="line">   <span class="keyword">delete</span> pw;</span><br><span class="line">   <span class="keyword">delete</span> px;</span><br><span class="line">   <span class="keyword">delete</span> py;</span><br><span class="line">   <span class="keyword">delete</span> pz;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="五、右值引用的属性"><a href="#五、右值引用的属性" class="headerlink" title="五、右值引用的属性"></a>五、右值引用的属性</h2><p><strong>You can overload a function to take an lvalue reference and an rvalue reference.</strong><br><strong>你可以重载一个函数，参数同时可以接受一个左值引用或者一个右值引用。</strong></p>
+<p>By overloading a function to take a const lvalue reference or an rvalue reference, you can write code that distinguishes between non-modifiable objects (lvalues) and modifiable temporary values (rvalues). You can pass an object to a function that takes an rvalue reference unless the object is marked as const. The following example shows the function f, which is overloaded to take an lvalue reference and an rvalue reference. The main function calls f with both lvalues and an rvalue.<br>通过重载一个以const左值引用为参数的函数，和一个以右值引用为参数的函数，你可以在写调用代码时区分不可修改的对象（左值）与可以修改的临时对象（右值）。你可以将一个对象传递给接受一个右值引用参数的函数，除非该对象被标记为const。(备注：如果这里被标记为const，会去调用带const的参数对应的函数)。以下例子中的函数f，重载为两个函数，一个接受左值引用、另一个接受右值引用。main函数中分别以左值参数和右值参数调用了函数f。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// reference-overload.cpp</span></span><br><span class="line"><span class="comment">// Compile with: /EHsc</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="comment">// A class that contains a memory resource.</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MemoryBlock</span></span><br><span class="line">&#123;</span><br><span class="line">   <span class="comment">// <span class="doctag">TODO:</span> Add resources for the class here.</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">f</span><span class="params">(<span class="type">const</span> MemoryBlock&amp;)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">   cout &lt;&lt; <span class="string">&quot;In f(const MemoryBlock&amp;). This version can&#x27;t modify the parameter.&quot;</span> &lt;&lt; endl;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">f</span><span class="params">(MemoryBlock&amp;&amp;)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">   cout &lt;&lt; <span class="string">&quot;In f(MemoryBlock&amp;&amp;). This version can modify the parameter.&quot;</span> &lt;&lt; endl;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">   MemoryBlock block;</span><br><span class="line">   <span class="built_in">f</span>(block);</span><br><span class="line">   <span class="built_in">f</span>(<span class="built_in">MemoryBlock</span>());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这个例子的结果为：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">In <span class="title">f</span><span class="params">(<span class="type">const</span> MemoryBlock&amp;)</span>. This version can&#x27;t modify the parameter.</span></span><br><span class="line"><span class="function">In <span class="title">f</span><span class="params">(MemoryBlock&amp;&amp;)</span>. This version can modify the parameter.</span></span><br></pre></td></tr></table></figure>
+
+<p>In this example, the first call to f passes a local variable (an lvalue) as its argument. The second call to f passes a temporary object as its argument. Because the temporary object can’t be referenced elsewhere in the program, the call binds to the overloaded version of f that takes an rvalue reference, which is free to modify the object.<br>这个例子中，第一次对f的调用传入了一个本地变量（一个左值）作为其参数。第二次对f的调用传入了一个临时对象作为其参数。由于临时对象不可以在程序中的其他地方被引用，这次调用将调用右值引用的f重载版本，调用右值引用的f函数中可以修改该对象。</p>
+<p><strong>The compiler treats a named rvalue reference as an lvalue and an unnamed rvalue reference as an rvalue.</strong><br><strong>编译器将一个被命名的右值引用视为一个左值，将一个未命名的右值引用视为右值</strong></p>
+<p>Functions that take an rvalue reference as a parameter treat the parameter as an lvalue in the body of the function. The compiler treats a named rvalue reference as an lvalue. That’s because a named object can be referenced by several parts of a program. It’s dangerous to allow multiple parts of a program to modify or remove resources from that object. For example, if multiple parts of a program try to transfer resources from the same object, only the first transfer succeeds.<br>以一个右值引用为参数的函数，其函数体将该参数视作左值。编译器将一个已命名的右值引用视为一个左值。这是因为一个已命名的对象可以在程序中多个地方被引用。允许程序中的多个部分修改、移动该对象的资源是非常危险的行为。例如，一个程序的多个地方尝试从同一个对象中移动资源，那么将只有第一次成功转移资源。</p>
+<p>The following example shows the function g, which is overloaded to take an lvalue reference and an rvalue reference. The function f takes an rvalue reference as its parameter (a named rvalue reference) and returns an rvalue reference (an unnamed rvalue reference). In the call to g from f, overload resolution selects the version of g that takes an lvalue reference because the body of f treats its parameter as an lvalue. In the call to g from main, overload resolution selects the version of g that takes an rvalue reference because f returns an rvalue reference.<br>以下例子中的函数g，被重载为一个接受左值引用的函数与一个接受右值引用的函数。函数f将一个右值引用作为其参数（一个已命名的右值引用），并且返回一个右值引用（未命名的一个右值引用）。在f中调用了g，重载方案选择了以左值引用为参数的函数g，这是由于f的函数体中将其参数视为一个左值。main函数中也调用了函数g，重载方案选择了以一个右值引用为参数的函数g，这是由于函数f返回了一个右值引用。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// named-reference.cpp</span></span><br><span class="line"><span class="comment">// Compile with: /EHsc</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="comment">// A class that contains a memory resource.</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MemoryBlock</span></span><br><span class="line">&#123;</span><br><span class="line">   <span class="comment">// <span class="doctag">TODO:</span> Add resources for the class here.</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">g</span><span class="params">(<span class="type">const</span> MemoryBlock&amp;)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">   cout &lt;&lt; <span class="string">&quot;In g(const MemoryBlock&amp;).&quot;</span> &lt;&lt; endl;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">g</span><span class="params">(MemoryBlock&amp;&amp;)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">   cout &lt;&lt; <span class="string">&quot;In g(MemoryBlock&amp;&amp;).&quot;</span> &lt;&lt; endl;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">MemoryBlock&amp;&amp; <span class="title">f</span><span class="params">(MemoryBlock&amp;&amp; block)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">   <span class="built_in">g</span>(block);</span><br><span class="line">   <span class="keyword">return</span> <span class="built_in">move</span>(block);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">   <span class="built_in">g</span>(<span class="built_in">f</span>(<span class="built_in">MemoryBlock</span>()));</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+
+<p>该例子的结果为：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">In <span class="title">g</span><span class="params">(<span class="type">const</span> MemoryBlock&amp;)</span>.</span></span><br><span class="line"><span class="function">In <span class="title">g</span><span class="params">(MemoryBlock&amp;&amp;)</span>.</span></span><br></pre></td></tr></table></figure>
+
+<p>In the example, the main function passes an rvalue to f. The body of f treats its named parameter as an lvalue. The call from f to g binds the parameter to an lvalue reference (the first overloaded version of g).<br>该例子中，main函数传递了一个右值给函数f。函数f的函数体将已命名的参数视为一个左值。函数f中对g的调用，将参数绑定到 了一个左值引用的版本上（函数g的第一个重载版本）。</p>
+<p><strong>You can cast an lvalue to an rvalue reference.</strong><br><strong>可以将一个左值转换为右值</strong></p>
+<p>The C++ Standard Library std::move function enables you to convert an object to an rvalue reference to that object. You can also use the static_cast keyword to cast an lvalue to an rvalue reference, as shown in the following example:<br>C++标准库中的<code>std::move</code>可以将一个对象转换为该对象的右值引用。你也可以使用<code>static_cast</code>将一个左值转换为一个右值引用，如下所示：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// cast-reference.cpp</span></span><br><span class="line"><span class="comment">// Compile with: /EHsc</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="comment">// A class that contains a memory resource.</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MemoryBlock</span></span><br><span class="line">&#123;</span><br><span class="line">   <span class="comment">// <span class="doctag">TODO:</span> Add resources for the class here.</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">g</span><span class="params">(<span class="type">const</span> MemoryBlock&amp;)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">   cout &lt;&lt; <span class="string">&quot;In g(const MemoryBlock&amp;).&quot;</span> &lt;&lt; endl;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">g</span><span class="params">(MemoryBlock&amp;&amp;)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">   cout &lt;&lt; <span class="string">&quot;In g(MemoryBlock&amp;&amp;).&quot;</span> &lt;&lt; endl;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">   MemoryBlock block;</span><br><span class="line">   <span class="built_in">g</span>(block);</span><br><span class="line">   <span class="built_in">g</span>(<span class="built_in">static_cast</span>&lt;MemoryBlock&amp;&amp;&gt;(block));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>该例子的输出为：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">In <span class="title">g</span><span class="params">(<span class="type">const</span> MemoryBlock&amp;)</span>.</span></span><br><span class="line"><span class="function">In <span class="title">g</span><span class="params">(MemoryBlock&amp;&amp;)</span>.</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>Function templates deduce their template argument types and then use reference collapsing rules.</strong><br><strong>函数模板对它们的模板参数类型进行推导，然后使用引用坍缩（折叠）规则。</strong></p>
+<p>A function template that passes (or forwards) its parameters to another function is a common pattern. It’s important to understand how template type deduction works for function templates that take rvalue references.<br>一个函数模板将它的参数传递（转发）给另一个函数是一种常见的方式。理解以右值引用为参数的函数模板是如何进行模板类型推导的，这点非常重要。</p>
+<p>If the function argument is an rvalue, the compiler deduces the argument to be an rvalue reference. For example, assume you pass an rvalue reference to an object of type X to a template function that takes type T&amp;&amp; as its parameter. Template argument deduction deduces T to be X, so the parameter has type X&amp;&amp;. If the function argument is an lvalue or const lvalue, the compiler deduces its type to be an lvalue reference or const lvalue reference of that type.<br>如果函数参数是一个右值，编译器会将参数推导为右值引用。例如，假如你向一个以类型<code>T&amp;&amp;</code>为参数的模板函数、传递一个类型<code>X</code>的对象的右值引用。模板参数推导规则会将<code>T</code>推导为<code>X</code>，所以参数类型实际为<code>X&amp;&amp;</code>。如果函数参数为一个左值或const左值，编译器会将其类型推导为一个左值引用或const左值引用。</p>
+<p>The following example declares one structure template and then specializes it for various reference types. The print_type_and_value function takes an rvalue reference as its parameter and forwards it to the appropriate specialized version of the S::print method. The main function demonstrates the various ways to call the S::print method.<br>下面例子中声明了一个结构模板，然后将其特例化为不同的引用类型。函数<code>print_type_and_value</code>将右值引用作为其参数，并将其转发给合适的<code>S::print</code>特例化版本。下面的main函数说明了以不同的方式调用<code>S::print</code>方法。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// template-type-deduction.cpp</span></span><br><span class="line"><span class="comment">// Compile with: /EHsc</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt; <span class="keyword">struct</span> <span class="title class_">S</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// The following structures specialize S by</span></span><br><span class="line"><span class="comment">// lvalue reference (T&amp;), const lvalue reference (const T&amp;),</span></span><br><span class="line"><span class="comment">// rvalue reference (T&amp;&amp;), and const rvalue reference (const T&amp;&amp;).</span></span><br><span class="line"><span class="comment">// Each structure provides a print method that prints the type of</span></span><br><span class="line"><span class="comment">// the structure and its parameter.</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt; <span class="keyword">struct</span> <span class="title class_">S</span>&lt;T&amp;&gt; &#123;</span><br><span class="line">   <span class="function"><span class="type">static</span> <span class="type">void</span> <span class="title">print</span><span class="params">(T&amp; t)</span></span></span><br><span class="line"><span class="function">   </span>&#123;</span><br><span class="line">      cout &lt;&lt; <span class="string">&quot;print&lt;T&amp;&gt;: &quot;</span> &lt;&lt; t &lt;&lt; endl;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt; <span class="keyword">struct</span> <span class="title class_">S</span>&lt;<span class="type">const</span> T&amp;&gt; &#123;</span><br><span class="line">   <span class="function"><span class="type">static</span> <span class="type">void</span> <span class="title">print</span><span class="params">(<span class="type">const</span> T&amp; t)</span></span></span><br><span class="line"><span class="function">   </span>&#123;</span><br><span class="line">      cout &lt;&lt; <span class="string">&quot;print&lt;const T&amp;&gt;: &quot;</span> &lt;&lt; t &lt;&lt; endl;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt; <span class="keyword">struct</span> <span class="title class_">S</span>&lt;T&amp;&amp;&gt; &#123;</span><br><span class="line">   <span class="function"><span class="type">static</span> <span class="type">void</span> <span class="title">print</span><span class="params">(T&amp;&amp; t)</span></span></span><br><span class="line"><span class="function">   </span>&#123;</span><br><span class="line">      cout &lt;&lt; <span class="string">&quot;print&lt;T&amp;&amp;&gt;: &quot;</span> &lt;&lt; t &lt;&lt; endl;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt; <span class="keyword">struct</span> <span class="title class_">S</span>&lt;<span class="type">const</span> T&amp;&amp;&gt; &#123;</span><br><span class="line">   <span class="function"><span class="type">static</span> <span class="type">void</span> <span class="title">print</span><span class="params">(<span class="type">const</span> T&amp;&amp; t)</span></span></span><br><span class="line"><span class="function">   </span>&#123;</span><br><span class="line">      cout &lt;&lt; <span class="string">&quot;print&lt;const T&amp;&amp;&gt;: &quot;</span> &lt;&lt; t &lt;&lt; endl;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// This function forwards its parameter to a specialized</span></span><br><span class="line"><span class="comment">// version of the S type.</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="function"><span class="type">void</span> <span class="title">print_type_and_value</span><span class="params">(T&amp;&amp; t)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">   S&lt;T&amp;&amp;&gt;::<span class="built_in">print</span>(std::forward&lt;T&gt;(t));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// This function returns the constant string &quot;fourth&quot;.</span></span><br><span class="line"><span class="function"><span class="type">const</span> string <span class="title">fourth</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> <span class="built_in">string</span>(<span class="string">&quot;fourth&quot;</span>); &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">   <span class="comment">// The following call resolves to:</span></span><br><span class="line">   <span class="comment">// print_type_and_value&lt;string&amp;&gt;(string&amp; &amp;&amp; t)</span></span><br><span class="line">   <span class="comment">// Which collapses to:</span></span><br><span class="line">   <span class="comment">// print_type_and_value&lt;string&amp;&gt;(string&amp; t)</span></span><br><span class="line">   <span class="function">string <span class="title">s1</span><span class="params">(<span class="string">&quot;first&quot;</span>)</span></span>;</span><br><span class="line">   <span class="built_in">print_type_and_value</span>(s1);</span><br><span class="line"></span><br><span class="line">   <span class="comment">// The following call resolves to:</span></span><br><span class="line">   <span class="comment">// print_type_and_value&lt;const string&amp;&gt;(const string&amp; &amp;&amp; t)</span></span><br><span class="line">   <span class="comment">// Which collapses to:</span></span><br><span class="line">   <span class="comment">// print_type_and_value&lt;const string&amp;&gt;(const string&amp; t)</span></span><br><span class="line">   <span class="function"><span class="type">const</span> string <span class="title">s2</span><span class="params">(<span class="string">&quot;second&quot;</span>)</span></span>;</span><br><span class="line">   <span class="built_in">print_type_and_value</span>(s2);</span><br><span class="line"></span><br><span class="line">   <span class="comment">// The following call resolves to:</span></span><br><span class="line">   <span class="comment">// print_type_and_value&lt;string&amp;&amp;&gt;(string&amp;&amp; t)</span></span><br><span class="line">   <span class="built_in">print_type_and_value</span>(<span class="built_in">string</span>(<span class="string">&quot;third&quot;</span>));</span><br><span class="line"></span><br><span class="line">   <span class="comment">// The following call resolves to:</span></span><br><span class="line">   <span class="comment">// print_type_and_value&lt;const string&amp;&amp;&gt;(const string&amp;&amp; t)</span></span><br><span class="line">   <span class="built_in">print_type_and_value</span>(<span class="built_in">fourth</span>());</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+
+<p>This example produces the following output:<br>该例子的输出结果为：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">print&lt;T&amp;&gt;: first</span><br><span class="line">print&lt;<span class="type">const</span> T&amp;&gt;: second</span><br><span class="line">print&lt;T&amp;&amp;&gt;: third</span><br><span class="line">print&lt;<span class="type">const</span> T&amp;&amp;&gt;: fourth </span><br></pre></td></tr></table></figure>
+
+<p>To resolve each call to the print_type_and_value function, the compiler first does template argument deduction. The compiler then applies reference collapsing rules when it replaces the parameter types with the deduced template arguments. For example, passing the local variable s1 to the print_type_and_value function causes the compiler to produce the following function signature:<br>编译器解析对<code>print_type_and_value</code>的每种调用前，首先进行了<code>模板参数推导</code>。然后，在参数类型已经被替换成推导后的模板参数类型后，编译器将应用<code>引用折叠规则</code>。例如，将一个本地变量<code>s1</code>传递给函数<code>print_type_and_value</code>，编译器会产生如下函数签名：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print_type_and_value</span>&lt;string&amp;&gt;(string&amp; &amp;&amp; t)</span><br></pre></td></tr></table></figure>
+
+<p>The compiler uses reference collapsing rules to reduce the signature:<br>编译器通过引用折叠规则，将签名修改为：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print_type_and_value</span>&lt;string&amp;&gt;(string&amp; t) </span><br></pre></td></tr></table></figure>
+
+<p>This version of the print_type_and_value function then forwards its parameter to the correct specialized version of the S::print method.<br>这个版本的函数<code>print_type_and_value</code>然后将其参数传递给对应版本的<code>S::print</code>方法。</p>
+<p>The following table summarizes the reference collapsing rules for template argument type deduction:<br>以下表格总结了模板参数类型推导中的引用折叠规则：</p>
+<table>
+<thead>
+<tr>
+<th><strong>Expanded type</strong></th>
+<th><strong>Collapsed type</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>T&amp; &amp;</td>
+<td>T&amp;</td>
+</tr>
+<tr>
+<td>T&amp; &amp;&amp;</td>
+<td>T&amp;</td>
+</tr>
+<tr>
+<td>T&amp;&amp; &amp;</td>
+<td>T&amp;</td>
+</tr>
+<tr>
+<td>T&amp;&amp; &amp;&amp;</td>
+<td>T&amp;&amp;</td>
+</tr>
+</tbody></table>
+<p>Template argument deduction is an important element of implementing perfect forwarding. The Perfect Forwarding section describes perfect forwarding in more detail.<br>模板参数推导是实现完美转发的一个重要步骤。“完美转发”这一章详细描述了完美转发。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>Rvalue references distinguish lvalues from rvalues. To improve the performance of your applications, they can eliminate the need for unnecessary memory allocations and copy operations. They also enable you to write a function that accepts arbitrary arguments. That function can forward them to another function as if the other function had been called directly.<br>右值引用将左值与右值区分开来。为了提升应用的性能，右值引用可以减少不必要的内存分配与内存拷贝操作。同时，它允许一个函数可以接受任意类型的参数。该函数还可以将这些参数转发给其他函数，使得其他函数的对这些参数的调用，与其他函数直接传入这些参数的的效果是相同的。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/06/13/2022-06-13-%E5%8F%B3%E5%80%BC%E5%BC%95%E7%94%A8-%E7%BF%BB%E8%AF%91/" data-id="cl9zmo9qp001cq6ijb53n94z7" data-title="翻译：右值引用" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/06/24/2022-06-24-%E5%B7%A6%E5%80%BC%E4%B8%8E%E5%8F%B3%E5%80%BC-%E7%BF%BB%E8%AF%91/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          翻译：左值与右值
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/05/30/2022-05-30-%E8%BF%9B%E7%A8%8B%E9%97%B4%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">进程间共享内存</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C/">C++</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/C/redis/">redis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/C/stl/">stl</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/02/">February 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">November 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">June 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">May 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2024/02/08/2023-02-08-YouCompleteMe%E9%85%8D%E7%BD%AE/">2023-02-08-YouCompleteMe配置</a>
+          </li>
+        
+          <li>
+            <a href="/2022/11/02/2022-11-02-%E5%9B%9E%E9%A1%BE%E8%A1%A5%E7%A0%81%E3%80%81%E5%8E%9F%E7%A0%81%E4%B8%8E%E7%B1%BB%E5%9E%8B%E6%89%A9%E5%B1%95/">回顾补码、原码与类型扩展</a>
+          </li>
+        
+          <li>
+            <a href="/2022/06/24/2022-06-24-%E5%B7%A6%E5%80%BC%E4%B8%8E%E5%8F%B3%E5%80%BC-%E7%BF%BB%E8%AF%91/">翻译：左值与右值</a>
+          </li>
+        
+          <li>
+            <a href="/2022/06/13/2022-06-13-%E5%8F%B3%E5%80%BC%E5%BC%95%E7%94%A8-%E7%BF%BB%E8%AF%91/">翻译：右值引用</a>
+          </li>
+        
+          <li>
+            <a href="/2022/05/30/2022-05-30-%E8%BF%9B%E7%A8%8B%E9%97%B4%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98/">进程间共享内存</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2024 haipingpang<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

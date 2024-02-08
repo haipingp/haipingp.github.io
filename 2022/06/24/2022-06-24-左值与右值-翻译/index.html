@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>翻译：左值与右值 | Mary博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="一、概述 摘抄、翻译了一下左值与右值相关的文档，用于备忘，原文为微软文档">
+<meta property="og:type" content="article">
+<meta property="og:title" content="翻译：左值与右值">
+<meta property="og:url" content="http://example.com/2022/06/24/2022-06-24-%E5%B7%A6%E5%80%BC%E4%B8%8E%E5%8F%B3%E5%80%BC-%E7%BF%BB%E8%AF%91/index.html">
+<meta property="og:site_name" content="Mary博客">
+<meta property="og:description" content="一、概述 摘抄、翻译了一下左值与右值相关的文档，用于备忘，原文为微软文档">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/2022/06/24/2022-06-24-%E5%B7%A6%E5%80%BC%E4%B8%8E%E5%8F%B3%E5%80%BC-%E7%BF%BB%E8%AF%91/value-category.png">
+<meta property="article:published_time" content="2022-06-24T02:48:25.000Z">
+<meta property="article:modified_time" content="2022-11-02T12:27:42.798Z">
+<meta property="article:author" content="haipingpang">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2022/06/24/2022-06-24-%E5%B7%A6%E5%80%BC%E4%B8%8E%E5%8F%B3%E5%80%BC-%E7%BF%BB%E8%AF%91/value-category.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Mary博客" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Mary博客</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-2022-06-24-左值与右值-翻译" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/06/24/2022-06-24-%E5%B7%A6%E5%80%BC%E4%B8%8E%E5%8F%B3%E5%80%BC-%E7%BF%BB%E8%AF%91/" class="article-date">
+  <time class="dt-published" datetime="2022-06-24T02:48:25.000Z" itemprop="datePublished">2022-06-24</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/C/">C++</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      翻译：左值与右值
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="一、概述"><a href="#一、概述" class="headerlink" title="一、概述"></a>一、概述</h2><ul>
+<li>摘抄、翻译了一下左值与右值相关的文档，用于备忘，原文为微软文档</li>
+</ul>
+<span id="more"></span>
+
+<ul>
+<li>源链接：<code>https://docs.microsoft.com/en-us/cpp/cpp/lvalues-and-rvalues-visual-cpp?view=msvc-170</code></li>
+</ul>
+<h2 id="二、左值与右值"><a href="#二、左值与右值" class="headerlink" title="二、左值与右值"></a>二、左值与右值</h2><p>Every C++ expression has a type, and belongs to a value category. The value categories are the basis for rules that compilers must follow when creating, copying, and moving temporary objects during expression evaluation.<br>每个C++表达式都有一个类型，该类型属于值类型目录（value category）。值类型目录是编译器在表达式计算期间对临时对象进行创建、拷贝、移动必须遵守的基础规则。</p>
+<p>以下是几种value category的定义，摘自：<code>https://en.cppreference.com/w/cpp/language/value_category#cite_ref-1</code></p>
+<p>Each C++ expression (an operator with its operands, a literal, a variable name, etc.) is characterized by two independent properties: a type and a value category. Each expression has some non-reference type, and each expression belongs to exactly one of the three primary value categories: prvalue, xvalue, and lvalue.<br>每个C++表达式（一个带有操作数的操作符，一个文本常量，一个变量名等。）都以两种独立的属性进行区分：一个是类型，一个是值目录。每个表达式都有一些非引用的类型，每个表达式都严格属于以下的某个目录：prvalue, xvalue, lvalue.</p>
+<ul>
+<li><p>a glvalue (“generalized” lvalue) is an expression whose evaluation determines the identity of an object or function;<br>一个<code>glvalue</code>表示一种表达式，这种表达式可以区分对象或函数的<code>身份</code>。</p>
+</li>
+<li><p>a prvalue (“pure” rvalue) is an expression whose evaluation<br>一个<code>prvalue</code>表示如下的表达式计算：</p>
+<ul>
+<li>computes the value of an operand of a built-in operator (such prvalue has no result object), or<br>计算一个内置的操作符对操作数的结果（这类prvalue没有结果对象），或者</li>
+<li>initializes an object (such prvalue is said to have a result object).</li>
+</ul>
+</li>
+</ul>
+<p>The result object may be a variable, an object created by new-expression, a temporary created by temporary materialization, or a member thereof. Note that non-void discarded expressions have a result object (the materialized temporary). Also, every class and array prvalue has a result object except when it is the operand of decltype;<br>      用于初始化对象（这类prvalue是有结果对象的）。这种结果对象可能是一个变量、一个由new表达式创建的对象、一个由临时物化操作创建的临时对象，或者对象的成员。需要注意的是非void的将失效的表达式会有结果对象（临时对象物化操作）。并且，每一个类和数组类型的prvalue都有结果对象，除非表达式是decltype的操作数</p>
+<ul>
+<li><p>an xvalue (an “eXpiring” value) is a glvalue that denotes an object whose resources can be reused;<br>一个<code>xvalue</code>表示一种glvalue，它能表示资源可以被再次使用的对象。</p>
+</li>
+<li><p>an lvalue (so-called, historically, because lvalues could appear on the left-hand side of an assignment expression) is a glvalue that is not an xvalue;<br>一个lvalue是一种glvalue，但是不是一个xvalue。</p>
+</li>
+<li><p>an rvalue (so-called, historically, because rvalues could appear on the right-hand side of an assignment expression) is a prvalue or an xvalue.<br>一个<code>rvalue</code>是一个prvalue，并且不是xvalue</p>
+</li>
+</ul>
+<p>需要注意的是，字符串常量为左值。</p>
+<h3 id="几种value-category的关系"><a href="#几种value-category的关系" class="headerlink" title="几种value category的关系"></a>几种value category的关系</h3><p>The following diagram illustrates the relationships between the categories:<br>以下图说明了不同value category之间的关系：</p>
+<p><img src="/2022/06/24/2022-06-24-%E5%B7%A6%E5%80%BC%E4%B8%8E%E5%8F%B3%E5%80%BC-%E7%BF%BB%E8%AF%91/value-category.png" alt="value category"></p>
+<p>An lvalue has an address that your program can access. Examples of lvalue expressions include variable names, including const variables, array elements, function calls that return an lvalue reference, bit-fields, unions, and class members.<br>一个lvalue会有一个在程序中可以获取到的地址。lvalue表达式的例子包括变量名，const变量，数组元素，返回lvalue引用的函数，位域，联合体，类成员。</p>
+<p>A prvalue expression has no address that is accessible by your program. Examples of prvalue expressions include literals, function calls that return a non-reference type, and temporary objects that are created during expression evaluation but accessible only by the compiler.<br>一个prvalue表达式没有一个程序中可以获取的地址。prvalue表达式的例子包括文本常量，返回非引用类型的函数，以及表达式计算过程中产生的临时对象，并且这些临时对象只有编译器可以获取到。</p>
+<p>An xvalue expression has an address that no longer accessible by your program but can be used to initialize an rvalue reference, which provides access to the expression. Examples include function calls that return an rvalue reference, and the array subscript, member and pointer to member expressions where the array or object is an rvalue reference.<br>一个xvalue表达式有地址，这个地址不再能被程序获取到、但可以用于初始化一个右值引用，该右值引用可以获取到这个表达式。例子包括返回rvalue引用类型的函数，对一个rvalue引用类型的数组或对象进行下标访问、获取成员或者通过指针访问。</p>
+<h3 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h3><p>The following example demonstrates several correct and incorrect usages of lvalues and rvalues:<br>下面的例子说明了几种左值和右值的正确与不正确的使用方法：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// lvalues_and_rvalues2.cpp</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> i, j, *p;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Correct usage: the variable i is an lvalue and the literal 7 is a prvalue.</span></span><br><span class="line">    i = <span class="number">7</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Incorrect usage: The left operand must be an lvalue (C2106).`j * 4` is a prvalue.</span></span><br><span class="line">    <span class="number">7</span> = i; <span class="comment">// C2106</span></span><br><span class="line">    j * <span class="number">4</span> = <span class="number">7</span>; <span class="comment">// C2106</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// Correct usage: the dereferenced pointer is an lvalue.</span></span><br><span class="line">    *p = i;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Correct usage: the conditional operator returns an lvalue.</span></span><br><span class="line">    ((i &lt; <span class="number">3</span>) ? i : j) = <span class="number">7</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Incorrect usage: the constant ci is a non-modifiable lvalue (C3892).</span></span><br><span class="line">    <span class="type">const</span> <span class="type">int</span> ci = <span class="number">7</span>;</span><br><span class="line">    ci = <span class="number">9</span>; <span class="comment">// C3892</span></span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>注意，上述的正确与不正确的判定是在没有操作符重载的基础上来认定的。</li>
+</ul>
+<h3 id="Temporary-materialization-临时物化"><a href="#Temporary-materialization-临时物化" class="headerlink" title="Temporary materialization (临时物化)"></a>Temporary materialization (临时物化)</h3><ul>
+<li>源地址：<a target="_blank" rel="noopener" href="https://en.cppreference.com/w/cpp/language/implicit_conversion#Temporary_materialization">https://en.cppreference.com/w/cpp/language/implicit_conversion#Temporary_materialization</a></li>
+</ul>
+<p>A prvalue of any complete type T can be converted to an xvalue of the same type T. This conversion initializes a temporary object of type T from the prvalue by evaluating the prvalue with the temporary object as its result object, and produces an xvalue denoting the temporary object. If T is a class or array of class type, it must have an accessible and non-deleted destructor.<br>一个任意完整类型T的prvalue可以转换为类型T的xvalue。此转换通过将临时对象作为结果对象计算评估prvalue，从而从prvalue初始化一个T类型的临时对象，然后产生一个xvalue表示临时对象。如果T是一个类或一个类的数组，它必须提供一个可使用、未删除的析构函数。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">S</span> &#123; <span class="type">int</span> m; &#125;;</span><br><span class="line"><span class="type">int</span> i = <span class="built_in">S</span>().m; <span class="comment">// member access expects glvalue as of C++17;</span></span><br><span class="line">               <span class="comment">// S() prvalue is converted to xvalue</span></span><br><span class="line">               <span class="comment">// C++17要求获取对象成员时，需要从glvalue中获取，</span></span><br><span class="line">               <span class="comment">// 这里S()中会进行prvalue到xvalue的转换 </span></span><br></pre></td></tr></table></figure>
+
+<p>Temporary materialization occurs in the following situations:<br>物化会在以下几种情形下发生：</p>
+<ul>
+<li><p>when binding a reference to a prvalue;<br>当绑定一个引用到prvalue上时；</p>
+</li>
+<li><p>when performing a member access on a class prvalue;<br>当对一个类类型的prvalue获取成员时；</p>
+</li>
+<li><p>when performing an array-to-pointer conversion (see above) or subscripting on an array prvalue;<br>当发生数组到指针的转换时，或者对一个数组类型的prvalue通过下标访问成员时</p>
+</li>
+<li><p>when initializing an object of type std::initializer_list<T> from a braced-init-list;<br>当从一个括号列表初始化一个<code>std::initializer_list&lt;T&gt;</code>类型的对象时；</p>
+</li>
+<li><p>when typeid is applied to a prvalue (this is part of an unevaluated expression);<br>当对一个prvalue应用typeid时；</p>
+</li>
+<li><p>when sizeof is applied to a prvalue (this is part of an unevaluated expression);<br>当对一个prvalue应用sizeof时；</p>
+</li>
+<li><p>when a prvalue appears as a discarded-value expression.<br>但一个prvalue作为一个即将消亡的值的表达式出现时。</p>
+</li>
+</ul>
+<p>Note that temporary materialization does not occur when initializing an object from a prvalue of the same type (by direct-initialization or copy-initialization): such object is initialized directly from the initializer. This ensures “guaranteed copy elision”.<br>注意，当从一个相同类型的prvalue对一个对象进行初始化时，不会发生物化（将进行直接初始化或拷贝初始化）；这样的对象会通过初始化操作直接进行初始化。这保证了”guaranteed copy elision”。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/06/24/2022-06-24-%E5%B7%A6%E5%80%BC%E4%B8%8E%E5%8F%B3%E5%80%BC-%E7%BF%BB%E8%AF%91/" data-id="cl9zmo9qq001eq6ijcxc46nx9" data-title="翻译：左值与右值" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/11/02/2022-11-02-%E5%9B%9E%E9%A1%BE%E8%A1%A5%E7%A0%81%E3%80%81%E5%8E%9F%E7%A0%81%E4%B8%8E%E7%B1%BB%E5%9E%8B%E6%89%A9%E5%B1%95/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          回顾补码、原码与类型扩展
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/06/13/2022-06-13-%E5%8F%B3%E5%80%BC%E5%BC%95%E7%94%A8-%E7%BF%BB%E8%AF%91/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">翻译：右值引用</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C/">C++</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/C/redis/">redis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/C/stl/">stl</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/02/">February 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">November 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">June 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">May 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2024/02/08/2023-02-08-YouCompleteMe%E9%85%8D%E7%BD%AE/">2023-02-08-YouCompleteMe配置</a>
+          </li>
+        
+          <li>
+            <a href="/2022/11/02/2022-11-02-%E5%9B%9E%E9%A1%BE%E8%A1%A5%E7%A0%81%E3%80%81%E5%8E%9F%E7%A0%81%E4%B8%8E%E7%B1%BB%E5%9E%8B%E6%89%A9%E5%B1%95/">回顾补码、原码与类型扩展</a>
+          </li>
+        
+          <li>
+            <a href="/2022/06/24/2022-06-24-%E5%B7%A6%E5%80%BC%E4%B8%8E%E5%8F%B3%E5%80%BC-%E7%BF%BB%E8%AF%91/">翻译：左值与右值</a>
+          </li>
+        
+          <li>
+            <a href="/2022/06/13/2022-06-13-%E5%8F%B3%E5%80%BC%E5%BC%95%E7%94%A8-%E7%BF%BB%E8%AF%91/">翻译：右值引用</a>
+          </li>
+        
+          <li>
+            <a href="/2022/05/30/2022-05-30-%E8%BF%9B%E7%A8%8B%E9%97%B4%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98/">进程间共享内存</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2024 haipingpang<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
